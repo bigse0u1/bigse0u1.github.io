@@ -1,9 +1,11 @@
 ---
-layout: page
-title: 정보
-permalink: /
-icon: fas fa-info-circle
+layout: home
+# Index page
 ---
 
-곽철홍입니다. 로보틱스와 AI를 연구합니다.  
-더 많은 정보를 탭에서 확인해 주세요.
+<script>
+  if (!localStorage.getItem("visited")) {
+    localStorage.setItem("visited", "true");
+    window.location.href = "/tabs/about.html";
+  }
+</script>
