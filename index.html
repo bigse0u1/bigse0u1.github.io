@@ -3,13 +3,4 @@ layout: home
 permalink: /
 ---
 
-<div id="redirect-script"></div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (!localStorage.getItem("visited")) {
-      localStorage.setItem("visited", "true");
-      window.location.href = "/tabs/about.html";
-    }
-  });
-</script>
+<meta http-equiv="refresh" content="0; url=/tabs/about.html" />
