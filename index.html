@@ -3,9 +3,13 @@ layout: home
 permalink: /
 ---
 
+<div id="redirect-script"></div>
+
 <script>
-  if (!localStorage.getItem("visited")) {
-    localStorage.setItem("visited", "true");
-    window.location.href = "/tabs/about.html";
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!localStorage.getItem("visited")) {
+      localStorage.setItem("visited", "true");
+      window.location.href = "/tabs/about.html";
+    }
+  });
 </script>
