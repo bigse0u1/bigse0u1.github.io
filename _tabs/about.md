@@ -2,6 +2,6 @@
 layout: home
 title: 최신글
 icon: fas fa-clock
-order: 1
+order: 2
 permalink: /posts/
 ---
