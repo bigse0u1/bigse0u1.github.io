@@ -1,8 +1,7 @@
 ---
-# the default layout is 'page'
-icon: fas fa-info-circle
-order: 1
+layout: home
+title: 최신글
+icon: fas fa-clock
+order: 2
+permalink: /posts/
 ---
-
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
-{: .prompt-tip }
