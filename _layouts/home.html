@@ -3,352 +3,322 @@ layout: page
 ---
 {% include lang.html %}
 
-{% assign PAGE_WRAP_PADDING = 48 %}
+<div style="width: 100%; max-width: 100%; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <div style="display: flex; flex-direction: row-reverse;">
+    <div style="flex: 0 0 29%; text-align: center;">
+      <img src="{{ site.baseurl }}/assets/img/profile_no_bg.png" alt="Profile Picture" style="width: 100%; height: 100%; max-width: 100%; object-fit: cover;">
+    </div>
 
-<div style="padding: 0 {{ PAGE_WRAP_PADDING }}px;">
-
-  <!-- =========================
-            PROFILE CARD
-  ========================= -->
-  <div style="width: 100%; max-width: 100%; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-    <div style="display: flex; flex-direction: row-reverse; gap: 30px; align-items: flex-start;">
-
-      <!-- Photo -->
-      <div style="flex: 0 0 29%; text-align: center;">
-        <img
-          src="{{ site.baseurl }}/assets/img/profile_no_bg.png"
-          alt="Profile Picture"
-          style="width: 100%; height: auto; max-width: 100%; object-fit: cover;"
-        >
-      </div>
-
-      <!-- Text -->
-      <div style="flex: 1;">
-
-        <h1 style="font-size: 28px; margin: 0 0 8px 0; font-weight: bold;">
-          Taekyeong Lee
-        </h1>
-
-        <p style="font-size: 18px; color: gray; margin: 0 0 20px 0; font-style: italic;">
-          Undergraduate Student at Yonsei University (Mirae),
-          <a href="https://sw.yonsei.ac.kr/" style="color: gray; text-decoration: underline;">Dept of Software</a>
-        </p>
-
-        <h3 style="font-size: 20px; margin: 0 0 8px 0; font-weight: bold;">
-          Research Interests
-        </h3>
-
-        <p style="font-size: 18px; color: gray; margin: 0 0 20px 0; font-style: italic;">
-          Robotics, SLAM
-        </p>
-
-        <h3 style="font-size: 18px; margin: 0;">
-          <span style="font-weight: bold;">Contact:</span>
-          <a href="mailto:xoehfdl03@naver.com" style="color: #0073e6; text-decoration: none;">
-            xoehfdl03@naver.com
-          </a>
-        </h3>
-
-      </div>
+    <div style="flex: 1; padding-right: 30px;">
+      <h1 style="font-size: 28px; margin-bottom: 8px; font-weight: bold;">Taekyeong Lee</h1>
+      <p style="font-size: 18px; color: gray; margin-bottom: 20px; font-style: italic;">
+        Undergraduate Student in 
+        <a href="https://sw.yonsei.ac.kr/" style="color: gray; text-decoration: underline;">Dept of Software</a>
+      </p>
+      <h3 style="font-size: 20px; margin-bottom: 8px; font-weight: bold;">Research Interests</h3>
+      <p style="font-size: 18px; color: gray; margin-bottom: 20px; font-style: italic;">Robotics, SLAM</p>
+      <h3 style="font-size: 18px; margin-bottom: 8px;">
+        <span style="font-weight: bold;">Contact:</span>
+        <a href="mailto:xoehfdl03@naver.com" style="color: #0073e6; text-decoration: none;">xoehfdl03@naver.com</a>
+      </h3>
     </div>
   </div>
+</div>
 
+<!-- =========================
+          EDUCATION
+========================= -->
+<div id="education" style="padding: 0 20px;">
+  {% assign education_data = site.data.education | default: empty %}
 
-  <!-- =========================
-            EDUCATION
-  ========================= -->
-  <div id="education" style="margin-top: 60px;">
-    {% assign education_data = site.data.education | default: empty %}
+  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Education</h3>
 
-    <h3 style="font-size: 20px; margin: 0 0 10px 0; font-weight: bold;">Education</h3>
+  {% if education_data and education_data.size > 0 %}
+    <ul>
+      {% for item in education_data %}
+        <li>
+          <span class="date year" style="font-weight: bold;">
+            {% assign sd = item.start_date | default: '' %}
+            {% assign ed = item.end_date | default: '' %}
 
-    {% if education_data and education_data.size > 0 %}
-      <ul style="margin: 0; padding-left: 18px;">
-        {% for item in education_data %}
-          <li style="margin-bottom: 10px;">
-            <span class="date year" style="font-weight: bold;">
-              {% assign sd = item.start_date | default: '' %}
-              {% assign ed = item.end_date | default: '' %}
+            {% if sd != '' %}
+              {{ sd | date: '%Y.%m' }}
+            {% else %}
+              Present
+            {% endif %}
+            --
+            {% if ed != '' %}
+              {{ ed | date: '%Y.%m' }}
+            {% else %}
+              Present
+            {% endif %}
+          </span>
 
-              {% if sd != '' %}
-                {{ sd | date: '%Y.%m' }}
-              {% else %}
-                Present
-              {% endif %}
-              --
-              {% if ed != '' %}
-                {{ ed | date: '%Y.%m' }}
-              {% else %}
-                Present
-              {% endif %}
+          <span class="text-muted">
+            <span style="display: block; padding-left: 10px;">
+              {%- comment -%}
+              Liquid에서 (a or b) and c 같은 괄호 조건이 깨지기 쉬워서
+              “parts 배열 + join” 방식으로 안전하게 쉼표 처리합니다.
+              {%- endcomment -%}
+              {% assign parts = '' | split: '' %}
+              {% if item.degree %}{% assign parts = parts | push: item.degree %}{% endif %}
+              {% if item.department %}{% assign parts = parts | push: item.department %}{% endif %}
+              {% if item.university %}{% assign parts = parts | push: item.university %}{% endif %}
+              {{ parts | join: ', ' }}
             </span>
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No education entries available.</p>
+  {% endif %}
+</div>
 
-            <span class="text-muted">
-              <span style="display: block; padding-left: 10px;">
-                {%- comment -%}
-                쉼표 처리를 Liquid 복합조건 없이 안전하게 처리
-                {%- endcomment -%}
-                {% assign parts = '' | split: '' %}
-                {% if item.degree %}{% assign parts = parts | push: item.degree %}{% endif %}
-                {% if item.department %}{% assign parts = parts | push: item.department %}{% endif %}
-                {% if item.university %}{% assign parts = parts | push: item.university %}{% endif %}
-                {{ parts | join: ', ' }}
-              </span>
-            </span>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p style="color: gray; margin: 0;">No education entries available.</p>
-    {% endif %}
-  </div>
+<!-- =========================
+        PUBLICATIONS
+========================= -->
+<div id="publication" style="padding: 0 20px;">
+  {% assign publication_data = site.data.publication | default: empty %}
 
+  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Publications</h3>
 
-  <!-- =========================
-          PUBLICATIONS
-  ========================= -->
-  <div id="publication" style="margin-top: 60px;">
-    {% assign publication_data = site.data.publication | default: empty %}
+  {% if publication_data and publication_data.size > 0 %}
+    {% assign sorted_publications = publication_data | sort: 'year' | reverse %}
+    <ul>
+      {% for item in sorted_publications %}
+        <li>
+          <span class="date year" style="font-weight: bold;">
+            {% assign py = item.year | default: '' %}
+            {% if py != '' %}
+              {{ py | date: '%Y.%m' }}
+            {% else %}
+              &nbsp;
+            {% endif %}
+          </span>
 
-    <h3 style="font-size: 20px; margin: 0 0 10px 0; font-weight: bold;">Publications</h3>
-
-    {% if publication_data and publication_data.size > 0 %}
-      {% assign sorted_publications = publication_data | sort: 'year' | reverse %}
-      <ul style="margin: 0; padding-left: 18px;">
-        {% for item in sorted_publications %}
-          <li style="margin-bottom: 10px;">
-            <span class="date year" style="font-weight: bold;">
-              {% assign py = item.year | default: '' %}
-              {% if py != '' %}
-                {{ py | date: '%Y.%m' }}
-              {% else %}
-                &nbsp;
-              {% endif %}
-            </span>
-
-            <span class="text-muted">
-              <span style="display: block; padding-left: 10px;">
-                <strong>
-                  {% if item.conference %}
-                    {% if item.conference_link %}
-                      <a href="{{ item.conference_link }}" target="_blank" style="color: #0073e6; text-decoration: none;">
-                        [{{ item.conference }}]
-                      </a>
-                    {% else %}
+          <span class="text-muted">
+            <span style="display: block; padding-left: 10px;">
+              <strong>
+                {% if item.conference %}
+                  {% if item.conference_link %}
+                    <a href="{{ item.conference_link }}" target="_blank" style="color: #0073e6; text-decoration: none;">
                       [{{ item.conference }}]
-                    {% endif %}
+                    </a>
+                  {% else %}
+                    [{{ item.conference }}]
                   {% endif %}
-                </strong>
-
-                {% if item.title %}
-                  {{ item.title }}
-                {% else %}
-                  (Untitled)
                 {% endif %}
+              </strong>
 
-                {% if item.github %}
-                  <a href="{{ item.github }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Github)</a>
-                {% endif %}
-
-                {% if item.paper_link %}
-                  <a href="{{ item.paper_link }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Paper)</a>
-                {% endif %}
-              </span>
-
-              {% assign authors_raw = item.authors | default: '' %}
-              {% if authors_raw != '' %}
-                <span style="display: block; padding-left: 10px; font-style: italic; font-size: 0.85rem; color: gray; margin-top: 4px;">
-                  {% assign authors = authors_raw | split: ',' %}
-                  {% assign has_equal_contributor = false %}
-
-                  {% for author in authors %}
-                    {% assign stripped_author = author | strip %}
-                    {% assign clean_author = stripped_author | replace: '*', '' | strip %}
-
-                    {% if stripped_author contains '*' %}
-                      {% assign has_equal_contributor = true %}
-                    {% endif %}
-
-                    {% if clean_author == 'Taekyeong Lee' %}
-                      <span style="font-weight: bold; text-decoration: underline;">{{ clean_author }}</span>
-                    {% else %}
-                      <span>{{ clean_author }}</span>
-                    {% endif %}
-
-                    {% if stripped_author contains '*' %}
-                      <sup>*</sup>
-                    {% endif %}
-
-                    {% unless forloop.last %}, {% endunless %}
-                  {% endfor %}
-
-                  {% if has_equal_contributor %}
-                    <br>
-                    <span style="font-size: 0.85rem; font-style: italic;">(*: Equal Contribution)</span>
-                  {% endif %}
-                </span>
-              {% endif %}
-            </span>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p style="color: gray; margin: 0;">No publications available.</p>
-    {% endif %}
-  </div>
-
-
-  <!-- =========================
-            PROJECTS
-  ========================= -->
-  <div id="projects" style="margin-top: 60px;">
-    {% assign projects_data = site.data.projects | default: empty %}
-
-    <h3 style="font-size: 20px; margin: 0 0 10px 0; font-weight: bold;">Projects</h3>
-
-    {% if projects_data and projects_data.size > 0 %}
-      {% assign sorted_projects = projects_data | sort: 'year' | reverse %}
-      <ul style="margin: 0; padding-left: 18px;">
-        {% for item in sorted_projects %}
-          <li style="margin-bottom: 12px;">
-            <span class="date year" style="font-weight: bold;">
-              {% assign py = item.year | default: '' %}
-              {% if py != '' %}
-                {{ py | date: '%Y.%m' }}
+              {% if item.title %}
+                {{ item.title }}
               {% else %}
-                &nbsp;
+                (Untitled)
+              {% endif %}
+
+              {% if item.github %}
+                <a href="{{ item.github }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Github)</a>
+              {% endif %}
+
+              {% if item.paper_link %}
+                <a href="{{ item.paper_link }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Paper)</a>
               {% endif %}
             </span>
 
-            <span class="text-muted">
-              <span style="display: block; padding-left: 10px;">
-                {% if item.title %}
-                  <strong>{{ item.title }}</strong>
-                {% else %}
-                  <strong>(Untitled Project)</strong>
-                {% endif %}
+            {% assign authors_raw = item.authors | default: '' %}
+            {% if authors_raw != '' %}
+              <span style="display: block; padding-left: 10px; font-style: italic; font-size: 0.8rem;">
+                {% assign authors = authors_raw | split: ',' %}
+                {% assign has_equal_contributor = false %}
 
-                {% if item.role %}
-                  <span style="color: gray; font-size: 0.9rem;"> — {{ item.role }}</span>
-                {% endif %}
+                {% for author in authors %}
+                  {% assign stripped_author = author | strip %}
+                  {% assign clean_author = stripped_author | replace: '*', '' | strip %}
 
-                {% if item.github %}
-                  <a href="{{ item.github }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Github)</a>
-                {% endif %}
+                  {% if stripped_author contains '*' %}
+                    {% assign has_equal_contributor = true %}
+                  {% endif %}
 
-                {% if item.demo %}
-                  <a href="{{ item.demo }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Demo)</a>
-                {% endif %}
+                  {% if clean_author == 'Taekyeong Lee' %}
+                    <span style="font-weight: bold; text-decoration: underline;">{{ clean_author }}</span>
+                  {% else %}
+                    <span>{{ clean_author }}</span>
+                  {% endif %}
 
-                {% if item.paper_link %}
-                  <a href="{{ item.paper_link }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Paper)</a>
+                  {% if stripped_author contains '*' %}
+                    <sup>*</sup>
+                  {% endif %}
+
+                  {% unless forloop.last %}, {% endunless %}
+                {% endfor %}
+
+                {% if has_equal_contributor %}
+                  <br>
+                  <span style="font-size: 0.8rem; font-style: italic;">(*: Equal Contribution)</span>
                 {% endif %}
               </span>
+            {% endif %}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No publications available.</p>
+  {% endif %}
+</div>
 
-              {% if item.description %}
-                <span style="display: block; padding-left: 10px; color: gray; font-size: 0.95rem; margin-top: 4px;">
-                  {{ item.description }}
-                </span>
+<!-- =========================
+            PROJECTS
+========================= -->
+<div id="projects" style="padding: 0 20px;">
+  {% assign projects_data = site.data.projects | default: empty %}
+
+  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Projects</h3>
+
+  {% if projects_data and projects_data.size > 0 %}
+    {% assign sorted_projects = projects_data | sort: 'year' | reverse %}
+    <ul>
+      {% for item in sorted_projects %}
+        <li>
+          <span class="date year" style="font-weight: bold;">
+            {% assign py = item.year | default: '' %}
+            {% if py != '' %}
+              {{ py | date: '%Y.%m' }}
+            {% else %}
+              &nbsp;
+            {% endif %}
+          </span>
+
+          <span class="text-muted">
+            <span style="display: block; padding-left: 10px;">
+              {% if item.title %}
+                <strong>{{ item.title }}</strong>
+              {% else %}
+                <strong>(Untitled Project)</strong>
               {% endif %}
 
+              {% if item.role %}
+                <span style="color: gray; font-size: 0.9rem;"> — {{ item.role }}</span>
+              {% endif %}
+
+              {% if item.github %}
+                <a href="{{ item.github }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Github)</a>
+              {% endif %}
+
+              {% if item.demo %}
+                <a href="{{ item.demo }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Demo)</a>
+              {% endif %}
+
+              {% if item.paper_link %}
+                <a href="{{ item.paper_link }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Paper)</a>
+              {% endif %}
+            </span>
+
+            {% if item.description %}
+              <span style="display: block; padding-left: 10px; color: gray; font-size: 0.95rem; margin-top: 4px;">
+                {{ item.description }}
+              </span>
+            {% endif %}
+
+            {% if item.stack %}
               {% assign stack_raw = item.stack | default: '' %}
               {% if stack_raw != '' %}
                 <span style="display: block; padding-left: 10px; font-style: italic; font-size: 0.85rem; color: gray; margin-top: 4px;">
                   Stack: {{ stack_raw }}
                 </span>
               {% endif %}
+            {% endif %}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No projects available.</p>
+  {% endif %}
+</div>
+
+<!-- =========================
+            PATENTS
+========================= -->
+<div id="patents" style="padding: 0 20px;">
+  {% assign patents_raw = site.data.patents | default: empty %}
+
+  {%- comment -%}
+  patents_raw는 반드시 "배열"이어야 sort가 안전합니다.
+  _data/patents.yml 내용이 "[]" (따옴표 포함) 이면 문자열이 되어 sort에서 터집니다.
+  {%- endcomment -%}
+
+  {% if patents_raw and patents_raw.size > 0 %}
+    {% assign patents_data = patents_raw | sort: 'status' %}
+  {% else %}
+    {% assign patents_data = empty %}
+  {% endif %}
+
+  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Patents</h3>
+
+  {% if patents_data and patents_data.size > 0 %}
+    <ul>
+      {% assign granted_patents = patents_data | where: 'status', 'Patent' %}
+      {% assign application_patents = patents_data | where: 'status', 'Application' %}
+
+      {% if granted_patents and granted_patents.size > 0 %}
+        {% for item in granted_patents %}
+          <li style="margin-bottom: 10px; font-size: 1rem;">
+            <span>
+              <strong style="color: green;">[Granted]</strong>
+              {% assign inventors_raw = item.people | default: '' %}
+              {% if inventors_raw != '' %}
+                {% assign inventors = inventors_raw | split: ',' %}
+                {% for inventor in inventors %}
+                  {% assign inv = inventor | strip %}
+                  {% if inv contains 'Taekyeong Lee' %}
+                    <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
+                  {% else %}
+                    {{ inv }}
+                  {% endif %}
+                  {% unless forloop.last %}, {% endunless %}
+                {% endfor %}
+              {% endif %}
+              {% if item.title %}, "{{ item.title }}"{% endif %}
+              {% if item.number %}, <em>KR-Patent No. {{ item.number }}</em>{% endif %}
             </span>
           </li>
         {% endfor %}
-      </ul>
-    {% else %}
-      <p style="color: gray; margin: 0;">No projects available.</p>
-    {% endif %}
-  </div>
+      {% endif %}
 
+      {% if application_patents and application_patents.size > 0 %}
+        {% for item in application_patents %}
+          <li style="margin-bottom: 10px; font-size: 1rem;">
+            <span>
+              <strong style="color: orange;">[Application]</strong>
+              {% assign inventors_raw = item.people | default: '' %}
+              {% if inventors_raw != '' %}
+                {% assign inventors = inventors_raw | split: ',' %}
+                {% for inventor in inventors %}
+                  {% assign inv = inventor | strip %}
+                  {% if inv contains 'Taekyeong Lee' %}
+                    <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
+                  {% else %}
+                    {{ inv }}
+                  {% endif %}
+                  {% unless forloop.last %}, {% endunless %}
+                {% endfor %}
+              {% endif %}
+              {% if item.title %}, "{{ item.title }}"{% endif %}
+              {% if item.number %}, <em>KR-Application No. {{ item.number }}</em>{% endif %}
+            </span>
+          </li>
+        {% endfor %}
+      {% endif %}
 
-  <!-- =========================
-              PATENTS
-  ========================= -->
-  <div id="patents" style="margin-top: 60px; margin-bottom: 20px;">
-    {% assign patents_raw = site.data.patents | default: empty %}
-
-    {% if patents_raw and patents_raw.size > 0 %}
-      {% assign patents_data = patents_raw | sort: 'status' %}
-    {% else %}
-      {% assign patents_data = empty %}
-    {% endif %}
-
-    <h3 style="font-size: 20px; margin: 0 0 10px 0; font-weight: bold;">Patents</h3>
-
-    {% if patents_data and patents_data.size > 0 %}
-      <ul style="margin: 0; padding-left: 18px;">
-        {% assign granted_patents = patents_data | where: 'status', 'Patent' %}
-        {% assign application_patents = patents_data | where: 'status', 'Application' %}
-
-        {% if granted_patents and granted_patents.size > 0 %}
-          {% for item in granted_patents %}
-            <li style="margin-bottom: 10px; font-size: 1rem;">
-              <span>
-                <strong style="color: green;">[Granted]</strong>
-
-                {% assign inventors_raw = item.people | default: '' %}
-                {% if inventors_raw != '' %}
-                  {% assign inventors = inventors_raw | split: ',' %}
-                  {% for inventor in inventors %}
-                    {% assign inv = inventor | strip %}
-                    {% if inv contains 'Taekyeong Lee' %}
-                      <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
-                    {% else %}
-                      {{ inv }}
-                    {% endif %}
-                    {% unless forloop.last %}, {% endunless %}
-                  {% endfor %}
-                {% endif %}
-
-                {% if item.title %}, "{{ item.title }}"{% endif %}
-                {% if item.number %}, <em>KR-Patent No. {{ item.number }}</em>{% endif %}
-              </span>
-            </li>
-          {% endfor %}
-        {% endif %}
-
-        {% if application_patents and application_patents.size > 0 %}
-          {% for item in application_patents %}
-            <li style="margin-bottom: 10px; font-size: 1rem;">
-              <span>
-                <strong style="color: orange;">[Application]</strong>
-
-                {% assign inventors_raw = item.people | default: '' %}
-                {% if inventors_raw != '' %}
-                  {% assign inventors = inventors_raw | split: ',' %}
-                  {% for inventor in inventors %}
-                    {% assign inv = inventor | strip %}
-                    {% if inv contains 'Taekyeong Lee' %}
-                      <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
-                    {% else %}
-                      {{ inv }}
-                    {% endif %}
-                    {% unless forloop.last %}, {% endunless %}
-                  {% endfor %}
-                {% endif %}
-
-                {% if item.title %}, "{{ item.title }}"{% endif %}
-                {% if item.number %}, <em>KR-Application No. {{ item.number }}</em>{% endif %}
-              </span>
-            </li>
-          {% endfor %}
-        {% endif %}
-
-        {% assign has_granted = granted_patents and granted_patents.size > 0 %}
-        {% assign has_application = application_patents and application_patents.size > 0 %}
-        {% unless has_granted or has_application %}
-          <li style="color: gray;">No patents available.</li>
-        {% endunless %}
-      </ul>
-    {% else %}
-      <p style="color: gray; margin: 0;">No patents available.</p>
-    {% endif %}
-  </div>
-
-</div>
+      {%- comment -%} 괄호/복합조건 대신 변수로 단순화 {%- endcomment -%}
+      {% assign has_granted = granted_patents and granted_patents.size > 0 %}
+      {% assign has_application = application_patents and application_patents.size > 0 %}
+      {% unless has_granted or has_application %}
+        <li style="color: gray;">No patents available.</li>
+      {% endunless %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No patents available.</p>
+  {% endif %}
