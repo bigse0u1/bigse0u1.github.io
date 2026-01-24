@@ -169,6 +169,76 @@ layout: page
 </div>
 
 <!-- =========================
+            PROJECTS
+========================= -->
+<div id="projects" style="padding: 0 20px;">
+  {% assign projects_data = site.data.projects | default: empty %}
+
+  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Projects</h3>
+
+  {% if projects_data and projects_data.size > 0 %}
+    {% assign sorted_projects = projects_data | sort: 'year' | reverse %}
+    <ul>
+      {% for item in sorted_projects %}
+        <li>
+          <span class="date year" style="font-weight: bold;">
+            {% assign py = item.year | default: '' %}
+            {% if py != '' %}
+              {{ py | date: '%Y.%m' }}
+            {% else %}
+              &nbsp;
+            {% endif %}
+          </span>
+
+          <span class="text-muted">
+            <span style="display: block; padding-left: 10px;">
+              {% if item.title %}
+                <strong>{{ item.title }}</strong>
+              {% else %}
+                <strong>(Untitled Project)</strong>
+              {% endif %}
+
+              {% if item.role %}
+                <span style="color: gray; font-size: 0.9rem;"> — {{ item.role }}</span>
+              {% endif %}
+
+              {% if item.github %}
+                <a href="{{ item.github }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Github)</a>
+              {% endif %}
+
+              {% if item.demo %}
+                <a href="{{ item.demo }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Demo)</a>
+              {% endif %}
+
+              {% if item.paper_link %}
+                <a href="{{ item.paper_link }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Paper)</a>
+              {% endif %}
+            </span>
+
+            {% if item.description %}
+              <span style="display: block; padding-left: 10px; color: gray; font-size: 0.95rem; margin-top: 4px;">
+                {{ item.description }}
+              </span>
+            {% endif %}
+
+            {% if item.stack %}
+              {% assign stack_raw = item.stack | default: '' %}
+              {% if stack_raw != '' %}
+                <span style="display: block; padding-left: 10px; font-style: italic; font-size: 0.85rem; color: gray; margin-top: 4px;">
+                  Stack: {{ stack_raw }}
+                </span>
+              {% endif %}
+            {% endif %}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No projects available.</p>
+  {% endif %}
+</div>
+
+<!-- =========================
             PATENTS
 ========================= -->
 <div id="patents" style="padding: 0 20px;">
