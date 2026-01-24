@@ -19,7 +19,7 @@ layout: page
       <p style="font-size: 18px; color: gray; margin-bottom: 20px; font-style: italic;">Robotics, SLAM</p>
       <h3 style="font-size: 18px; margin-bottom: 8px;">
         <span style="font-weight: bold;">Contact:</span>
-        <a href="mailto:jivvon2@gmail.com" style="color: #0073e6; text-decoration: none;">xoehfdl03@naver.com</a>
+        <a href="mailto:xoehfdl03@naver.com" style="color: #0073e6; text-decoration: none;">xoehfdl03@naver.com</a>
       </h3>
     </div>
   </div>
@@ -28,7 +28,7 @@ layout: page
 <!-- =========================
           EDUCATION
 ========================= -->
-<div id="education" class="pl-xl-4">
+<div id="education" style="padding: 0 20px;">
   {% assign education_data = site.data.education | default: empty %}
 
   <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Education</h3>
@@ -78,7 +78,7 @@ layout: page
 <!-- =========================
         PUBLICATIONS
 ========================= -->
-<div id="publication" class="pl-xl-4">
+<div id="publication" style="padding: 0 20px;">
   {% assign publication_data = site.data.publication | default: empty %}
 
   <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Publications</h3>
@@ -140,7 +140,7 @@ layout: page
                     {% assign has_equal_contributor = true %}
                   {% endif %}
 
-                  {% if clean_author == 'Jiwon Choi' %}
+                  {% if clean_author == 'Taekyeong Lee' %}
                     <span style="font-weight: bold; text-decoration: underline;">{{ clean_author }}</span>
                   {% else %}
                     <span>{{ clean_author }}</span>
@@ -171,7 +171,7 @@ layout: page
 <!-- =========================
             PATENTS
 ========================= -->
-<div id="patents" class="pl-xl-4">
+<div id="patents" style="padding: 0 20px;">
   {% assign patents_raw = site.data.patents | default: empty %}
 
   {%- comment -%}
@@ -202,7 +202,7 @@ layout: page
                 {% assign inventors = inventors_raw | split: ',' %}
                 {% for inventor in inventors %}
                   {% assign inv = inventor | strip %}
-                  {% if inv contains 'Jiwon Choi' %}
+                  {% if inv contains 'Taekyeong Lee' %}
                     <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
                   {% else %}
                     {{ inv }}
@@ -227,7 +227,7 @@ layout: page
                 {% assign inventors = inventors_raw | split: ',' %}
                 {% for inventor in inventors %}
                   {% assign inv = inventor | strip %}
-                  {% if inv contains 'Jiwon Choi' %}
+                  {% if inv contains 'Taekyeong Lee' %}
                     <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
                   {% else %}
                     {{ inv }}
