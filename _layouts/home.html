@@ -4,170 +4,237 @@ layout: page
 {% include lang.html %}
 
 <div style="width: 100%; max-width: 100%; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-    <div style="display: flex; align-items: row;">
-        <div style="flex: 0 0 29%; text-align: center;">
-            <img src="{{ site.baseurl }}/assets/img/profile_no_bg.png" alt="Profile Picture" style="width: 100%; height: 100%; max-width: 100%; object-fit: cover;">
-        </div>
-
-        <div style="flex: 1; padding-left: 30px;">
-            <h1 style="font-size: 28px; margin-bottom: 8px; font-weight: bold;">Jiwon Choi</h1>
-            <p style="font-size: 18px; color: gray; margin-bottom: 20px; font-style: italic;">
-              M.S. & Ph.D. Integrated Student in 
-              <a href="https://sites.google.com/view/sparo" style="color: gray; text-decoration: underline;">SPARO Lab</a>
-            </p>
-            <h3 style="font-size: 20px; margin-bottom: 8px; font-weight: bold;">Research Interests</h3>
-            <p style="font-size: 18px; color: gray; margin-bottom: 20px; font-style: italic;">LiDAR SLAM, Localization</p>
-            <h3 style="font-size: 18px; margin-bottom: 8px;">
-              <span style="font-weight: bold;">Contact:</span> 
-              <a href="mailto:jivvon2@gmail.com" style="color: #0073e6; text-decoration: none;">jivvon2@gmail.com</a>
-            </h3>
-        </div>
+  <div style="display: flex; align-items: row;">
+    <div style="flex: 0 0 29%; text-align: center;">
+      <img src="{{ site.baseurl }}/assets/img/profile_no_bg.png" alt="Profile Picture" style="width: 100%; height: 100%; max-width: 100%; object-fit: cover;">
     </div>
+
+    <div style="flex: 1; padding-left: 30px;">
+      <h1 style="font-size: 28px; margin-bottom: 8px; font-weight: bold;">Jiwon Choi</h1>
+      <p style="font-size: 18px; color: gray; margin-bottom: 20px; font-style: italic;">
+        M.S. & Ph.D. Integrated Student in
+        <a href="https://sites.google.com/view/sparo" style="color: gray; text-decoration: underline;">SPARO Lab</a>
+      </p>
+      <h3 style="font-size: 20px; margin-bottom: 8px; font-weight: bold;">Research Interests</h3>
+      <p style="font-size: 18px; color: gray; margin-bottom: 20px; font-style: italic;">LiDAR SLAM, Localization</p>
+      <h3 style="font-size: 18px; margin-bottom: 8px;">
+        <span style="font-weight: bold;">Contact:</span>
+        <a href="mailto:jivvon2@gmail.com" style="color: #0073e6; text-decoration: none;">jivvon2@gmail.com</a>
+      </h3>
+    </div>
+  </div>
 </div>
 
-
-
+<!-- =========================
+          EDUCATION
+========================= -->
 <div id="education" class="pl-xl-4">
-  {% assign education_data = site.data.education %}
+  {% assign education_data = site.data.education | default: empty %}
+
   <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Education</h3>
-  <ul>
-    {% for item in education_data %}
-      <li>
-        <span class="date year" style="font-weight: bold;">
-          {{ item.start_date | date: '%Y.%m' }} --
-          {{ item.end_date | date: '%Y.%m' }}
 
-        </span>
-        <span class="text-muted">
-          <span style="display: block;  padding-left: 10px;">
-            {{ item.degree }}, {{ item.department }}, {{ item.university }}
+  {% if education_data and education_data.size > 0 %}
+    <ul>
+      {% for item in education_data %}
+        <li>
+          <span class="date year" style="font-weight: bold;">
+            {% assign sd = item.start_date | default: '' %}
+            {% assign ed = item.end_date | default: '' %}
+
+            {% if sd != '' %}
+              {{ sd | date: '%Y.%m' }}
+            {% else %}
+              Present
+            {% endif %}
+            --
+            {% if ed != '' %}
+              {{ ed | date: '%Y.%m' }}
+            {% else %}
+              Present
+            {% endif %}
           </span>
-        </span>
 
-      </li>
-    {% endfor %}
-  </ul>
+          <span class="text-muted">
+            <span style="display: block; padding-left: 10px;">
+              {{ item.degree | default: '' }}
+              {% if item.degree and item.department %}, {% endif %}
+              {{ item.department | default: '' }}
+              {% if (item.degree or item.department) and item.university %}, {% endif %}
+              {{ item.university | default: '' }}
+            </span>
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No education entries available.</p>
+  {% endif %}
 </div>
 
-
+<!-- =========================
+        PUBLICATIONS
+========================= -->
 <div id="publication" class="pl-xl-4">
-  {% assign publication_data = site.data.publication %}
+  {% assign publication_data = site.data.publication | default: empty %}
+
   <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Publications</h3>
-  <ul>
+
+  {% if publication_data and publication_data.size > 0 %}
     {% assign sorted_publications = publication_data | sort: 'year' | reverse %}
-    {% for item in sorted_publications %}
-      <li>
-        <span class="date year" style="font-weight: bold;">
-          {{ item.year | date: '%Y.%m' }}
-        </span>
-        <span class="text-muted">
-          <span style="display: block; padding-left: 10px;">
-            <strong>
-              {% if item.conference_link %}
-                <a href="{{ item.conference_link }}" target="_blank" style="color: #0073e6; text-decoration: none;">
-                  [{{ item.conference }}]
-                </a>
+    <ul>
+      {% for item in sorted_publications %}
+        <li>
+          <span class="date year" style="font-weight: bold;">
+            {% assign py = item.year | default: '' %}
+            {% if py != '' %}
+              {{ py | date: '%Y.%m' }}
+            {% else %}
+              &nbsp;
+            {% endif %}
+          </span>
+
+          <span class="text-muted">
+            <span style="display: block; padding-left: 10px;">
+              <strong>
+                {% if item.conference %}
+                  {% if item.conference_link %}
+                    <a href="{{ item.conference_link }}" target="_blank" style="color: #0073e6; text-decoration: none;">
+                      [{{ item.conference }}]
+                    </a>
+                  {% else %}
+                    [{{ item.conference }}]
+                  {% endif %}
+                {% endif %}
+              </strong>
+
+              {% if item.title %}
+                {{ item.title }}
               {% else %}
-                [{{ item.conference }}]
+                (Untitled)
               {% endif %}
-            </strong>
-            {{ item.title }}
-            {% if item.github %}
+
+              {% if item.github %}
                 <a href="{{ item.github }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Github)</a>
-            {% endif %}
-            {% if item.paper_link %}
+              {% endif %}
+
+              {% if item.paper_link %}
                 <a href="{{ item.paper_link }}" target="_blank" style="color: #0073e6; font-size: 0.8rem;">(Paper)</a>
+              {% endif %}
+            </span>
+
+            {% assign authors_raw = item.authors | default: '' %}
+            {% if authors_raw != '' %}
+              <span style="display: block; padding-left: 10px; font-style: italic; font-size: 0.8rem;">
+                {% assign authors = authors_raw | split: ',' %}
+                {% assign has_equal_contributor = false %}
+
+                {% for author in authors %}
+                  {% assign stripped_author = author | strip %}
+                  {% assign clean_author = stripped_author | replace: '*', '' | strip %}
+
+                  {% if stripped_author contains '*' %}
+                    {% assign has_equal_contributor = true %}
+                  {% endif %}
+
+                  {% if clean_author == 'Jiwon Choi' %}
+                    <span style="font-weight: bold; text-decoration: underline;">{{ clean_author }}</span>
+                  {% else %}
+                    <span>{{ clean_author }}</span>
+                  {% endif %}
+
+                  {% if stripped_author contains '*' %}
+                    <sup>*</sup>
+                  {% endif %}
+
+                  {% unless forloop.last %}, {% endunless %}
+                {% endfor %}
+
+                {% if has_equal_contributor %}
+                  <br>
+                  <span style="font-size: 0.8rem; font-style: italic;">(*: Equal Contribution)</span>
+                {% endif %}
+              </span>
             {% endif %}
           </span>
-
-          <span style="display: block; padding-left: 10px; font-style: italic; font-size: 0.8rem;">
-            {% assign authors = item.authors | split: ',' %}
-            {% assign has_equal_contributor = false %}
-            
-            {% for author in authors %}
-              {% assign stripped_author = author | strip %}
-              {% assign clean_author = stripped_author | replace: '*', '' %}
-              
-              {% if stripped_author contains '*' %}
-                {% assign has_equal_contributor = true %}
-              {% endif %}
-
-              {% if clean_author == 'Jiwon Choi' %}
-                <span style="font-weight: bold; text-decoration: underline;">
-                  {{ clean_author }}
-                </span>
-              {% else %}
-                <span>{{ clean_author }}</span>
-              {% endif %}
-
-              {% if stripped_author contains '*' %}
-                <sup>*</sup>
-              {% endif %}
-
-              {% if forloop.last == false %}, {% endif %}
-            {% endfor %}
-
-            {% if has_equal_contributor %}
-              <br>
-              <span style="font-size: 0.8rem; font-style: italic;">(*: Equal Contribution)</span>
-            {% endif %}
-          </span>
-        </span>
-      </li>
-    {% endfor %}
-  </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No publications available.</p>
+  {% endif %}
 </div>
 
-
-
-
-
-
+<!-- =========================
+            PATENTS
+========================= -->
 <div id="patents" class="pl-xl-4">
-  {% assign patents_data = site.data.patents | sort: 'status' %}
-  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Patents</h3>
-  <ul>
-    {% assign granted_patents = patents_data | where: 'status', 'Patent' %}
-    {% assign application_patents = patents_data | where: 'status', 'Application' %}
-    
-    <!-- Granted Patents -->
-    {% for item in granted_patents %}
-      <li style="margin-bottom: 10px; font-size: 1rem;">
-        <span>
-          <strong style="color: green;">[Granted]</strong>
-          {% assign inventors = item.people | split: ',' %}
-          {% for inventor in inventors %}
-            {% if inventor contains 'Jiwon Choi' %}
-              <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inventor | strip }}</span>
-            {% else %}
-              {{ inventor | strip }}
-            {% endif %}
-            {% if forloop.last == false %}, {% endif %}
-          {% endfor %},
-          "{{ item.title }}",
-          <em>KR-Patent No. {{ item.number }}</em>
-        </span>
-      </li>
-    {% endfor %}
+  {% assign patents_raw = site.data.patents | default: empty %}
+  {% assign patents_data = patents_raw | sort: 'status' %}
 
-    <!-- Application Patents -->
-    {% for item in application_patents %}
-      <li style="margin-bottom: 10px; font-size: 1rem;">
-        <span>
-          <strong style="color: orange;">[Application]</strong>
-          {% assign inventors = item.people | split: ',' %}
-          {% for inventor in inventors %}
-            {% if inventor contains 'Jiwon Choi' %}
-              <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inventor | strip }}</span>
-            {% else %}
-              {{ inventor | strip }}
-            {% endif %}
-            {% if forloop.last == false %}, {% endif %}
-          {% endfor %},
-          "{{ item.title }}",
-          <em>KR-Application No. {{ item.number }}</em>
-        </span>
-      </li>
-    {% endfor %}
-  </ul>
+  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Patents</h3>
+
+  {% if patents_data and patents_data.size > 0 %}
+    <ul>
+      {% assign granted_patents = patents_data | where: 'status', 'Patent' %}
+      {% assign application_patents = patents_data | where: 'status', 'Application' %}
+
+      {% if granted_patents and granted_patents.size > 0 %}
+        {% for item in granted_patents %}
+          <li style="margin-bottom: 10px; font-size: 1rem;">
+            <span>
+              <strong style="color: green;">[Granted]</strong>
+              {% assign inventors_raw = item.people | default: '' %}
+              {% if inventors_raw != '' %}
+                {% assign inventors = inventors_raw | split: ',' %}
+                {% for inventor in inventors %}
+                  {% assign inv = inventor | strip %}
+                  {% if inv contains 'Jiwon Choi' %}
+                    <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
+                  {% else %}
+                    {{ inv }}
+                  {% endif %}
+                  {% unless forloop.last %}, {% endunless %}
+                {% endfor %}
+              {% endif %}
+
+              {% if item.title %}, "{{ item.title }}"{% endif %}
+              {% if item.number %}, <em>KR-Patent No. {{ item.number }}</em>{% endif %}
+            </span>
+          </li>
+        {% endfor %}
+      {% endif %}
+
+      {% if application_patents and application_patents.size > 0 %}
+        {% for item in application_patents %}
+          <li style="margin-bottom: 10px; font-size: 1rem;">
+            <span>
+              <strong style="color: orange;">[Application]</strong>
+              {% assign inventors_raw = item.people | default: '' %}
+              {% if inventors_raw != '' %}
+                {% assign inventors = inventors_raw | split: ',' %}
+                {% for inventor in inventors %}
+                  {% assign inv = inventor | strip %}
+                  {% if inv contains 'Jiwon Choi' %}
+                    <span style="font-weight: bold; font-style: italic; text-decoration: underline;">{{ inv }}</span>
+                  {% else %}
+                    {{ inv }}
+                  {% endif %}
+                  {% unless forloop.last %}, {% endunless %}
+                {% endfor %}
+              {% endif %}
+
+              {% if item.title %}, "{{ item.title }}"{% endif %}
+              {% if item.number %}, <em>KR-Application No. {{ item.number }}</em>{% endif %}
+            </span>
+          </li>
+        {% endfor %}
+      {% endif %}
+
+      {% if (granted_patents == empty or granted_patents.size == 0) and (application_patents == empty or application_patents.size == 0) %}
+        <li style="color: gray;">No patents available.</li>
+      {% endif %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No patents available.</p>
+  {% endif %}
 </div>
