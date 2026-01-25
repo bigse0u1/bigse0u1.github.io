@@ -56,15 +56,29 @@ layout: page
 
           <span class="text-muted">
             <span style="display: block; padding-left: 10px;">
-              {%- comment -%}
-              Liquid에서 (a or b) and c 같은 괄호 조건이 깨지기 쉬워서
-              “parts 배열 + join” 방식으로 안전하게 쉼표 처리합니다.
-              {%- endcomment -%}
-              {% assign parts = '' | split: '' %}
-              {% if item.degree %}{% assign parts = parts | push: item.degree %}{% endif %}
-              {% if item.department %}{% assign parts = parts | push: item.department %}{% endif %}
-              {% if item.university %}{% assign parts = parts | push: item.university %}{% endif %}
-              {{ parts | join: ', ' }}
+              {% assign line = '' %}
+
+              {% if item.degree and item.degree != '' %}
+                {% assign line = item.degree %}
+              {% endif %}
+
+              {% if item.department and item.department != '' %}
+                {% if line != '' %}
+                  {% assign line = line | append: ' ' | append: item.department %}
+                {% else %}
+                  {% assign line = item.department %}
+                {% endif %}
+              {% endif %}
+
+              {% if item.university and item.university != '' %}
+                {% if line != '' %}
+                  {% assign line = line | append: ', ' | append: item.university %}
+                {% else %}
+                  {% assign line = item.university %}
+                {% endif %}
+              {% endif %}
+
+              {{ line }}
             </span>
           </span>
         </li>
@@ -74,6 +88,7 @@ layout: page
     <p style="color: gray; margin: 0;">No education entries available.</p>
   {% endif %}
 </div>
+
 
 <!-- =========================
         PUBLICATIONS
