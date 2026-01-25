@@ -4,8 +4,8 @@
   department: "Department of Software"
   university: "Yonsei University (Mirae)"
 
-- start_date: "2025-03-01"
-  end_date: "2027-02-01"
-  degree: "B.S."
-  department: "Department of Software"
-  university: "Yonsei University (Mirae)"
+- start_date: "2021-03-01"
+  end_date: "2025-02-01"
+  degree: ""
+  department: "Department of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)"
+  university: "Changwon National University"
