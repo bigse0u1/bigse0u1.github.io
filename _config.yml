@@ -117,7 +117,7 @@ comments:
   # utterances settings › https://utteranc.es/
   utterances:
     repo: bigse0u1/bigse0u1.github.io  
-    issue-term: pathname 
+    issue-term: 
   # Giscus options › https://giscus.app
   giscus:
     repo: # <gh-username>/<repo>
