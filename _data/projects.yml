@@ -1,1 +1,8 @@
-[]
+- year: "2025-12-01"
+  title: "FocusMate"
+  role: "Developer"
+  description: "A Real-Time User Attention Evaluation Model Using Integrated Visual Biosignals"
+  stack: "TypeScript, MediaPipe, Html, css"
+  github: "https://github.com/bigse0u1/FOCUS_MATE"
+  demo: "https://yonsei-focusmate.netlify.app/"
+  paper_link: ""
