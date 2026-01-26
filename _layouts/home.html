@@ -197,11 +197,16 @@ layout: page
       {% for item in sorted_projects %}
         <li>
           <span class="date year" style="font-weight: bold;">
-            {% assign py = item.year | default: '' %}
-            {% if py != '' %}
-              {{ py | date: '%Y.%m' }}
+            {% assign sd = item.start_date | default: '' %}
+            {% assign ed = item.end_date | default: '' %}
+
+            {% if sd != '' %}
+              {{ sd | date: '%Y.%m' }}
+            {% endif %}
+            {% if ed != '' %}
+              &nbsp;--&nbsp;{{ ed | date: '%Y.%m' }}
             {% else %}
-              &nbsp;
+              &nbsp;--&nbsp;Present
             {% endif %}
           </span>
 
