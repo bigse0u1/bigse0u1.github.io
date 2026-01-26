@@ -2,6 +2,6 @@
   title: "FocusMate"
   role: "Developer"
   description: "A Real-Time User Attention Evaluation Model Using Integrated Visual Biosignals"
-  stack: "TypeScript, MediaPipe, Html, css"
+  stack: "TypeScript, MediaPipe, HTML, CSS"
   github: "https://github.com/bigse0u1/FOCUS_MATE"
   demo: "https://yonsei-focusmate.netlify.app/"
