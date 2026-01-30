@@ -195,7 +195,8 @@ layout: page
     {% assign sorted_awards = awards_data | sort: 'date' | reverse %}
     <ul>
       {% for item in sorted_awards %}
-        <li>
+        <li style="margin-bottom: 12px;">
+          <!-- 날짜 -->
           <span class="date year" style="font-weight: bold;">
             {% assign ad = item.date | default: '' %}
             {% if ad != '' %}
@@ -203,24 +204,33 @@ layout: page
             {% endif %}
           </span>
 
-          <span class="text-muted">
-            <span style="display: block; padding-left: 10px;">
+          <!-- 내용 -->
+          <div class="text-muted" style="padding-left: 10px; margin-top: 4px;">
+            <!-- 1줄: 대회명 — 상명 (Proof) -->
+            <div>
               {% if item.title %}
                 <strong>{{ item.title }}</strong>
-              {% else %}
-                <strong>(Untitled Award)</strong>
               {% endif %}
 
-              {% if item.org %}
-                <span style="color: gray; font-size: 0.9rem;"> — {{ item.org }}</span>
+              {% if item.award %}
+                — {{ item.award }}
               {% endif %}
 
               {% if item.link %}
-                <a href="{{ site.baseurl }}{{ item.link }}" target="_blank" rel="noopener"
-                   style="color: #0073e6; font-size: 0.8rem;">(Proof)</a>
+                <a href="{{ site.baseurl }}{{ item.link }}"
+                   target="_blank" rel="noopener"
+                   style="color: #0073e6; font-size: 0.8rem; margin-left: 4px;">
+                  (Proof)
+                </a>
               {% endif %}
-            </span>
-          </span>
+            </div>
+
+            {% if item.host %}
+              <div style="color: gray; font-size: 0.9rem; margin-top: 2px;">
+                주최: {{ item.host }}
+              </div>
+            {% endif %}
+          </div>
         </li>
       {% endfor %}
     </ul>
@@ -228,6 +238,7 @@ layout: page
     <p style="color: gray; margin: 0;">No awards available.</p>
   {% endif %}
 </div>
+
 
 <!-- =========================
             PROJECTS
