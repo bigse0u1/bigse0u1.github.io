@@ -184,6 +184,52 @@ layout: page
 </div>
 
 <!-- =========================
+            AWARDS
+========================= -->
+<div id="awards" style="padding: 0 20px;">
+  {% assign awards_data = site.data.awards | default: empty %}
+
+  <h3 style="font-size: 20px; margin-bottom: 10px; margin-top: 60px; font-weight: bold;">Awards</h3>
+
+  {% if awards_data and awards_data.size > 0 %}
+    {% assign sorted_awards = awards_data | sort: 'date' | reverse %}
+    <ul>
+      {% for item in sorted_awards %}
+        <li>
+          <span class="date year" style="font-weight: bold;">
+            {% assign ad = item.date | default: '' %}
+            {% if ad != '' %}
+              {{ ad | date: '%Y.%m' }}
+            {% endif %}
+          </span>
+
+          <span class="text-muted">
+            <span style="display: block; padding-left: 10px;">
+              {% if item.title %}
+                <strong>{{ item.title }}</strong>
+              {% else %}
+                <strong>(Untitled Award)</strong>
+              {% endif %}
+
+              {% if item.org %}
+                <span style="color: gray; font-size: 0.9rem;"> — {{ item.org }}</span>
+              {% endif %}
+
+              {% if item.link %}
+                <a href="{{ site.baseurl }}{{ item.link }}" target="_blank" rel="noopener"
+                   style="color: #0073e6; font-size: 0.8rem;">(Proof)</a>
+              {% endif %}
+            </span>
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color: gray; margin: 0;">No awards available.</p>
+  {% endif %}
+</div>
+
+<!-- =========================
             PROJECTS
 ========================= -->
 <div id="projects" style="padding: 0 20px;">
