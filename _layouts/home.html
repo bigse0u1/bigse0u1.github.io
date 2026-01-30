@@ -42,13 +42,13 @@ layout: page
             {% assign ed = item.end_date | default: '' %}
 
             {% if sd != '' %}
-              {{ sd | date: '%Y.%m' }}
+              {{ sd | date: '%Y.%m.%d' }}
             {% else %}
               Present
             {% endif %}
             -
             {% if ed != '' %}
-              {{ ed | date: '%Y.%m' }}
+              {{ ed | date: '%Y.%m.%d' }}
             {% else %}
               Present
             {% endif %}
@@ -106,7 +106,7 @@ layout: page
           <span class="date year" style="font-weight: bold;">
             {% assign py = item.year | default: '' %}
             {% if py != '' %}
-              {{ py | date: '%Y.%m' }}
+              {{ py | date: '%Y.%m.%d' }}
             {% else %}
               &nbsp;
             {% endif %}
@@ -199,7 +199,7 @@ layout: page
           <span class="date year" style="font-weight: bold;">
             {% assign ad = item.date | default: '' %}
             {% if ad != '' %}
-              {{ ad | date: '%Y.%m' }}
+              {{ ad | date: '%Y.%m.%d' }}
             {% endif %}
           </span>
 
@@ -247,10 +247,10 @@ layout: page
             {% assign ed = item.end_date | default: '' %}
 
             {% if sd != '' %}
-              {{ sd | date: '%Y.%m' }}
+              {{ sd | date: '%Y.%m.%d' }}
             {% endif %}
             {% if ed != '' %}
-              &nbsp;-&nbsp;{{ ed | date: '%Y.%m' }}
+              &nbsp;-&nbsp;{{ ed | date: '%Y.%m.%d' }}
             {% else %}
               &nbsp;-&nbsp;Present
             {% endif %}
