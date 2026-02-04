@@ -4,8 +4,6 @@
   role: "Data Analyst"
   description: "근골격계 물리치료/ 도수치료 과잉진료 문제 단속 AI 시스템"
   stack: "SAS"
-  github: "[]"
-  demo: "[]"
   
 - start_date: "2025-09-01"
   end_date: "2025-12-01"
