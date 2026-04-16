@@ -1,1 +1,33 @@
-[]
+[
+  {
+    "slug": "C-6",
+    "title": "[C] 6. Array_배열",
+    "date": "2026-02-13 01:33:00 +0900",
+    "categories": [
+      "Programming Languages",
+      "C"
+    ],
+    "tags": [
+      "C",
+      "Array"
+    ],
+    "excerpt": "이 포스팅 시리즈는 2025년 1학기 성태응교수님의 컴퓨터프로그래밍 수업 내용을 바탕으로 정리한 글입니다. {:.prompt-tip}  6. 배열  1) 배열과 배열 선언 배열(array) 은 여러 개의 같은 자료형의 값의 모임을 나타내는 자료구조로, 배열을 사용하면 여러 개의 값을 하…",
+    "path": "_posts/2026-02-13-C-6.md"
+  },
+  {
+    "slug": "SAS-1",
+    "title": "[SAS] 1. SAS의 기초",
+    "date": "2026-01-25 12:00:00 +0900",
+    "categories": [
+      "Programming Languages",
+      "SAS"
+    ],
+    "tags": [
+      "SAS",
+      "Statistics",
+      "Data-Analysis"
+    ],
+    "excerpt": "이 포스팅 시리즈는 HIRA 빅데이터 활용 글로벌 인재양성 교육 프로젝트를 준비하며, 「SAS로 하는 기초 데이터 전처리, 핸들링(Data handling)」[^1] 및 건강보험심사평가원 자체교재를 바탕으로 학습한 내용을 정리한 글입니다. {:.prompt-tip} ---  1. SAS…",
+    "path": "_posts/2026-01-26-SAS-1.md"
+  }
+]
