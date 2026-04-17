@@ -23,7 +23,7 @@
   --serif: 'Noto Serif KR', 'Georgia', serif;
   --sans: 'Noto Sans KR', sans-serif;
   --nav-h: 52px;
-  --left-w: 300px;
+  --left-w: 260px;
 }
 
 /* ═══ RESET ═══ */
@@ -128,10 +128,10 @@ img { max-width: 100%; display: block; }
 .home-wrap {
   max-width: 1060px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 5rem;
+  padding: 3.5rem 2rem 5rem 0.5rem;
   display: grid;
   grid-template-columns: var(--left-w) 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: start;
 }
 

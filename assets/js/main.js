@@ -5,11 +5,10 @@ const SITE = {
   name: 'Bigse0u1',
   author: 'Taekyeong Lee',
   authorKo: '이태경',
-  bio: 'Undergraduate Student in <a href="https://sw.yonsei.ac.kr/" target="_blank">Dept of Software</a>, Yonsei University (Mirae). Research interests in Robotics and Perception.',
-  avatar: 'assets/img/profile_no_bg.png',
+  bio: 'Undergraduate Student in <a href="https://sw.yonsei.ac.kr/" target="_blank">Dept of Software</a>,<br>Yonsei University (Mirae).<br>Research interests in Robotics and VLA.',  avatar: 'assets/img/profile_no_bg.png',
   email: 'lee.bigse0u1@gmail.com',
   github: 'bigse0u1',
-  interests: ['Robotics', 'SLAM', 'Computer Vision', 'Perception for Autonomous Systems', 'Language-Grounded Robot Interaction'],
+  interests: ['Robotics', 'VLA','SLAM', 'Computer Vision'],
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software' },
     { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)' }
