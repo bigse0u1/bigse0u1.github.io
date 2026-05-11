@@ -625,6 +625,13 @@ async function init() {
     }
   });
 
+  // Utterances OAuth 시작 직전 위치 저장 (팝업 차단 시 전체 리다이렉트 대비)
+  window.addEventListener('message', (e) => {
+    if (e.origin === 'https://utteranc.es' && state.detail) {
+      sessionStorage.setItem('utt_ret', '#' + state.detail.type + '/' + encodeURIComponent(state.detail.slug));
+    }
+  });
+
   routeFromHash();
 }
 
