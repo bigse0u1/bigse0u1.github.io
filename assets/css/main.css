@@ -668,6 +668,19 @@ img { max-width: 100%; display: block; }
   color: var(--text-mute);
 }
 
+.sb-arrow {
+  font-size: 0.55rem;
+  margin-right: 0.35rem;
+  color: var(--text-mute);
+  flex-shrink: 0;
+}
+
+.sb-sub {
+  padding-left: 1.2rem;
+  font-size: 0.74rem;
+  color: var(--text-mute);
+}
+
 /* Tag filter bar */
 .tag-bar {
   padding: 0.8rem 1.2rem;
@@ -1087,12 +1100,13 @@ img { max-width: 100%; display: block; }
   .nav-link { padding: 0.35rem 0.6rem; font-size: 0.68rem; }
   .nav-brand { font-size: 0.75rem; }
 
-  /* Profile — stack vertically */
-  .home-left { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .profile-photo-wrap { width: 76px; }
-  .profile-photo { width: 76px; height: 76px; }
+  /* Profile — centered stack */
+  .home-left { flex-direction: column; align-items: center; gap: 0.8rem; text-align: center; }
+  .profile-photo-wrap { width: 120px; }
+  .profile-photo { width: 120px; height: 120px; }
   .profile-name { font-size: 1.2rem; }
   .profile-bio { font-size: 0.82rem; }
+  .profile-links { align-items: center; }
 
   /* Education — stack period above content */
   .edu-item {

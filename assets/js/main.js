@@ -59,7 +59,8 @@ let state = {
   page: 'home',       // home | projects | study
   detail: null,       // null | { type: 'post'|'project', slug }
   catFilter: '',
-  tagFilter: ''
+  tagFilter: '',
+  expandedCats: new Set()
 };
 
 /* ═══════════════════════════════════════════════
@@ -327,15 +328,41 @@ function renderSidebar() {
   allEl.onclick = () => setCategoryFilter('');
   nav.appendChild(allEl);
 
-  // Categories
-  const cats = {};
-  POSTS.forEach(p => (p.categories||[]).forEach(c => cats[c] = (cats[c]||0)+1));
-  Object.entries(cats).sort().forEach(([cat, cnt]) => {
-    const el = document.createElement('div');
-    el.className = 'sb-link' + (state.catFilter === cat ? ' active' : '');
-    el.innerHTML = `${cat} <span class="sb-cnt">${cnt}</span>`;
-    el.onclick = () => setCategoryFilter(cat);
-    nav.appendChild(el);
+  // Build parent → sub hierarchy (categories[0] = parent, categories[1] = sub)
+  const tree = {};
+  POSTS.forEach(p => {
+    const [parent, sub] = p.categories || [];
+    if (!parent) return;
+    if (!tree[parent]) tree[parent] = { count: 0, subs: {} };
+    tree[parent].count++;
+    if (sub) tree[parent].subs[sub] = (tree[parent].subs[sub] || 0) + 1;
+  });
+
+  Object.entries(tree).sort().forEach(([parent, data]) => {
+    const hasSubs = Object.keys(data.subs).length > 0;
+    const isExpanded = state.expandedCats.has(parent);
+
+    const parentEl = document.createElement('div');
+    parentEl.className = 'sb-link' + (state.catFilter === parent ? ' active' : '');
+    parentEl.innerHTML = `${hasSubs ? `<span class="sb-arrow">${isExpanded ? '▾' : '▸'}</span>` : ''}${parent} <span class="sb-cnt">${data.count}</span>`;
+    parentEl.onclick = () => {
+      if (hasSubs) {
+        if (state.expandedCats.has(parent)) state.expandedCats.delete(parent);
+        else state.expandedCats.add(parent);
+      }
+      setCategoryFilter(parent);
+    };
+    nav.appendChild(parentEl);
+
+    if (hasSubs && isExpanded) {
+      Object.entries(data.subs).sort().forEach(([sub, cnt]) => {
+        const subEl = document.createElement('div');
+        subEl.className = 'sb-link sb-sub' + (state.catFilter === sub ? ' active' : '');
+        subEl.innerHTML = `ㄴ ${sub} <span class="sb-cnt">${cnt}</span>`;
+        subEl.onclick = (e) => { e.stopPropagation(); setCategoryFilter(sub); };
+        nav.appendChild(subEl);
+      });
+    }
   });
 }
 
