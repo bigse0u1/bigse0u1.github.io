@@ -103,17 +103,16 @@ function updateHash() {
 
 function routeFromHash() {
   let hash = location.hash;
+  state.detail = null;
 
-  // OAuth 리다이렉트로 해시가 사라진 경우 마지막 위치 복원
-  if (!hash) {
+  // '' 또는 '#' 모두 해시 없음으로 처리 — OAuth 리다이렉트 복원
+  if (!hash || hash === '#') {
     const saved = sessionStorage.getItem('utt_ret');
     if (saved && (saved.startsWith('#post/') || saved.startsWith('#project/'))) {
       hash = saved;
       history.replaceState(null, '', location.pathname + hash);
     }
   }
-
-  state.detail = null;
 
   if (!hash || hash === '#') {
     state.page = 'home';
@@ -618,6 +617,14 @@ async function init() {
   // Load data then render based on current hash
   await loadData();
   window.addEventListener('popstate', routeFromHash);
+
+  // 페이지 이탈 직전 현재 위치 저장 (OAuth 리다이렉트 대비)
+  window.addEventListener('beforeunload', () => {
+    if (state.detail) {
+      sessionStorage.setItem('utt_ret', '#' + state.detail.type + '/' + encodeURIComponent(state.detail.slug));
+    }
+  });
+
   routeFromHash();
 }
 
