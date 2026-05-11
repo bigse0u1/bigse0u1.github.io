@@ -506,6 +506,20 @@ async function renderDetail(detail) {
   if (typeof hljs !== 'undefined') {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
+
+  // Utterances comments
+  const commentsWrap = document.createElement('div');
+  commentsWrap.className = 'comments-wrap';
+  el.querySelector('.detail-wrap > div').appendChild(commentsWrap);
+
+  const utterances = document.createElement('script');
+  utterances.src = 'https://utteranc.es/client.js';
+  utterances.setAttribute('repo', 'bigse0u1/bigse0u1.github.io');
+  utterances.setAttribute('issue-term', 'pathname');
+  utterances.setAttribute('theme', 'github-dark');
+  utterances.setAttribute('crossorigin', 'anonymous');
+  utterances.async = true;
+  commentsWrap.appendChild(utterances);
 }
 
 /* ═══════════════════════════════════════════════
