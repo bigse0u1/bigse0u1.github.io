@@ -66,16 +66,74 @@ let state = {
    ROUTER
 ═══════════════════════════════════════════════ */
 function navigate(page, detail = null) {
+  if (!detail && page !== state.page) {
+    state.catFilter = '';
+    state.tagFilter = '';
+  }
   state.page = page;
   state.detail = detail;
+  updateHash();
   render();
 
-  // update nav active
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.dataset.page === page);
   });
 
   window.scrollTo(0, 0);
+}
+
+function updateHash() {
+  let hash = '';
+  if (state.detail) {
+    hash = `#${state.detail.type}/${encodeURIComponent(state.detail.slug)}`;
+  } else {
+    switch (state.page) {
+      case 'projects': hash = '#projects'; break;
+      case 'study':
+        hash = '#study';
+        if (state.catFilter) hash += '/' + encodeURIComponent(state.catFilter);
+        break;
+      default: hash = '';
+    }
+  }
+  history.pushState(null, '', location.pathname + hash);
+}
+
+function routeFromHash() {
+  const hash = location.hash;
+  state.detail = null;
+
+  if (!hash || hash === '#') {
+    state.page = 'home';
+    state.catFilter = '';
+    state.tagFilter = '';
+  } else if (hash === '#projects') {
+    state.page = 'projects';
+  } else if (hash.startsWith('#study')) {
+    state.page = 'study';
+    const rest = hash.slice(6);
+    state.catFilter = rest.startsWith('/') ? decodeURIComponent(rest.slice(1)) : '';
+    state.tagFilter = '';
+  } else if (hash.startsWith('#post/')) {
+    state.detail = { type: 'post', slug: decodeURIComponent(hash.slice(6)) };
+  } else if (hash.startsWith('#project/')) {
+    state.detail = { type: 'project', slug: decodeURIComponent(hash.slice(9)) };
+  } else {
+    state.page = 'home';
+  }
+
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.page === state.page);
+  });
+
+  render();
+}
+
+function setCategoryFilter(cat) {
+  state.catFilter = cat;
+  state.tagFilter = '';
+  updateHash();
+  renderStudy();
 }
 
 /* ═══════════════════════════════════════════════
@@ -266,7 +324,7 @@ function renderSidebar() {
   const allEl = document.createElement('div');
   allEl.className = 'sb-link' + (state.catFilter === '' ? ' active' : '');
   allEl.innerHTML = `All <span class="sb-cnt">${POSTS.length}</span>`;
-  allEl.onclick = () => { state.catFilter = ''; state.tagFilter = ''; renderStudy(); };
+  allEl.onclick = () => setCategoryFilter('');
   nav.appendChild(allEl);
 
   // Categories
@@ -276,7 +334,7 @@ function renderSidebar() {
     const el = document.createElement('div');
     el.className = 'sb-link' + (state.catFilter === cat ? ' active' : '');
     el.innerHTML = `${cat} <span class="sb-cnt">${cnt}</span>`;
-    el.onclick = () => { state.catFilter = cat; state.tagFilter = ''; renderStudy(); };
+    el.onclick = () => setCategoryFilter(cat);
     nav.appendChild(el);
   });
 }
@@ -291,8 +349,11 @@ function renderTagBar() {
   allBtn.onclick = () => { state.tagFilter = ''; renderStudy(); };
   bar.appendChild(allBtn);
 
+  const tagPosts = state.catFilter
+    ? POSTS.filter(p => (p.categories||[]).includes(state.catFilter))
+    : POSTS;
   const tags = {};
-  POSTS.forEach(p => (p.tags||[]).forEach(t => tags[t] = (tags[t]||0)+1));
+  tagPosts.forEach(p => (p.tags||[]).forEach(t => tags[t] = (tags[t]||0)+1));
   Object.entries(tags).sort().forEach(([tag]) => {
     const btn = document.createElement('button');
     btn.className = 'tag-btn' + (state.tagFilter === tag ? ' active' : '');
@@ -498,9 +559,10 @@ async function init() {
     l.addEventListener('click', () => navigate(l.dataset.page));
   });
 
-  // Load data then render
+  // Load data then render based on current hash
   await loadData();
-  render();
+  window.addEventListener('popstate', routeFromHash);
+  routeFromHash();
 }
 
 document.addEventListener('DOMContentLoaded', init);
