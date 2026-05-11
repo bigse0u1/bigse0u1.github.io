@@ -71,7 +71,6 @@ function navigate(page, detail = null) {
     state.catFilter = '';
     state.tagFilter = '';
   }
-  if (!detail) sessionStorage.removeItem('utt_ret');
   state.page = page;
   state.detail = detail;
   updateHash();
@@ -102,21 +101,11 @@ function updateHash() {
 }
 
 function routeFromHash() {
-  let hash = location.hash;
+  const hash = location.hash;
   state.detail = null;
-
-  // '' 또는 '#' 모두 해시 없음으로 처리 — OAuth 리다이렉트 복원
-  if (!hash || hash === '#') {
-    const saved = sessionStorage.getItem('utt_ret');
-    if (saved && (saved.startsWith('#post/') || saved.startsWith('#project/'))) {
-      hash = saved;
-      history.replaceState(null, '', location.pathname + hash);
-    }
-  }
 
   if (!hash || hash === '#') {
     state.page = 'home';
-    sessionStorage.removeItem('utt_ret');
     state.catFilter = '';
     state.tagFilter = '';
   } else if (hash === '#projects') {
@@ -518,22 +507,6 @@ async function renderDetail(detail) {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
 
-  // 현재 위치 저장 (OAuth 리다이렉트 복원용)
-  sessionStorage.setItem('utt_ret', location.hash);
-
-  // Utterances comments
-  const commentsWrap = document.createElement('div');
-  commentsWrap.className = 'comments-wrap';
-  el.querySelector('.detail-wrap > div').appendChild(commentsWrap);
-
-  const utterances = document.createElement('script');
-  utterances.src = 'https://utteranc.es/client.js';
-  utterances.setAttribute('repo', 'bigse0u1/bigse0u1.github.io');
-  utterances.setAttribute('issue-term', 'pathname');
-  utterances.setAttribute('theme', 'github-dark');
-  utterances.setAttribute('crossorigin', 'anonymous');
-  utterances.async = true;
-  commentsWrap.appendChild(utterances);
 }
 
 /* ═══════════════════════════════════════════════
@@ -617,20 +590,6 @@ async function init() {
   // Load data then render based on current hash
   await loadData();
   window.addEventListener('popstate', routeFromHash);
-
-  // 페이지 이탈 직전 현재 위치 저장 (OAuth 리다이렉트 대비)
-  window.addEventListener('beforeunload', () => {
-    if (state.detail) {
-      sessionStorage.setItem('utt_ret', '#' + state.detail.type + '/' + encodeURIComponent(state.detail.slug));
-    }
-  });
-
-  // Utterances OAuth 시작 직전 위치 저장 (팝업 차단 시 전체 리다이렉트 대비)
-  window.addEventListener('message', (e) => {
-    if (e.origin === 'https://utteranc.es' && state.detail) {
-      sessionStorage.setItem('utt_ret', '#' + state.detail.type + '/' + encodeURIComponent(state.detail.slug));
-    }
-  });
 
   routeFromHash();
 }
