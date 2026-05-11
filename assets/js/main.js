@@ -71,6 +71,7 @@ function navigate(page, detail = null) {
     state.catFilter = '';
     state.tagFilter = '';
   }
+  if (!detail) sessionStorage.removeItem('utt_ret');
   state.page = page;
   state.detail = detail;
   updateHash();
@@ -101,11 +102,22 @@ function updateHash() {
 }
 
 function routeFromHash() {
-  const hash = location.hash;
+  let hash = location.hash;
+
+  // OAuth 리다이렉트로 해시가 사라진 경우 마지막 위치 복원
+  if (!hash) {
+    const saved = sessionStorage.getItem('utt_ret');
+    if (saved && (saved.startsWith('#post/') || saved.startsWith('#project/'))) {
+      hash = saved;
+      history.replaceState(null, '', location.pathname + hash);
+    }
+  }
+
   state.detail = null;
 
   if (!hash || hash === '#') {
     state.page = 'home';
+    sessionStorage.removeItem('utt_ret');
     state.catFilter = '';
     state.tagFilter = '';
   } else if (hash === '#projects') {
@@ -506,6 +518,9 @@ async function renderDetail(detail) {
   if (typeof hljs !== 'undefined') {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
+
+  // 현재 위치 저장 (OAuth 리다이렉트 복원용)
+  sessionStorage.setItem('utt_ret', location.hash);
 
   // Utterances comments
   const commentsWrap = document.createElement('div');
