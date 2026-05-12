@@ -127,8 +127,8 @@ img { max-width: 100%; display: block; }
 ═══════════════════════════════════════════════ */
 .home-wrap {
   max-width: 1060px;
-  margin: 0 auto;
-  padding: 3.5rem 2rem 5rem 0.5rem;
+  margin: 0 auto 0 max(1rem, 3vw);
+  padding: 3.5rem 2rem 5rem 0;
   display: grid;
   grid-template-columns: var(--left-w) 1fr;
   gap: 2rem;
@@ -253,7 +253,7 @@ img { max-width: 100%; display: block; }
 
 .section-title {
   font-family: var(--mono);
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -1064,17 +1064,21 @@ img { max-width: 100%; display: block; }
   .home-wrap {
     grid-template-columns: 1fr;
     padding: 2rem 1.4rem 4rem;
+    margin: 0 auto;
     gap: 2rem;
   }
   .home-left {
     position: static;
     display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
   }
-  .profile-photo-wrap { width: 100px; flex-shrink: 0; }
-  .profile-photo { width: 100px; height: 100px; }
+  .profile-photo-wrap { width: 130px; flex-shrink: 0; }
+  .profile-photo { width: 130px; height: 130px; }
   .profile-name { font-size: 1.3rem; }
+  .profile-links { align-items: center; }
 
   /* Study */
   .study-layout { grid-template-columns: 1fr; }
@@ -1100,13 +1104,11 @@ img { max-width: 100%; display: block; }
   .nav-link { padding: 0.35rem 0.6rem; font-size: 0.68rem; }
   .nav-brand { font-size: 0.75rem; }
 
-  /* Profile — centered stack */
-  .home-left { flex-direction: column; align-items: center; gap: 0.8rem; text-align: center; }
-  .profile-photo-wrap { width: 120px; }
-  .profile-photo { width: 120px; height: 120px; }
-  .profile-name { font-size: 1.2rem; }
+  /* Profile — smaller photo on very small screens */
+  .profile-photo-wrap { width: 110px; }
+  .profile-photo { width: 110px; height: 110px; }
+  .profile-name { font-size: 1.15rem; }
   .profile-bio { font-size: 0.82rem; }
-  .profile-links { align-items: center; }
 
   /* Education — stack period above content */
   .edu-item {
