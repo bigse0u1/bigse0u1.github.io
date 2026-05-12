@@ -144,7 +144,7 @@ img { max-width: 100%; display: block; }
 .profile-photo-wrap {
   position: relative;
   width: 180px;
-  margin-bottom: 1.6rem;
+  margin: 0 auto 1.6rem;
 }
 
 .profile-photo {
@@ -183,6 +183,7 @@ img { max-width: 100%; display: block; }
   color: var(--text);
   line-height: 1.2;
   margin-bottom: 0.25rem;
+  text-align: center;
 }
 
 .profile-name-en {
@@ -192,6 +193,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   margin-bottom: 0.9rem;
+  text-align: center;
 }
 
 .profile-bio {
