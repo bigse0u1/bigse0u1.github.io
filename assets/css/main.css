@@ -201,12 +201,14 @@ img { max-width: 100%; display: block; }
   color: var(--text-soft);
   line-height: 1.7;
   margin-bottom: 1.2rem;
+  text-align: center;
 }
 
 .profile-links {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  align-items: center;
 }
 
 .profile-link {
@@ -229,7 +231,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* ─── Right col: sections ─── */
-.home-right { min-width: 0; padding-left: 1.5rem; }
+.home-right { min-width: 0; padding-left: 3rem; }
 
 .section {
   margin-bottom: 3rem;
