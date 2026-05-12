@@ -227,7 +227,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* ─── Right col: sections ─── */
-.home-right { min-width: 0; }
+.home-right { min-width: 0; padding-left: 1.5rem; }
 
 .section {
   margin-bottom: 3rem;
@@ -1079,6 +1079,7 @@ img { max-width: 100%; display: block; }
   .profile-photo { width: 130px; height: 130px; }
   .profile-name { font-size: 1.3rem; }
   .profile-links { align-items: center; }
+  .home-right { padding-left: 0; }
 
   /* Study */
   .study-layout { grid-template-columns: 1fr; }
