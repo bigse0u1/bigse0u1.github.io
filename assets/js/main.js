@@ -165,20 +165,11 @@ function renderHome() {
   el.innerHTML = '';
   el.classList.add('fade-in');
 
-  // 1. Education (제일 위)
-  const eduHtml = SITE.education.map(e => `
-    <div class="edu-item">
-      <div class="edu-period">${e.period.replace(/\n/g,'<br>')}</div>
-      <div>
-        <div class="edu-school">${e.school}</div>
-        <div class="edu-degree">${e.degree}</div>
-      </div>
-    </div>`).join('');
-
+  // 1. Research Interests
   el.innerHTML += `
     <div class="section">
-      <div class="section-head"><span class="section-title">Education</span></div>
-      ${eduHtml}
+      <div class="section-head"><span class="section-title">Research Interests</span></div>
+      <div class="interests">${SITE.interests.map(i => `<span class="interest-chip">${i}</span>`).join('')}</div>
     </div>`;
 
   // 2. News — SITE.news에 항목이 있을 때만 표시
@@ -197,7 +188,23 @@ function renderHome() {
       </div>`;
   }
 
-  // 3. Honors & Awards — awards 항목이 있을 때만 표시
+  // 3. Education
+  const eduHtml = SITE.education.map(e => `
+    <div class="edu-item">
+      <div class="edu-period">${e.period.replace(/\n/g,'<br>')}</div>
+      <div>
+        <div class="edu-school">${e.school}</div>
+        <div class="edu-degree">${e.degree}</div>
+      </div>
+    </div>`).join('');
+
+  el.innerHTML += `
+    <div class="section">
+      <div class="section-head"><span class="section-title">Education</span></div>
+      ${eduHtml}
+    </div>`;
+
+  // 4. Honors & Awards — awards 항목이 있을 때만 표시
   if (SITE.awards && SITE.awards.length) {
     const awardsHtml = SITE.awards.map(a => `
       <div class="edu-item">
@@ -217,13 +224,6 @@ function renderHome() {
         ${awardsHtml}
       </div>`;
   }
-
-  // 4. Research Interests
-  el.innerHTML += `
-    <div class="section">
-      <div class="section-head"><span class="section-title">Research Interests</span></div>
-      <div class="interests">${SITE.interests.map(i => `<span class="interest-chip">${i}</span>`).join('')}</div>
-    </div>`;
 
   // 5. Publications — 있을 때만 표시
   if (SITE.publications.length) {
