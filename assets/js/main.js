@@ -60,6 +60,7 @@ let state = {
   detail: null,       // null | { type: 'post'|'project', slug }
   catFilter: '',
   tagFilter: '',
+  searchQuery: '',
   expandedCats: new Set()
 };
 
@@ -70,6 +71,7 @@ function navigate(page, detail = null) {
   if (!detail && page !== state.page) {
     state.catFilter = '';
     state.tagFilter = '';
+    state.searchQuery = '';
   }
   state.page = page;
   state.detail = detail;
@@ -108,6 +110,7 @@ function routeFromHash() {
     state.page = 'home';
     state.catFilter = '';
     state.tagFilter = '';
+    state.searchQuery = '';
   } else if (hash === '#projects') {
     state.page = 'projects';
   } else if (hash.startsWith('#study')) {
@@ -143,6 +146,11 @@ function setCategoryFilter(cat) {
 function render() {
   const pages = document.querySelectorAll('.page');
   pages.forEach(p => p.classList.remove('active'));
+
+  const prog = document.getElementById('scroll-progress');
+  const showProg = !!(state.detail && state.detail.type === 'post');
+  prog.classList.toggle('visible', showProg);
+  if (!showProg) prog.style.width = '0%';
 
   if (state.detail) {
     renderDetail(state.detail);
@@ -312,8 +320,10 @@ function renderProjects() {
 ═══════════════════════════════════════════════ */
 function renderStudy() {
   renderSidebar();
-  renderPostsList();
+  const si = document.getElementById('search-input');
+  if (si) si.value = state.searchQuery;
   renderTagBar();
+  renderPostsList();
   document.getElementById('page-study').classList.add('fade-in');
 }
 
@@ -397,6 +407,12 @@ function renderPostsList() {
   let filtered = POSTS;
   if (state.catFilter) filtered = filtered.filter(p => (p.categories||[]).includes(state.catFilter));
   if (state.tagFilter) filtered = filtered.filter(p => (p.tags||[]).includes(state.tagFilter));
+  if (state.searchQuery) {
+    const q = state.searchQuery.toLowerCase();
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q)
+    );
+  }
 
   if (!filtered.length) {
     el.innerHTML = '<div style="padding:3rem 0;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— 해당하는 글이 없습니다 —</div>';
@@ -477,6 +493,24 @@ async function renderDetail(detail) {
   const backPage = detail.type === 'post' ? 'study' : 'projects';
   const backLabel = detail.type === 'post' ? '← Study 목록' : '← Projects 목록';
 
+  let prevNextHtml = '';
+  if (detail.type === 'post') {
+    const idx = POSTS.findIndex(p => p.slug === detail.slug);
+    const prev = idx < POSTS.length - 1 ? POSTS[idx + 1] : null;
+    const next = idx > 0 ? POSTS[idx - 1] : null;
+    prevNextHtml = `
+      <div class="post-nav">
+        <div>${prev ? `<div class="post-nav-btn" onclick="navigate('study',{type:'post',slug:'${prev.slug}'})">
+          <div class="post-nav-label">← PREV</div>
+          <div class="post-nav-title">${prev.title}</div>
+        </div>` : ''}</div>
+        <div>${next ? `<div class="post-nav-btn next" onclick="navigate('study',{type:'post',slug:'${next.slug}'})">
+          <div class="post-nav-label">NEXT →</div>
+          <div class="post-nav-title">${next.title}</div>
+        </div>` : ''}</div>
+      </div>`;
+  }
+
   el.innerHTML = `
     <div class="detail-wrap">
       <div>
@@ -492,8 +526,7 @@ async function renderDetail(detail) {
           ${tagsHtml}
         </header>
         <div class="detail-body">${bodyHtml}</div>
-        <nav style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border)">
-        </nav>
+        ${prevNextHtml}
       </div>
       <aside class="toc-panel">
         <div class="toc-label">Contents</div>
@@ -620,8 +653,20 @@ async function init() {
 
   // Load data then render based on current hash
   await loadData();
-  window.addEventListener('popstate', routeFromHash);
 
+  document.getElementById('search-input').addEventListener('input', e => {
+    state.searchQuery = e.target.value;
+    renderPostsList();
+  });
+
+  window.addEventListener('scroll', () => {
+    const prog = document.getElementById('scroll-progress');
+    if (!prog.classList.contains('visible')) return;
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    prog.style.width = Math.min(pct, 100) + '%';
+  });
+
+  window.addEventListener('popstate', routeFromHash);
   routeFromHash();
 }
 

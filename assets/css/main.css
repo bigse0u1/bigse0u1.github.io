@@ -686,6 +686,28 @@ img { max-width: 100%; display: block; }
   color: var(--text-mute);
 }
 
+/* Search bar */
+.search-wrap {
+  padding: 0.7rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--ink);
+}
+
+.search-input {
+  width: 100%;
+  background: var(--ink-panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  padding: 0.45rem 0.9rem;
+  outline: none;
+  transition: border-color 150ms;
+}
+
+.search-input:focus { border-color: var(--vermillion); }
+.search-input::placeholder { color: var(--text-mute); }
+
 /* Tag filter bar */
 .tag-bar {
   padding: 0.8rem 1.2rem;
@@ -1015,6 +1037,48 @@ img { max-width: 100%; display: block; }
   color: var(--text-soft);
 }
 
+/* Prev / Next navigation */
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.post-nav-btn {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  background: var(--ink-soft);
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+.post-nav-btn:hover {
+  border-color: var(--vermillion);
+  background: var(--vglow);
+}
+
+.post-nav-btn.next { text-align: right; }
+
+.post-nav-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
+}
+
+.post-nav-title {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  line-height: 1.4;
+  transition: color 150ms;
+}
+
+.post-nav-btn:hover .post-nav-title { color: var(--text); }
+
 /* TOC */
 .toc-panel {
   position: sticky;
@@ -1087,6 +1151,20 @@ img { max-width: 100%; display: block; }
 .highlight .na, .highlight .nb, .highlight .nf { color: #7eb8f0; }
 .highlight .nc { color: #7ec8a4; }
 .highlight .nt { color: #b83228; }
+
+/* ─── Scroll progress bar ─── */
+.scroll-progress {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--vermillion);
+  z-index: 199;
+  transition: width 80ms linear;
+  display: none;
+}
+.scroll-progress.visible { display: block; }
 
 /* ═══════════════════════════════════════════════
    ANIMATIONS
