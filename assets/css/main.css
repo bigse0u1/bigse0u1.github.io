@@ -1053,6 +1053,10 @@ img { max-width: 100%; display: block; }
   background: var(--ink-soft);
   cursor: pointer;
   transition: all 150ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
 }
 
 .post-nav-btn:hover {
@@ -1060,14 +1064,14 @@ img { max-width: 100%; display: block; }
   background: var(--vglow);
 }
 
-.post-nav-btn.next { text-align: right; }
+.post-nav-btn.next { flex-direction: row-reverse; }
 
 .post-nav-label {
   font-family: var(--mono);
   font-size: 0.6rem;
   color: var(--text-mute);
   letter-spacing: 0.1em;
-  margin-bottom: 0.3rem;
+  flex-shrink: 0;
 }
 
 .post-nav-title {
