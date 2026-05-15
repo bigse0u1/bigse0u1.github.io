@@ -526,6 +526,7 @@ async function renderDetail(detail) {
           ${tagsHtml}
         </header>
         <div class="detail-body">${bodyHtml}</div>
+        ${detail.type === 'post' ? '<div class="giscus-wrap"></div>' : ''}
         ${prevNextHtml}
       </div>
       <aside class="toc-panel">
@@ -535,11 +536,31 @@ async function renderDetail(detail) {
     </div>`;
 
   buildTOC();
-  // Syntax highlight
   if (typeof hljs !== 'undefined') {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
   addCopyButtons(el);
+
+  if (detail.type === 'post') {
+    const wrap = el.querySelector('.giscus-wrap');
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.setAttribute('data-repo', 'bigse0u1/bigse0u1.github.io');
+    s.setAttribute('data-repo-id', 'R_kgDOSEgXfA');
+    s.setAttribute('data-category', 'Announcements');
+    s.setAttribute('data-category-id', 'DIC_kwDOSEgXfM4C9Igl');
+    s.setAttribute('data-mapping', 'specific');
+    s.setAttribute('data-term', item.title);
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'bottom');
+    s.setAttribute('data-theme', 'dark');
+    s.setAttribute('data-lang', 'ko');
+    s.crossOrigin = 'anonymous';
+    s.async = true;
+    wrap.appendChild(s);
+  }
 }
 
 function addCopyButtons(container) {
