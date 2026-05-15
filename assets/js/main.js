@@ -506,7 +506,38 @@ async function renderDetail(detail) {
   if (typeof hljs !== 'undefined') {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
+  addCopyButtons(el);
+}
 
+function addCopyButtons(container) {
+  container.querySelectorAll('.detail-body pre').forEach(pre => {
+    const wrap = document.createElement('div');
+    wrap.className = 'code-wrap';
+
+    const header = document.createElement('div');
+    header.className = 'code-header';
+    header.innerHTML = `
+      <div class="code-dots">
+        <span class="code-dot"></span>
+        <span class="code-dot"></span>
+        <span class="code-dot"></span>
+      </div>
+      <button class="code-copy-btn">copy</button>`;
+
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(header);
+    wrap.appendChild(pre);
+
+    header.querySelector('.code-copy-btn').addEventListener('click', () => {
+      const text = (pre.querySelector('code') || pre).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = header.querySelector('.code-copy-btn');
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+      });
+    });
+  });
 }
 
 /* ═══════════════════════════════════════════════
