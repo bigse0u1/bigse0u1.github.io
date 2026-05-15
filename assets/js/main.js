@@ -649,6 +649,15 @@ async function loadData() {
    INIT
 ═══════════════════════════════════════════════ */
 async function init() {
+  // Restore hash if returning from giscus OAuth redirect
+  if (location.search.includes('giscus=')) {
+    const saved = sessionStorage.getItem('giscus_return_hash');
+    if (saved) {
+      sessionStorage.removeItem('giscus_return_hash');
+      history.replaceState(null, '', location.pathname + location.search + saved);
+    }
+  }
+
   // Profile left col
   const left = document.getElementById('home-left');
   left.innerHTML = `
@@ -678,6 +687,13 @@ async function init() {
   document.getElementById('search-input').addEventListener('input', e => {
     state.searchQuery = e.target.value;
     renderPostsList();
+  });
+
+  // Save hash before OAuth redirect (giscus)
+  window.addEventListener('beforeunload', () => {
+    if (location.hash && location.hash !== '#') {
+      sessionStorage.setItem('giscus_return_hash', location.hash);
+    }
   });
 
   window.addEventListener('scroll', () => {
