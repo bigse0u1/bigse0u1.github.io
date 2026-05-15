@@ -649,7 +649,7 @@ img { max-width: 100%; display: block; }
 .sb-link {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0.32rem 1rem;
   font-size: 0.78rem;
   color: var(--text-soft);
@@ -670,6 +670,7 @@ img { max-width: 100%; display: block; }
   font-family: var(--mono);
   font-size: 0.6rem;
   color: var(--text-mute);
+  margin-left: auto;
 }
 
 .sb-arrow {
