@@ -49,7 +49,18 @@ let PROJECTS = [];
 ═══════════════════════════════════════════════ */
 const md = (text) => {
   if (typeof marked === 'undefined') return text;
-  return marked.parse(text);
+
+  // Protect math from marked.js before parsing
+  const stored = [];
+  const store = m => { stored.push(m); return `QQMATH${stored.length - 1}QQ`; };
+  text = text.replace(/\$\$([\s\S]*?)\$\$/g, store);
+  text = text.replace(/\$([^\n$]+?)\$/g, store);
+
+  let html = marked.parse(text);
+
+  // Restore math
+  html = html.replace(/QQMATH(\d+)QQ/g, (_, i) => stored[+i]);
+  return html;
 };
 
 /* ═══════════════════════════════════════════════
@@ -540,6 +551,17 @@ async function renderDetail(detail) {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
   addCopyButtons(el);
+
+  // Render math with KaTeX
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(el.querySelector('.detail-body'), {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$',  right: '$',  display: false }
+      ],
+      throwOnError: false
+    });
+  }
 
   if (detail.type === 'post') {
     const wrap = el.querySelector('.giscus-wrap');
