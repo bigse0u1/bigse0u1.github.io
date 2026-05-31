@@ -81,6 +81,7 @@ def process_posts():
             'date': date,
             'categories': cats,
             'tags': tags,
+            'description': fm.get('description', ''),
             'excerpt': excerpt(content),
             'path': path.replace(os.sep, '/')
         })

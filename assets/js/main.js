@@ -437,7 +437,7 @@ function renderPostsList() {
     row.innerHTML = `
       <div>
         <div class="post-title">${post.title}</div>
-        ${post.excerpt ? `<div class="post-excerpt">${post.excerpt}</div>` : ''}
+        ${post.description ? `<div class="post-excerpt">${post.description}</div>` : ''}
         <div class="post-tags">${(post.tags||[]).map(t=>`<span class="post-tag" onclick="event.stopPropagation();filterTag('${t}')">${t}</span>`).join('')}</div>
       </div>
       <div class="post-date">${post.date}</div>`;
