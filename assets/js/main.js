@@ -89,6 +89,10 @@ function navigate(page, detail = null) {
   updateHash();
   render();
 
+  if (window.goatcounter && window.goatcounter.count) {
+    window.goatcounter.count({ path: location.pathname + location.hash });
+  }
+
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.dataset.page === page);
   });
@@ -668,32 +672,28 @@ async function loadData() {
 }
 
 /* ═══════════════════════════════════════════════
-   VISITOR COUNT
+   VISITOR COUNT — GoatCounter
 ═══════════════════════════════════════════════ */
 async function loadVisitorCount() {
   const el = document.querySelector('.nav-visitor');
   if (!el) return;
 
-  // Today count — localStorage per browser, session-aware
+  const base = 'https://bigse0u1.goatcounter.com/api/v0';
+  const headers = { 'Authorization': 'Bearer pm9ipzzoy95m20ydzeyiol8mvbeukily7doeaazkw6pg5eyj8' };
   const today = new Date().toISOString().slice(0, 10);
-  const raw = JSON.parse(localStorage.getItem('visit_today') || '{"date":"","count":0}');
-  if (raw.date !== today) { raw.date = today; raw.count = 0; }
 
-  const isNew = !sessionStorage.getItem('visited');
-  if (isNew) {
-    raw.count++;
-    sessionStorage.setItem('visited', '1');
-    localStorage.setItem('visit_today', JSON.stringify(raw));
-  }
-
-  // Total count — CounterAPI
   try {
-    const action = isNew ? 'up' : 'get';
-    const res = await fetch(`https://api.counterapi.dev/v1/bigse0u1-blog/visits/${action}`);
-    const data = await res.json();
-    el.textContent = `today ${raw.count}  ·  total ${data.count}`;
+    const [todayRes, totalRes] = await Promise.all([
+      fetch(`${base}/stats/hits?start=${today}&end=${today}&limit=200`, { headers }),
+      fetch(`${base}/stats/hits?start=2020-01-01&end=${today}&limit=200`, { headers })
+    ]);
+    const todayData = await todayRes.json();
+    const totalData = await totalRes.json();
+    const todayCount = (todayData.hits || []).reduce((s, h) => s + h.count, 0);
+    const totalCount = (totalData.hits || []).reduce((s, h) => s + h.count, 0);
+    el.textContent = `today ${todayCount}  ·  total ${totalCount}`;
   } catch {
-    el.textContent = `today ${raw.count}`;
+    el.textContent = '';
   }
 }
 
