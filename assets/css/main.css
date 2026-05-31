@@ -819,14 +819,14 @@ img { max-width: 100%; display: block; }
 /* ═══════════════════════════════════════════════
    POST / PROJECT DETAIL VIEW
 ═══════════════════════════════════════════════ */
-#page-detail {
-  padding-right: calc(180px + 3rem);
-}
-
 .detail-wrap {
-  max-width: 760px;
+  max-width: 1020px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 5rem;
+  padding: 2.5rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 3rem;
+  align-items: start;
 }
 
 .detail-back {
@@ -1112,10 +1112,8 @@ img { max-width: 100%; display: block; }
 
 /* TOC */
 .toc-panel {
-  position: fixed;
-  right: 2rem;
+  position: sticky;
   top: calc(var(--nav-h) + 2rem);
-  width: 180px;
   max-height: calc(100vh - var(--nav-h) - 4rem);
   overflow-y: auto;
   padding: 0.4rem 0.6rem;
@@ -1253,8 +1251,7 @@ img { max-width: 100%; display: block; }
   .study-sidebar { display: none; }
 
   /* Detail */
-  #page-detail { padding-right: 0; }
-  .detail-wrap { padding: 1.8rem 1.4rem 4rem; }
+  .detail-wrap { grid-template-columns: 1fr; padding: 1.8rem 1.4rem 4rem; }
   .toc-panel { display: none; }
 
   /* Publications */
