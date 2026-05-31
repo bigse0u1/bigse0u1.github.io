@@ -15,7 +15,7 @@ const SITE = {
   ],
   // News: 논문 통과, 수상 등 소식. 없으면 섹션 자체가 안 보임.
   news: [
-    { date: '2026.01', text: '<strong>HIRA DATATHON</strong> — 우수상 수상. 주최: 건강보험심사평가원 <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>' }
+    { date: '2026.01', text: '<strong>HIRA DATATHON</strong> — Excellence Award. HIRA (Health Insurance Review & Assessment Service) <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>' }
     // 예시: { date: '2026.03', text: 'Paper <strong>XXX</strong> accepted to <strong>CVPR 2026</strong>.' }
   ],
   // Honors & Awards: 수상 목록
