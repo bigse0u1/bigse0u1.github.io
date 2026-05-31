@@ -820,12 +820,12 @@ img { max-width: 100%; display: block; }
    POST / PROJECT DETAIL VIEW
 ═══════════════════════════════════════════════ */
 .detail-wrap {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2.5rem 3rem 5rem;
   display: grid;
-  grid-template-columns: 1fr 160px;
-  gap: 4rem;
+  grid-template-columns: minmax(0, 700px) 160px;
+  justify-content: space-between;
   align-items: start;
 }
 
