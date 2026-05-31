@@ -12,7 +12,7 @@
       "VLA"
     ],
     "description": "4족보행 로봇을 위한 Vision-Language-Action 모델 리뷰",
-    "excerpt": "논문 정보    QUAR-VLA: Vision-Language-Action Model for Quadruped Robots  Pengxiang Ding, Han Zhao et al. · Westlake University & Zhejiang University  arXiv 2312.14…",
+    "excerpt": "논문 정보    QUAR-VLA: Vision-Language-Action Model for Quadruped Robots    Pengxiang Ding, Han Zhao et al. · Westlake University & Zhejiang University    arXiv 231…",
     "path": "_posts/2026-05-31-Review-2.md"
   },
   {
@@ -29,7 +29,7 @@
       "ActionToken"
     ],
     "description": "VLA Action Tokenization에 대한 survey 논문 리뷰",
-    "excerpt": "논문 정보    Yifan Zhong, Fengshuo Bai et al. · Peking University & PKU-PsiBot Joint Lab    arXiv 2507.01925 · July 2025 --- 이 논문은 최근 빠르게 발전하고 있는 VLA(Vision-Languag…",
+    "excerpt": "논문 정보    A Survey on Vision-Language-Action Models: An Action    Yifan Zhong, Fengshuo Bai et al. · Peking University & PKU-PsiBot Joint Lab     arXiv 2507.0192…",
     "path": "_posts/2026-05-16-Review-1.md"
   },
   {
