@@ -820,13 +820,9 @@ img { max-width: 100%; display: block; }
    POST / PROJECT DETAIL VIEW
 ═══════════════════════════════════════════════ */
 .detail-wrap {
-  max-width: 1200px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 2.5rem 3rem 5rem;
-  display: grid;
-  grid-template-columns: minmax(0, 700px) 160px;
-  justify-content: space-between;
-  align-items: start;
+  padding: 2.5rem 2rem 5rem;
 }
 
 .detail-back {
@@ -1112,12 +1108,12 @@ img { max-width: 100%; display: block; }
 
 /* TOC */
 .toc-panel {
-  position: sticky;
+  position: fixed;
+  right: 2rem;
   top: calc(var(--nav-h) + 2rem);
+  width: 160px;
   max-height: calc(100vh - var(--nav-h) - 4rem);
   overflow-y: auto;
-  padding-left: 1.2rem;
-  border-left: 1px solid var(--border-soft);
 }
 
 .toc-label {
