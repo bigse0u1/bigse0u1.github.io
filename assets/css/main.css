@@ -1116,6 +1116,8 @@ img { max-width: 100%; display: block; }
   top: calc(var(--nav-h) + 2rem);
   max-height: calc(100vh - var(--nav-h) - 4rem);
   overflow-y: auto;
+  padding-left: 1.2rem;
+  border-left: 1px solid var(--border-soft);
 }
 
 .toc-label {
