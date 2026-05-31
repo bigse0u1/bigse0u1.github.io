@@ -276,6 +276,7 @@ function renderHome() {
   // 6. Projects (home preview)
   const projHtml = SITE.projects_home.map(p => `
     <div class="home-proj-item">
+      <div class="edu-period">${p.period}</div>
       <div>
         <div class="home-proj-name">${p.name}</div>
         <div class="home-proj-desc">${p.desc}</div>
@@ -285,7 +286,6 @@ function renderHome() {
           ${p.demo ? `<a href="${p.demo}" target="_blank" class="small-link">Demo</a>` : ''}
         </div>
       </div>
-      <span style="font-family:var(--mono);font-size:0.62rem;color:var(--text-mute);white-space:nowrap">${p.period}</span>
     </div>`).join('');
 
   el.innerHTML += `

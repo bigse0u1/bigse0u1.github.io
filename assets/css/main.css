@@ -472,7 +472,7 @@ img { max-width: 100%; display: block; }
 /* ─── Projects highlight on home ─── */
 .home-proj-item {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 90px 1fr;
   gap: 1rem;
   align-items: start;
   margin-bottom: 1rem;
