@@ -77,8 +77,8 @@
       "Statistics",
       "Data-Analysis"
     ],
-    "description": ">-",
-    "excerpt": "이 포스팅 시리즈는 HIRA 빅데이터 활용 글로벌 인재양성 교육 프로젝트를 준비하며, 「SAS로 하는 기초 데이터 전처리, 핸들링(Data handling)」 및 건강보험심사평가원 자체교재를 바탕으로 학습한 내용을 정리한 글입니다. ---  1. SAS의 기초 SAS(Statistica…",
+    "description": "HIRA 빅데이터 활용 글로벌 인재양성 교육 프로젝트를 준비하며, 「SAS로 하는 기초 데이터 전처리, 핸들링(Data handling)」 및 건강보험심사평가원 자체교재를 바탕으로 학습한 내용을 정리한 글",
+    "excerpt": "1. SAS의 기초 SAS(Statistical Analysis System)는 SAS Institute가 개발한 데이터 관리 및 통계 분석 소프트웨어로, 대용량 데이터 처리와 고급 통계 분석, 리포팅 기능에 특화되어 있습니다. DATA 단계와 PROC 단계로 구성되어 데이터를 조작하고…",
     "path": "_posts/2026-01-26-SAS-1.md"
   }
 ]
