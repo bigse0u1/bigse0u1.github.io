@@ -668,6 +668,36 @@ async function loadData() {
 }
 
 /* ═══════════════════════════════════════════════
+   VISITOR COUNT
+═══════════════════════════════════════════════ */
+async function loadVisitorCount() {
+  const el = document.querySelector('.nav-visitor');
+  if (!el) return;
+
+  // Today count — localStorage per browser, session-aware
+  const today = new Date().toISOString().slice(0, 10);
+  const raw = JSON.parse(localStorage.getItem('visit_today') || '{"date":"","count":0}');
+  if (raw.date !== today) { raw.date = today; raw.count = 0; }
+
+  const isNew = !sessionStorage.getItem('visited');
+  if (isNew) {
+    raw.count++;
+    sessionStorage.setItem('visited', '1');
+    localStorage.setItem('visit_today', JSON.stringify(raw));
+  }
+
+  // Total count — CounterAPI
+  try {
+    const action = isNew ? 'up' : 'get';
+    const res = await fetch(`https://api.counterapi.dev/v1/bigse0u1-blog/visits/${action}`);
+    const data = await res.json();
+    el.textContent = `today ${raw.count}  ·  total ${data.count}`;
+  } catch {
+    el.textContent = `today ${raw.count}`;
+  }
+}
+
+/* ═══════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════ */
 async function init() {
@@ -705,6 +735,7 @@ async function init() {
 
   // Load data then render based on current hash
   await loadData();
+  loadVisitorCount();
 
   document.getElementById('search-input').addEventListener('input', e => {
     state.searchQuery = e.target.value;
