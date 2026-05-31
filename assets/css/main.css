@@ -985,12 +985,32 @@ img { max-width: 100%; display: block; }
 }
 
 .detail-body blockquote {
+  position: relative;
+  margin: 1.8rem 0;
+  padding: 1.2rem 1.4rem 1.2rem 1.8rem;
+  background: var(--ink-panel);
+  border: 1px solid var(--border);
   border-left: 3px solid var(--gold);
-  padding: 0.7rem 1.2rem;
-  margin: 1.5rem 0;
-  background: var(--gold-soft);
   color: var(--text-soft);
-  font-style: italic;
+  font-style: normal;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.detail-body blockquote::before {
+  content: '"';
+  position: absolute;
+  top: -0.1rem;
+  left: 0.9rem;
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  color: var(--gold);
+  opacity: 0.4;
+  line-height: 1;
+}
+
+.detail-body blockquote p {
+  margin: 0;
 }
 
 .detail-body ul, .detail-body ol {
