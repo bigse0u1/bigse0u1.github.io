@@ -820,12 +820,12 @@ img { max-width: 100%; display: block; }
    POST / PROJECT DETAIL VIEW
 ═══════════════════════════════════════════════ */
 .detail-wrap {
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 2.5rem 3rem 5rem;
   display: grid;
   grid-template-columns: 1fr 160px;
-  gap: 1.5rem;
+  gap: 4rem;
   align-items: start;
 }
 
@@ -923,7 +923,7 @@ img { max-width: 100%; display: block; }
 }
 
 .code-wrap {
-  margin: 1.5rem 0;
+  margin: 1.5rem 0.6rem;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -1033,9 +1033,9 @@ img { max-width: 100%; display: block; }
 }
 
 .detail-body table {
-  width: 100%;
+  width: calc(100% - 1.2rem);
   border-collapse: collapse;
-  margin: 1.5rem 0;
+  margin: 1.5rem 0.6rem;
   font-size: 0.84rem;
 }
 
