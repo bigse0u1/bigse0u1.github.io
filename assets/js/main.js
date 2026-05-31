@@ -10,8 +10,8 @@ const SITE = {
   github: 'bigse0u1',
   interests: ['Robotics', 'VLA','SLAM', 'Computer Vision'],
   education: [
-    { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software' },
-    { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)' }
+    { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
+    { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)', logo: 'assets/img/logo/Changwon.svg' }
   ],
   // News: 논문 통과, 수상 등 소식. 없으면 섹션 자체가 안 보임.
   news: [
@@ -216,7 +216,10 @@ function renderHome() {
     <div class="edu-item">
       <div class="edu-period">${e.period.replace(/\n/g,'<br>')}</div>
       <div>
-        <div class="edu-school">${e.school}</div>
+        <div class="edu-school">
+          ${e.logo ? `<img src="${e.logo}" class="edu-logo" alt="${e.school}">` : ''}
+          ${e.school}
+        </div>
         <div class="edu-degree">${e.degree}</div>
       </div>
     </div>`).join('');
