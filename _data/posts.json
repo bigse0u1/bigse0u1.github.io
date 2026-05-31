@@ -2,7 +2,7 @@
   {
     "slug": "Review-2",
     "title": "[Review] QUAR-VLA: Vision-Language-Action Model for Quadruped Robots",
-    "date": "2026-05-31",
+    "date": "2026-05-31 14:28:00",
     "categories": [
       "Research",
       "Paper Review"
@@ -28,7 +28,7 @@
       "VLA",
       "ActionToken"
     ],
-    "description": ">-",
+    "description": "VLA Action Tokenization에 대한 survey 논문 리뷰",
     "excerpt": "이 포스팅은 A Survey on Vision-Language-Action Models: An Action Tokenization Perspective을 읽고 작성한 글입니다.  A Survey on Vision-Language-Action Models  An Action Tokeniz…",
     "path": "_posts/2026-05-16-Review-1.md"
   },
