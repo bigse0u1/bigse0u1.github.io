@@ -11,7 +11,7 @@
       "Quadruped Robot",
       "VLA"
     ],
-    "excerpt": "QUAR-VLA: Vision-Language-Action Model for Quadruped Robots  1. 논문 한 줄 요약 QUAR-VLA는 4족보행 로봇이 카메라로 본 시각 정보와 사람의 언어 명령을 함께 이해하여, 실제 로봇이 수행할 수 있는 행동 명령을 생성하는 Visio…",
+    "excerpt": "1. 논문 한 줄 요약 QUAR-VLA는 4족보행 로봇이 카메라로 본 시각 정보와 사람의 언어 명령을 함께 이해하여, 실제 로봇이 수행할 수 있는 행동 명령을 생성하는 Vision-Language-Action 모델이다. 기존 4족보행 로봇 연구는 주로 시각 정보만 사용하거나, 언어 명령…",
     "path": "_posts/2026-05-31-Review-2.md"
   },
   {
