@@ -447,18 +447,19 @@ img { max-width: 100%; display: block; }
   font-weight: 500;
   color: var(--text);
   margin-bottom: 0.15rem;
+}
+
+.edu-body {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
 }
 
 .edu-logo {
-  height: 18px;
+  height: 40px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
-  filter: brightness(0) invert(1);
-  opacity: 0.85;
 }
 
 .edu-degree {

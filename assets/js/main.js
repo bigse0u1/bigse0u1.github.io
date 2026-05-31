@@ -215,12 +215,12 @@ function renderHome() {
   const eduHtml = SITE.education.map(e => `
     <div class="edu-item">
       <div class="edu-period">${e.period.replace(/\n/g,'<br>')}</div>
-      <div>
-        <div class="edu-school">
-          ${e.logo ? `<img src="${e.logo}" class="edu-logo" alt="${e.school}">` : ''}
-          ${e.school}
+      <div class="edu-body">
+        ${e.logo ? `<img src="${e.logo}" class="edu-logo" alt="${e.school}">` : ''}
+        <div>
+          <div class="edu-school">${e.school}</div>
+          <div class="edu-degree">${e.degree}</div>
         </div>
-        <div class="edu-degree">${e.degree}</div>
       </div>
     </div>`).join('');
 
