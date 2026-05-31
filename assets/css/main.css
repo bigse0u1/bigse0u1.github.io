@@ -108,7 +108,7 @@ img { max-width: 100%; display: block; }
 .nav-date {
   font-family: var(--mono);
   font-size: 0.65rem;
-  color: var(--border);
+  color: var(--text-mute);
   letter-spacing: 0.05em;
 }
 
