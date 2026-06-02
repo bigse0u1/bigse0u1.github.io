@@ -206,7 +206,7 @@ function renderHome() {
   el.innerHTML += `
     <div class="section">
       <div class="section-head"><span class="section-title">About</span></div>
-      <p style="font-size:0.88rem;color:var(--text-soft);line-height:1.85;">${SITE.intro}</p>
+      <p style="font-size:0.88rem;color:var(--text-soft);line-height:1.85;padding-left:2.8rem;">${SITE.intro}</p>
     </div>`;
 
   // 2. News — SITE.news에 항목이 있을 때만 표시
