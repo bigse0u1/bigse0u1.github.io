@@ -8,7 +8,7 @@ const SITE = {
   bio: 'Undergraduate Student in <a href="https://sw.yonsei.ac.kr/" target="_blank">Dept of Software</a>,<br>Yonsei University (Mirae).<br>Research interests in Robotics and VLA.',  avatar: 'assets/img/profile_no_bg.png',
   email: 'lee.bigse0u1@gmail.com',
   github: 'bigse0u1',
-  interests: ['Robotics', 'VLA','SLAM', 'Computer Vision'],
+  intro: 'Undergraduate student at Yonsei University (Mirae), majoring in Software. My research interests lie in Robotics and Vision-Language-Action (VLA) models — building intelligent systems that can perceive, reason, and act in the physical world.',
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
     { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)', logo: 'assets/img/logo/Changwon.svg' }
@@ -21,6 +21,17 @@ const SITE = {
   // Honors & Awards: 수상 목록
   awards: [
     { date: '2026.01.30', title: 'HIRA DATATHON — Excellence Award', organizer: 'HIRA (Health Insurance Review & Assessment Service)', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
+  ],
+  experience: [
+    {
+      period: '2025.03 ~',
+      lab: 'Scientific Discovery Lab',
+      labUrl: 'https://sd-lab-page.github.io/',
+      affiliation: 'Yonsei University (Mirae)',
+      role: 'Undergraduate Research Intern',
+      topics: ['VLA', 'Robotics'],
+      advisor: 'Prof. Dong-Hee Shin'
+    }
   ],
   publications: [
     // { title: '', authors: '', venue: '', year: '', image: '', links: { 'paper': '', 'code': '' } }
@@ -188,11 +199,11 @@ function renderHome() {
   el.innerHTML = '';
   el.classList.add('fade-in');
 
-  // 1. Research Interests
+  // 1. About
   el.innerHTML += `
     <div class="section">
-      <div class="section-head"><span class="section-title">Research Interests</span></div>
-      <div class="interests">${SITE.interests.map(i => `<span class="interest-chip">${i}</span>`).join('')}</div>
+      <div class="section-head"><span class="section-title">About</span></div>
+      <p style="font-size:0.88rem;color:var(--text-soft);line-height:1.85;">${SITE.intro}</p>
     </div>`;
 
   // 2. News — SITE.news에 항목이 있을 때만 표시
@@ -230,7 +241,31 @@ function renderHome() {
       ${eduHtml}
     </div>`;
 
-  // 4. Honors & Awards — awards 항목이 있을 때만 표시
+  // 4. Experience
+  if (SITE.experience && SITE.experience.length) {
+    const expHtml = SITE.experience.map(e => `
+      <div class="edu-item">
+        <div class="edu-period">${e.period}</div>
+        <div>
+          <div class="edu-school">
+            <a href="${e.labUrl}" target="_blank" style="color:var(--text);border-bottom:1px solid var(--border-soft);transition:border-color 150ms" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border-soft)'">${e.lab}</a>,&nbsp;${e.affiliation}
+          </div>
+          <div class="edu-degree">${e.role}</div>
+          <div class="edu-degree" style="margin-top:0.3rem;line-height:1.8">
+            • ${e.topics.join(', ')}<br>
+            • Advisor: ${e.advisor}
+          </div>
+        </div>
+      </div>`).join('');
+
+    el.innerHTML += `
+      <div class="section">
+        <div class="section-head"><span class="section-title">Experience</span></div>
+        ${expHtml}
+      </div>`;
+  }
+
+  // 6. Honors & Awards — awards 항목이 있을 때만 표시
   if (SITE.awards && SITE.awards.length) {
     const awardsHtml = SITE.awards.map(a => `
       <div class="edu-item">
