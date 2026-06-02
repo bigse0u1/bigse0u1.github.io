@@ -26,7 +26,7 @@ const SITE = {
   ],
   experience: [
     {
-      period: '2025.03 ~',
+      period: '2026.03 ~',
       lab: 'Scientific Discovery Lab',
       labUrl: 'https://sd-lab-page.github.io/',
       affiliation: 'Yonsei University (Mirae)',
