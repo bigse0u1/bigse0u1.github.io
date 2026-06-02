@@ -758,7 +758,7 @@ async function init() {
     <div class="profile-photo-wrap">
       <img src="${SITE.avatar}" alt="${SITE.author}" class="profile-photo" onerror="this.style.display='none'">
     </div>
-    <h1 class="profile-name">${SITE.authorKo}</h1>
+    <h1 class="profile-name">${SITE.author}</h1>
     <div class="profile-name-en">${SITE.name}</div>
     <div class="profile-links">
       <a href="mailto:${SITE.email}" class="profile-btn">
