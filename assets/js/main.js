@@ -8,7 +8,7 @@ const SITE = {
   bio: 'Undergraduate Student in <a href="https://sw.yonsei.ac.kr/" target="_blank">Dept of Software</a>,<br>Yonsei University (Mirae).<br>Research interests in Robotics and VLA.',  avatar: 'assets/img/profile_no_bg.png',
   email: 'lee.bigse0u1@gmail.com',
   github: 'bigse0u1',
-  intro: 'Undergraduate student at Yonsei University (Mirae), majoring in Software. My research interests lie in Robotics and Vision-Language-Action (VLA) models — building intelligent systems that can perceive, reason, and act in the physical world.',
+  intro: 'Undergraduate student at Yonsei University (Mirae), majoring in Software.<br><br>My research interests lie in Robotics and Vision-Language-Action (VLA) models — building intelligent systems that can perceive, reason, and act in the physical world.',
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
     { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)', logo: 'assets/img/logo/Changwon.svg' }
@@ -251,9 +251,9 @@ function renderHome() {
             <a href="${e.labUrl}" target="_blank" style="color:var(--text);border-bottom:1px solid var(--border-soft);transition:border-color 150ms" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border-soft)'">${e.lab}</a>,&nbsp;${e.affiliation}
           </div>
           <div class="edu-degree">${e.role}</div>
-          <div class="edu-degree" style="margin-top:0.3rem;line-height:1.8">
-            • ${e.topics.join(', ')}<br>
-            • Advisor: ${e.advisor}
+          <div class="edu-degree" style="margin-top:0.3rem">• Advisor: ${e.advisor}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem">
+            ${e.topics.map(t => `<span class="interest-chip">${t}</span>`).join('')}
           </div>
         </div>
       </div>`).join('');
