@@ -44,6 +44,7 @@ const SITE = {
       name: 'FocusMate',
       desc: 'A Real-Time User Attention Evaluation Model Using Integrated Visual Biosignals',
       stack: 'TypeScript · MediaPipe · HTML · CSS',
+      image: 'assets/img/projects/focusmate.png',
       github: 'https://github.com/bigse0u1/FOCUS_MATE',
       demo: 'https://yonsei-focusmate.netlify.app/'
     }
@@ -312,13 +313,16 @@ function renderHome() {
   const projHtml = SITE.projects_home.map(p => `
     <div class="home-proj-item">
       <div class="edu-period">${p.period}</div>
-      <div>
-        <div class="home-proj-name">${p.name}</div>
-        <div class="home-proj-desc">${p.desc}</div>
-        <div class="home-proj-stack">${p.stack}</div>
-        <div class="home-proj-links">
-          ${p.github ? `<a href="${p.github}" target="_blank" class="small-link">GitHub</a>` : ''}
-          ${p.demo ? `<a href="${p.demo}" target="_blank" class="small-link">Demo</a>` : ''}
+      <div style="display:flex;gap:0.9rem;align-items:flex-start">
+        ${p.image ? `<img src="${p.image}" class="home-proj-thumb" alt="${p.name}">` : ''}
+        <div>
+          <div class="home-proj-name">${p.name}</div>
+          <div class="home-proj-desc">${p.desc}</div>
+          <div class="home-proj-stack">${p.stack}</div>
+          <div class="home-proj-links">
+            ${p.github ? `<a href="${p.github}" target="_blank" class="small-link">GitHub</a>` : ''}
+            ${p.demo ? `<a href="${p.demo}" target="_blank" class="small-link">Demo</a>` : ''}
+          </div>
         </div>
       </div>
     </div>`).join('');

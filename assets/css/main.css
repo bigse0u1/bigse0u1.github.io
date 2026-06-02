@@ -495,6 +495,15 @@ img { max-width: 100%; display: block; }
 }
 .home-proj-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
+.home-proj-thumb {
+  width: 90px;
+  height: 62px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
 .home-proj-name {
   font-size: 0.9rem;
   font-weight: 500;
