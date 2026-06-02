@@ -219,17 +219,31 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 
-.profile-link {
+.profile-btn {
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-soft);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: color 150ms;
+  gap: 0.55rem;
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.75rem;
+  transition: all 150ms;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.profile-link:hover { color: var(--gold); }
+.profile-btn:hover {
+  color: var(--text);
+  border-color: var(--text-soft);
+  background: var(--ink-panel);
+}
+
+.profile-btn-disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
 
 .profile-link-icon {
   width: 14px;
@@ -1269,7 +1283,7 @@ img { max-width: 100%; display: block; }
   .profile-photo-wrap { width: 130px; flex-shrink: 0; }
   .profile-photo { width: 130px; height: 130px; }
   .profile-name { font-size: 1.3rem; }
-  .profile-links { align-items: center; }
+  .profile-links { align-items: center; width: 100%; max-width: 220px; }
   .home-right { padding-left: 0; }
 
   /* Study */

@@ -8,6 +8,8 @@ const SITE = {
   bio: 'Undergraduate Student in <a href="https://sw.yonsei.ac.kr/" target="_blank">Dept of Software</a>,<br>Yonsei University (Mirae).<br>Research interests in Robotics and VLA.',  avatar: 'assets/img/profile_no_bg.png',
   email: 'lee.bigse0u1@gmail.com',
   github: 'bigse0u1',
+  linkedin: 'https://www.linkedin.com/in/taekyeong-lee-70269b364/',
+  scholar: '',
   intro: 'Undergraduate student at Yonsei University (Mirae), majoring in Software.<br><br>My research interests lie in Robotics and Vision-Language-Action (VLA) models — building intelligent systems that can perceive, reason, and act in the physical world.',
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
@@ -252,9 +254,7 @@ function renderHome() {
           </div>
           <div class="edu-degree">${e.role}</div>
           <div class="edu-degree" style="margin-top:0.3rem">• Advisor: ${e.advisor}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem">
-            ${e.topics.map(t => `<span class="interest-chip">${t}</span>`).join('')}
-          </div>
+          <div class="home-proj-stack" style="margin-top:0.4rem">${e.topics.join(' · ')}</div>
         </div>
       </div>`).join('');
 
@@ -756,13 +756,18 @@ async function init() {
     </div>
     <h1 class="profile-name">${SITE.authorKo}</h1>
     <div class="profile-name-en">${SITE.name}</div>
-    <p class="profile-bio">${SITE.bio}</p>
     <div class="profile-links">
-      <a href="mailto:${SITE.email}" class="profile-link">
-        <span class="profile-link-icon">✉</span>${SITE.email}
+      <a href="mailto:${SITE.email}" class="profile-btn">
+        <span class="profile-link-icon">✉</span>Email
       </a>
-      <a href="https://github.com/${SITE.github}" target="_blank" class="profile-link">
-        <span class="profile-link-icon">⌥</span>github/${SITE.github}
+      <a href="https://github.com/${SITE.github}" target="_blank" class="profile-btn">
+        <span class="profile-link-icon">⌥</span>GitHub
+      </a>
+      <a href="${SITE.linkedin}" target="_blank" class="profile-btn">
+        <span class="profile-link-icon">in</span>LinkedIn
+      </a>
+      <a class="profile-btn ${SITE.scholar ? '' : 'profile-btn-disabled'}" ${SITE.scholar ? `href="${SITE.scholar}" target="_blank"` : ''}>
+        <span class="profile-link-icon">𝒢</span>Google Scholar
       </a>
     </div>`;
 
