@@ -373,7 +373,10 @@ function renderProjects() {
       ${p.image ? `<img src="${p.image}" alt="${p.title}" class="proj-card-img">` : '<div class="proj-card-placeholder">◈</div>'}
       <div class="proj-card-body">
         <div class="proj-card-tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="proj-card-tag">${t}</span>`).join('')}</div>
-        <div class="proj-card-title">${p.title}</div>
+        <div class="proj-card-title">
+          ${p.title}
+          ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
+        </div>
         <div class="proj-card-desc">${p.description||''}</div>
       </div>`;
     el.appendChild(card);

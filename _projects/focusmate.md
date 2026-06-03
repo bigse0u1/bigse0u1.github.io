@@ -4,6 +4,7 @@ date: 2025-09-01
 description: "A Real-Time User Attention Evaluation Model Using Integrated Visual Biosignals"
 image: "assets/img/projects/focusmate.png"
 stack: "TypeScript · MediaPipe · HTML · CSS"
+status: "done"
 tags: [Computer Vision, TypeScript, MediaPipe, Web]
 github: "https://github.com/bigse0u1/FOCUS_MATE"
 demo: "https://yonsei-focusmate.netlify.app/"
