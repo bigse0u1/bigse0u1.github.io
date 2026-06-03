@@ -510,6 +510,28 @@ img { max-width: 100%; display: block; }
   font-weight: 500;
   color: var(--text);
   margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.proj-status {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  padding: 0.1rem 0.4rem;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.proj-status-ongoing {
+  color: #28c840;
+  border: 1px solid #28c840;
+  background: rgba(40, 200, 64, 0.08);
+}
+
+.proj-status-done {
+  color: var(--text-mute);
+  border: 1px solid var(--border);
 }
 
 .home-proj-desc {

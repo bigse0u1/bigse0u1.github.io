@@ -42,6 +42,7 @@ const SITE = {
     {
       period: '2025.09 – 2025.12',
       name: 'FocusMate',
+      status: 'done',
       desc: 'A Real-Time User Attention Evaluation Model Using Integrated Visual Biosignals',
       stack: 'TypeScript · MediaPipe · HTML · CSS',
       image: 'assets/img/projects/focusmate.png',
@@ -316,7 +317,14 @@ function renderHome() {
       <div style="display:flex;gap:0.9rem;align-items:flex-start">
         ${p.image ? `<img src="${p.image}" class="home-proj-thumb" alt="${p.name}">` : ''}
         <div>
-          <div class="home-proj-name">${p.name}</div>
+          <div class="home-proj-name">
+            ${p.name}
+            ${p.status === 'ongoing'
+              ? '<span class="proj-status proj-status-ongoing">In Progress</span>'
+              : p.status === 'done'
+              ? '<span class="proj-status proj-status-done">Done</span>'
+              : ''}
+          </div>
           <div class="home-proj-desc">${p.desc}</div>
           <div class="home-proj-stack">${p.stack}</div>
           <div class="home-proj-links">
