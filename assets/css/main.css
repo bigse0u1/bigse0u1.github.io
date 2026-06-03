@@ -136,6 +136,7 @@ img { max-width: 100%; display: block; }
 .home-wrap {
   max-width: 1280px;
   margin: 0 auto 0 max(1rem, 3vw);
+
   padding: 3.5rem 2rem 5rem 2rem;
   display: grid;
   grid-template-columns: var(--left-w) 1fr;
@@ -1264,6 +1265,10 @@ img { max-width: 100%; display: block; }
 ::-webkit-scrollbar-track { background: var(--ink); }
 ::-webkit-scrollbar-thumb { background: var(--border); }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-mute); }
+
+@media (min-width: 1280px) {
+  .home-wrap { margin: 0 auto; }
+}
 
 /* ═══════════════════════════════════════════════
    RESPONSIVE
