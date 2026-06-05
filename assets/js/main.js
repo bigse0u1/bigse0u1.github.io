@@ -40,6 +40,16 @@ const SITE = {
   ],
   projects_home: [
     {
+      period: '2026.06 – ',
+      name: 'Vesalius Ai',
+      status: 'ongoing',
+      desc: 'A Vision-Language-Action Based Surgical Assistant Robot',
+      stack: 'Robotics · VLA · Python · ROS 2 · VLA · Computer Vision',
+      image: 'assets/img/projects/Vesalius_ai.png',
+      github: '',
+      demo: ''
+    },
+    {
       period: '2025.09 – 2025.12',
       name: 'FocusMate',
       status: 'done',
