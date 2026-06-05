@@ -604,7 +604,7 @@ async function renderDetail(detail) {
           ${tagsHtml}
         </header>
         <div class="detail-body">${bodyHtml}</div>
-        ${detail.type === 'post' ? '<div class="giscus-wrap"></div>' : ''}
+        <div class="giscus-wrap"></div>
         ${prevNextHtml}
       </div>
       <aside class="toc-panel">
@@ -630,7 +630,7 @@ async function renderDetail(detail) {
     });
   }
 
-  if (detail.type === 'post') {
+  {
     const wrap = el.querySelector('.giscus-wrap');
     const s = document.createElement('script');
     s.src = 'https://giscus.app/client.js';
