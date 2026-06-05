@@ -1032,12 +1032,15 @@ img { max-width: 100%; display: block; }
 
 .code-lang {
   font-family: var(--mono);
-  font-size: 0.62rem;
-  color: var(--text-mute);
-  letter-spacing: 0.08em;
-  flex: 1;
-  text-align: center;
+  font-size: 0.58rem;
+  color: var(--text-soft);
+  letter-spacing: 0.06em;
+  border: 1px solid var(--border);
+  padding: 0.08rem 0.45rem;
+  margin-left: 0.6rem;
 }
+
+.code-lang:empty { display: none; }
 
 .code-copy-btn {
   background: none;

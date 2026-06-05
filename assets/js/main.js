@@ -664,12 +664,14 @@ function addCopyButtons(container) {
     const header = document.createElement('div');
     header.className = 'code-header';
     header.innerHTML = `
-      <div class="code-dots">
-        <span class="code-dot"></span>
-        <span class="code-dot"></span>
-        <span class="code-dot"></span>
+      <div style="display:flex;align-items:center">
+        <div class="code-dots">
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+        </div>
+        <span class="code-lang">${lang}</span>
       </div>
-      <span class="code-lang">${lang}</span>
       <button class="code-copy-btn">copy</button>`;
 
     pre.parentNode.insertBefore(wrap, pre);
