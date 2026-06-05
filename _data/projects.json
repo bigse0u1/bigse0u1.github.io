@@ -1,5 +1,24 @@
 [
   {
+    "slug": "vesalius_ai",
+    "title": "Vesalius Ai",
+    "date": "2026-06-05",
+    "description": "A Vision-Language-Action Based Surgical Assistant Robot",
+    "image": "assets/img/projects/Vesalius_ai.png",
+    "stack": "Robotics · VLA · Python · ROS 2 · VLA · Computer Vision",
+    "status": "ongoing",
+    "github": "",
+    "demo": "",
+    "tags": [
+      "Robotics",
+      "VLA",
+      "Medical Robot",
+      "Computer Vision",
+      "ROS 2"
+    ],
+    "path": "_projects/vesalius_ai.md"
+  },
+  {
     "slug": "focusmate",
     "title": "FocusMate",
     "date": "2025-09-01",
