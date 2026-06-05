@@ -1030,6 +1030,15 @@ img { max-width: 100%; display: block; }
 .code-dot:nth-child(2) { background: #ffbd2e; }
 .code-dot:nth-child(3) { background: #28c840; }
 
+.code-lang {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text-mute);
+  letter-spacing: 0.08em;
+  flex: 1;
+  text-align: center;
+}
+
 .code-copy-btn {
   background: none;
   border: 1px solid var(--border);

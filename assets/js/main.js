@@ -657,6 +657,10 @@ function addCopyButtons(container) {
     const wrap = document.createElement('div');
     wrap.className = 'code-wrap';
 
+    const codeEl = pre.querySelector('code');
+    const langClass = codeEl ? [...codeEl.classList].find(c => c.startsWith('language-')) : null;
+    const lang = langClass ? langClass.replace('language-', '') : '';
+
     const header = document.createElement('div');
     header.className = 'code-header';
     header.innerHTML = `
@@ -665,6 +669,7 @@ function addCopyButtons(container) {
         <span class="code-dot"></span>
         <span class="code-dot"></span>
       </div>
+      <span class="code-lang">${lang}</span>
       <button class="code-copy-btn">copy</button>`;
 
     pre.parentNode.insertBefore(wrap, pre);
