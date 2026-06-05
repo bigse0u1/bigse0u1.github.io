@@ -43,7 +43,7 @@ const SITE = {
       period: '2026.06 – ',
       name: 'Vesalius Ai',
       status: 'ongoing',
-      desc: 'A Vision-Language-Action Based Surgical Assistant Robot',
+      desc: 'A Vision-Language-Action Based Surgical Assistant Robot for Context-Aware Surgical Support',
       stack: 'Robotics · VLA · Python · ROS 2 · VLA · Computer Vision',
       image: 'assets/img/projects/Vesalius_ai.png',
       github: '',
