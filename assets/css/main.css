@@ -28,7 +28,7 @@
 
 /* ═══ RESET ═══ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 15px; scroll-behavior: smooth; overflow-x: hidden; }
+html { font-size: 15px; scroll-behavior: smooth; }
 body {
   background: var(--ink);
   color: var(--text);
@@ -36,7 +36,6 @@ body {
   font-weight: 300;
   line-height: 1.75;
   min-height: 100vh;
-  overflow-x: hidden;
 }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
@@ -1351,8 +1350,14 @@ img { max-width: 100%; display: block; }
   .study-sidebar { display: none; }
 
   /* Detail */
-  .detail-wrap { grid-template-columns: 1fr; padding: 1.8rem 1.4rem 4rem; }
-  .detail-wrap > div:first-child { max-width: 100%; margin: 0; }
+  .detail-wrap {
+    grid-template-columns: 1fr;
+    padding: 1.8rem 1.2rem 4rem;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+  .detail-wrap > div:first-child { max-width: 100%; margin: 0; min-width: 0; }
+  .detail-body { word-break: break-word; overflow-wrap: break-word; }
   .toc-panel { display: none; }
 
   /* Publications */
@@ -1388,6 +1393,9 @@ img { max-width: 100%; display: block; }
 
   /* Detail title */
   .detail-title { font-size: 1.35rem; }
+
+  /* Detail padding on very small screens */
+  .detail-wrap { padding: 1.4rem 1rem 4rem; }
 
   /* Posts padding */
   .posts-list { padding: 0.5rem 1rem 3rem; }
