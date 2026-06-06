@@ -1322,6 +1322,7 @@ img { max-width: 100%; display: block; }
   /* Nav */
   .nav { padding: 0 1rem; }
   .nav-date { display: none; }
+  .nav-visitor { display: none; }
   .nav-brand { margin-right: 1.2rem; }
 
   /* Home */
