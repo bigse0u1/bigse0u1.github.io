@@ -488,7 +488,10 @@ function renderPostsList() {
   if (state.searchQuery) {
     const q = state.searchQuery.toLowerCase();
     filtered = filtered.filter(p =>
-      p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q)
+      p.title.toLowerCase().includes(q) ||
+      (p.description||'').toLowerCase().includes(q) ||
+      (p.excerpt||'').toLowerCase().includes(q) ||
+      (p.tags||[]).some(t => t.toLowerCase().includes(q))
     );
   }
 
