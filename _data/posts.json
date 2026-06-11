@@ -10,7 +10,7 @@
     "tags": [
       "VLA",
       "VLN",
-      "Quadruped Robot",
+      "Legged Robot",
       "Navigation"
     ],
     "description": "언어 명령을 실제 보행 행동으로 바꾸는 보행 로봇용 내비게이션 VLA 모델 리뷰",
