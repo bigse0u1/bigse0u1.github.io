@@ -1,5 +1,20 @@
 [
   {
+    "slug": "Review-3",
+    "title": "[Review] NaVILA: Legged Robot Vision-Language-Action Model for Navigation",
+    "date": "2026-06-12 01:32",
+    "categories": [],
+    "tags": [
+      "VLA",
+      "VLN",
+      "Quadruped Robot",
+      "Navigation"
+    ],
+    "description": "",
+    "excerpt": "논문 정보    NaVILA: Legged Robot Vision-Language-Action Model for Navigation    UC San Diego · USC · NVIDIA   arXiv:2412.04453 · RSS 2025  0. 논문 한 줄 요약  사람이 말로 내린 …",
+    "path": "_posts/2026-06-12-Review-3.md"
+  },
+  {
     "slug": "Review-2",
     "title": "[Review] QUAR-VLA: Vision-Language-Action Model for Quadruped Robots",
     "date": "2026-05-31 14:28:00",
