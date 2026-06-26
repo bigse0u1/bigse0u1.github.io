@@ -753,7 +753,7 @@ async function loadVisitorCount() {
 
   const base = 'https://bigse0u1.goatcounter.com/api/v0';
   const headers = { 'Authorization': 'Bearer pm9ipzzoy95m20ydzeyiol8mvbeukily7doeaazkw6pg5eyj8' };
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Date(Date.now() + 9*60*60*1000).toISOString().slice(0, 10);
 
   try {
     const [todayRes, totalRes] = await Promise.all([
