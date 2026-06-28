@@ -524,27 +524,11 @@ function filterTag(tag) {
 /* ═══════════════════════════════════════════════
    GRAPH VIEW
 ═══════════════════════════════════════════════ */
-let graphCollapsed = false;
-
 function renderGraph() {
   const section = document.getElementById('graph-section');
   const container = document.getElementById('graph-view');
   const body = document.getElementById('graph-body');
-  const toggleBtn = document.getElementById('graph-toggle-btn');
   if (!section || !container || !body || !window.d3 || !POSTS.length) return;
-
-  // Toggle button
-  toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
-  body.classList.toggle('collapsed', graphCollapsed);
-  toggleBtn.onclick = () => {
-    graphCollapsed = !graphCollapsed;
-    body.style.transition = 'height 350ms ease';
-    body.classList.toggle('collapsed', graphCollapsed);
-    toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
-    if (!graphCollapsed) { container.innerHTML = ''; renderGraph(); }
-  };
-
-  if (graphCollapsed) return;
 
   container.innerHTML = '';
 
