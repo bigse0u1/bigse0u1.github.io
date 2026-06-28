@@ -538,6 +538,7 @@ function renderGraph() {
   body.classList.toggle('collapsed', graphCollapsed);
   toggleBtn.onclick = () => {
     graphCollapsed = !graphCollapsed;
+    body.style.transition = 'height 350ms ease';
     body.classList.toggle('collapsed', graphCollapsed);
     toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
     if (!graphCollapsed) { container.innerHTML = ''; renderGraph(); }
@@ -591,10 +592,11 @@ function renderGraph() {
     links.push({ source: p.slug, target: `t::${t}` });
   }));
 
-  // SVG
+  // SVG — height 100% so it fills the resizable container
   const svg = d3.select(container).append('svg')
-    .attr('width', '100%').attr('height', H)
-    .attr('viewBox', `0 0 ${W} ${H}`);
+    .attr('width', '100%').attr('height', '100%')
+    .attr('viewBox', `0 0 ${W} ${H}`)
+    .attr('preserveAspectRatio', 'xMidYMid meet');
 
   // Glow filter
   const defs = svg.append('defs');
@@ -670,6 +672,36 @@ function renderGraph() {
     .style('font-size', '7.5px')
     .style('fill', 'rgba(255,255,255,0.35)')
     .style('pointer-events', 'none');
+
+  // Resize handle (added once to graph-section)
+  if (section && !section.querySelector('.graph-resize-handle')) {
+    const handle = document.createElement('div');
+    handle.className = 'graph-resize-handle';
+    section.appendChild(handle);
+
+    let startY = 0, startH = 0;
+    handle.addEventListener('mousedown', e => {
+      startY = e.clientY;
+      startH = body.clientHeight;
+      e.preventDefault();
+      document.body.style.cursor = 'ns-resize';
+      document.body.style.userSelect = 'none';
+
+      const onMove = ev => {
+        const newH = Math.max(150, Math.min(750, startH + (ev.clientY - startY)));
+        body.style.transition = 'none';
+        body.style.height = newH + 'px';
+      };
+      const onUp = () => {
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      };
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  }
 
   // Tooltip
   const tip = d3.select(container).append('div').attr('class', 'graph-tip');
