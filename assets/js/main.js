@@ -635,7 +635,7 @@ function renderGraph() {
     resetBtn.textContent = '⟳';
     resetBtn.title = '줌 초기화';
     resetBtn.onclick = () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity);
-    header.insertBefore(resetBtn, header.querySelector('.graph-toggle-btn'));
+    header.appendChild(resetBtn);
   }
 
   // Links
