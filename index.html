@@ -12,6 +12,9 @@
   <!-- Markdown parser -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+  <!-- D3.js for graph view -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+
   <!-- Syntax highlight -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -99,6 +102,15 @@
     <div class="study-main">
       <div class="search-wrap">
         <input class="search-input" id="search-input" type="text" placeholder="포스트 검색...">
+      </div>
+      <div class="graph-section" id="graph-section">
+        <div class="graph-header">
+          <span class="graph-label">⬡ Graph</span>
+          <button class="graph-toggle-btn" id="graph-toggle-btn">접기</button>
+        </div>
+        <div class="graph-body" id="graph-body">
+          <div class="graph-view" id="graph-view"></div>
+        </div>
       </div>
       <div class="tag-bar" id="tag-bar">
         <!-- Populated by JS -->

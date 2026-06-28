@@ -400,6 +400,7 @@ function renderStudy() {
   renderSidebar();
   const si = document.getElementById('search-input');
   if (si) si.value = state.searchQuery;
+  renderGraph();
   renderTagBar();
   renderPostsList();
   document.getElementById('page-study').classList.add('fade-in');
@@ -518,6 +519,155 @@ function renderPostsList() {
 function filterTag(tag) {
   state.tagFilter = tag;
   renderStudy();
+}
+
+/* ═══════════════════════════════════════════════
+   GRAPH VIEW
+═══════════════════════════════════════════════ */
+let graphCollapsed = false;
+
+function renderGraph() {
+  const section = document.getElementById('graph-section');
+  const container = document.getElementById('graph-view');
+  const body = document.getElementById('graph-body');
+  const toggleBtn = document.getElementById('graph-toggle-btn');
+  if (!section || !container || !body || !window.d3 || !POSTS.length) return;
+
+  // Toggle button
+  toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
+  body.classList.toggle('collapsed', graphCollapsed);
+  toggleBtn.onclick = () => {
+    graphCollapsed = !graphCollapsed;
+    body.classList.toggle('collapsed', graphCollapsed);
+    toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
+    if (!graphCollapsed) { container.innerHTML = ''; renderGraph(); }
+  };
+
+  if (graphCollapsed) return;
+
+  container.innerHTML = '';
+
+  const W = container.clientWidth || 680;
+  const H = 300;
+
+  // Category → color
+  const catColors = {
+    'Research': '#e05252',
+    'Study': '#5b8dd9',
+    'Programming': '#3db077',
+  };
+  function postColor(p) {
+    const cats = p.categories || [];
+    for (const c of cats) {
+      for (const key of Object.keys(catColors)) {
+        if (c.includes(key)) return catColors[key];
+      }
+    }
+    return '#c49a3c';
+  }
+
+  // Build nodes + links
+  const postNodes = POSTS.map(p => ({
+    id: p.slug, type: 'post', label: p.title,
+    slug: p.slug, color: postColor(p), r: 8
+  }));
+
+  const tagMap = new Map();
+  POSTS.forEach(p => (p.tags || []).forEach(t => {
+    if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, r: 4 });
+  }));
+
+  const nodes = [...postNodes, ...tagMap.values()];
+  const links = [];
+  POSTS.forEach(p => (p.tags || []).forEach(t => {
+    links.push({ source: p.slug, target: `t::${t}` });
+  }));
+
+  // SVG
+  const svg = d3.select(container).append('svg')
+    .attr('width', '100%').attr('height', H)
+    .attr('viewBox', `0 0 ${W} ${H}`);
+
+  // Glow filter
+  const defs = svg.append('defs');
+  const fil = defs.append('filter').attr('id', 'glow-fx')
+    .attr('x', '-40%').attr('y', '-40%').attr('width', '180%').attr('height', '180%');
+  fil.append('feGaussianBlur').attr('in', 'SourceGraphic').attr('stdDeviation', '4').attr('result', 'blur');
+  const fm = fil.append('feMerge');
+  fm.append('feMergeNode').attr('in', 'blur');
+  fm.append('feMergeNode').attr('in', 'SourceGraphic');
+
+  // Force simulation
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(60).strength(0.5))
+    .force('charge', d3.forceManyBody().strength(-120))
+    .force('center', d3.forceCenter(W / 2, H / 2).strength(0.08))
+    .force('collide', d3.forceCollide(d => d.r + 6));
+
+  // Links
+  const linkEl = svg.append('g').selectAll('line').data(links).join('line')
+    .attr('stroke', 'rgba(255,255,255,0.1)').attr('stroke-width', 1);
+
+  // Nodes
+  const nodeEl = svg.append('g').selectAll('g').data(nodes).join('g')
+    .style('cursor', d => d.type === 'post' ? 'pointer' : 'default')
+    .call(d3.drag()
+      .on('start', (ev, d) => { if (!ev.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag',  (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
+      .on('end',   (ev, d) => { if (!ev.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+  nodeEl.append('circle')
+    .attr('r', d => d.r)
+    .attr('fill', d => d.type === 'post' ? d.color : '#b8903a')
+    .attr('fill-opacity', d => d.type === 'post' ? 0.85 : 0.55)
+    .attr('stroke', d => d.type === 'post' ? d.color : '#d4a84b')
+    .attr('stroke-width', d => d.type === 'post' ? 1.5 : 0.8)
+    .attr('stroke-opacity', 0.6);
+
+  // Tag labels (always visible)
+  nodeEl.filter(d => d.type === 'tag').append('text')
+    .text(d => d.label)
+    .attr('dy', d => d.r + 9)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'var(--mono)')
+    .style('font-size', '7.5px')
+    .style('fill', 'rgba(255,255,255,0.35)')
+    .style('pointer-events', 'none');
+
+  // Tooltip
+  const tip = d3.select(container).append('div').attr('class', 'graph-tip');
+
+  nodeEl.filter(d => d.type === 'post')
+    .on('mouseenter', function(ev, d) {
+      d3.select(this).select('circle').attr('filter', 'url(#glow-fx)').attr('r', d.r + 3);
+      // Highlight connected links
+      linkEl.attr('stroke-opacity', l =>
+        (l.source.id === d.id || l.target.id === d.id) ? 0.8 : 0.1);
+      tip.style('opacity', '1')
+        .style('left', (ev.offsetX + 14) + 'px')
+        .style('top',  (ev.offsetY - 10) + 'px')
+        .text(d.label);
+    })
+    .on('mousemove', ev => {
+      tip.style('left', (ev.offsetX + 14) + 'px').style('top', (ev.offsetY - 10) + 'px');
+    })
+    .on('mouseleave', function(_ev, d) {
+      d3.select(this).select('circle').attr('filter', null).attr('r', d.r);
+      linkEl.attr('stroke-opacity', 1);
+      tip.style('opacity', '0');
+    })
+    .on('click', (_ev, d) => navigate('study', { type: 'post', slug: d.slug }));
+
+  // Tick
+  sim.on('tick', () => {
+    linkEl
+      .attr('x1', d => cx(d.source.x, W)).attr('y1', d => cy(d.source.y, H))
+      .attr('x2', d => cx(d.target.x, W)).attr('y2', d => cy(d.target.y, H));
+    nodeEl.attr('transform', d => `translate(${cx(d.x, W, d.r)},${cy(d.y, H, d.r)})`);
+  });
+
+  function cx(v, max, r = 0) { return Math.max(r + 2, Math.min(max - r - 2, v)); }
+  function cy(v, max, r = 0) { return Math.max(r + 2, Math.min(max - r - 2, v)); }
 }
 
 /* ═══════════════════════════════════════════════
