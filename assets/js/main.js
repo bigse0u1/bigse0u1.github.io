@@ -616,15 +616,18 @@ function renderGraph() {
     .on('zoom', ev => canvas.attr('transform', ev.transform));
   svg.call(zoom).on('dblclick.zoom', null);
 
-  // Reset zoom button (injected into header)
+  // Reset zoom button — always update onclick to reference current svg/zoom
   const header = document.querySelector('.graph-header');
-  if (header && !header.querySelector('.graph-reset-btn')) {
-    const resetBtn = document.createElement('button');
-    resetBtn.className = 'graph-reset-btn';
-    resetBtn.textContent = '⟳';
-    resetBtn.title = '줌 초기화';
+  if (header) {
+    let resetBtn = header.querySelector('.graph-reset-btn');
+    if (!resetBtn) {
+      resetBtn = document.createElement('button');
+      resetBtn.className = 'graph-reset-btn';
+      resetBtn.textContent = '⟳';
+      resetBtn.title = '줌 초기화';
+      header.appendChild(resetBtn);
+    }
     resetBtn.onclick = () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity);
-    header.appendChild(resetBtn);
   }
 
   // Links
