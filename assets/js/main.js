@@ -566,20 +566,25 @@ function renderGraph() {
     return '#c49a3c';
   }
 
+  // Filter posts by active category
+  const activePosts = state.catFilter
+    ? POSTS.filter(p => (p.categories || []).some(c => c === state.catFilter || c.startsWith(state.catFilter)))
+    : POSTS;
+
   // Build nodes + links
-  const postNodes = POSTS.map(p => ({
+  const postNodes = activePosts.map(p => ({
     id: p.slug, type: 'post', label: p.title,
     slug: p.slug, color: postColor(p), r: 8
   }));
 
   const tagMap = new Map();
-  POSTS.forEach(p => (p.tags || []).forEach(t => {
+  activePosts.forEach(p => (p.tags || []).forEach(t => {
     if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, r: 4 });
   }));
 
   const nodes = [...postNodes, ...tagMap.values()];
   const links = [];
-  POSTS.forEach(p => (p.tags || []).forEach(t => {
+  activePosts.forEach(p => (p.tags || []).forEach(t => {
     links.push({ source: p.slug, target: `t::${t}` });
   }));
 
@@ -600,9 +605,18 @@ function renderGraph() {
   // Force simulation
   const sim = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(links).id(d => d.id).distance(60).strength(0.5))
-    .force('charge', d3.forceManyBody().strength(-120))
-    .force('center', d3.forceCenter(W / 2, H / 2).strength(0.08))
-    .force('collide', d3.forceCollide(d => d.r + 6));
+    .force('charge', d3.forceManyBody().strength(-80))
+    .force('center', d3.forceCenter(W / 2, H / 2).strength(0.25))
+    .force('collide', d3.forceCollide(d => d.r + 6))
+    .force('bound', () => {
+      const pad = 24;
+      nodes.forEach(n => {
+        if (n.x < pad)       n.vx += (pad - n.x) * 0.12;
+        if (n.x > W - pad)   n.vx -= (n.x - (W - pad)) * 0.12;
+        if (n.y < pad)       n.vy += (pad - n.y) * 0.12;
+        if (n.y > H - pad)   n.vy -= (n.y - (H - pad)) * 0.12;
+      });
+    });
 
   // Links
   const linkEl = svg.append('g').selectAll('line').data(links).join('line')
