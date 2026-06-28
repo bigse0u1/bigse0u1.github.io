@@ -566,10 +566,13 @@ function renderGraph() {
     return '#c49a3c';
   }
 
-  // Filter posts by active category
-  const activePosts = state.catFilter
+  // Filter posts by active category + tag
+  let activePosts = state.catFilter
     ? POSTS.filter(p => (p.categories || []).some(c => c === state.catFilter || c.startsWith(state.catFilter)))
     : POSTS;
+  if (state.tagFilter) {
+    activePosts = activePosts.filter(p => (p.tags || []).includes(state.tagFilter));
+  }
 
   // Build nodes + links
   const postNodes = activePosts.map(p => ({
