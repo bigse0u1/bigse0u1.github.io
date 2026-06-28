@@ -618,12 +618,32 @@ function renderGraph() {
       });
     });
 
+  // Zoomable canvas group
+  const canvas = svg.append('g').attr('class', 'graph-canvas');
+
+  // Zoom behavior
+  const zoom = d3.zoom()
+    .scaleExtent([0.3, 4])
+    .on('zoom', ev => canvas.attr('transform', ev.transform));
+  svg.call(zoom).on('dblclick.zoom', null);
+
+  // Reset zoom button (injected into header)
+  const header = document.querySelector('.graph-header');
+  if (header && !header.querySelector('.graph-reset-btn')) {
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'graph-reset-btn';
+    resetBtn.textContent = '⟳';
+    resetBtn.title = '줌 초기화';
+    resetBtn.onclick = () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity);
+    header.insertBefore(resetBtn, header.querySelector('.graph-toggle-btn'));
+  }
+
   // Links
-  const linkEl = svg.append('g').selectAll('line').data(links).join('line')
+  const linkEl = canvas.append('g').selectAll('line').data(links).join('line')
     .attr('stroke', 'rgba(255,255,255,0.1)').attr('stroke-width', 1);
 
   // Nodes
-  const nodeEl = svg.append('g').selectAll('g').data(nodes).join('g')
+  const nodeEl = canvas.append('g').selectAll('g').data(nodes).join('g')
     .style('cursor', d => d.type === 'post' ? 'pointer' : 'default')
     .call(d3.drag()
       .on('start', (ev, d) => { if (!ev.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
