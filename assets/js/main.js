@@ -870,13 +870,22 @@ async function renderDetail(detail) {
 
 function addCopyButtons(container) {
   container.querySelectorAll('.detail-body pre').forEach(pre => {
-    const wrap = document.createElement('div');
-    wrap.className = 'code-wrap';
-
     const codeEl = pre.querySelector('code');
     const langClass = codeEl ? [...codeEl.classList].find(c => c.startsWith('language-')) : null;
     const lang = langClass ? langClass.replace('language-', '') : '';
 
+    const wrap = document.createElement('div');
+
+    // 결과 블록: 헤더/버튼 없는 깔끔한 출력 스타일
+    if (lang === '결과') {
+      wrap.className = 'output-wrap';
+      if (codeEl) codeEl.className = '';
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+      return;
+    }
+
+    wrap.className = 'code-wrap';
     const header = document.createElement('div');
     header.className = 'code-header';
     header.innerHTML = `
