@@ -524,12 +524,27 @@ function filterTag(tag) {
 /* ═══════════════════════════════════════════════
    GRAPH VIEW
 ═══════════════════════════════════════════════ */
+let graphCollapsed = false;
+
 function renderGraph() {
   const section = document.getElementById('graph-section');
   const container = document.getElementById('graph-view');
   const body = document.getElementById('graph-body');
+  const toggleBtn = document.getElementById('graph-toggle-btn');
   if (!section || !container || !body || !window.d3 || !POSTS.length) return;
 
+  // Toggle
+  toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
+  body.classList.toggle('collapsed', graphCollapsed);
+  toggleBtn.onclick = () => {
+    graphCollapsed = !graphCollapsed;
+    body.style.transition = 'height 350ms ease';
+    body.classList.toggle('collapsed', graphCollapsed);
+    toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
+    if (!graphCollapsed) { container.innerHTML = ''; renderGraph(); }
+  };
+
+  if (graphCollapsed) return;
   container.innerHTML = '';
 
   const W = container.clientWidth || 680;
@@ -616,17 +631,9 @@ function renderGraph() {
     .on('zoom', ev => canvas.attr('transform', ev.transform));
   svg.call(zoom).on('dblclick.zoom', null);
 
-  // Reset zoom button — always update onclick to reference current svg/zoom
-  const header = document.querySelector('.graph-header');
-  if (header) {
-    let resetBtn = header.querySelector('.graph-reset-btn');
-    if (!resetBtn) {
-      resetBtn = document.createElement('button');
-      resetBtn.className = 'graph-reset-btn';
-      resetBtn.textContent = '⟳';
-      resetBtn.title = '줌 초기화';
-      header.appendChild(resetBtn);
-    }
+  // Reset zoom — always update onclick to reference current svg/zoom
+  const resetBtn = document.getElementById('graph-reset-btn');
+  if (resetBtn) {
     resetBtn.onclick = () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity);
   }
 
