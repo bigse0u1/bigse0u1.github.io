@@ -50,6 +50,16 @@ const SITE = {
       demo: ''
     },
     {
+      period: '2026.05 – ',
+      name: 'K_LLM',
+      status: 'ongoing',
+      desc: 'Based on KIOM terminology and prescription data, we constructed a Korean Medicine knowledge graph and analyzed changes in question-answering performance across Korean and global LLMs.',
+      stack: 'Python · RAG · GraphRAG',
+      image: 'assets/img/projects/k_llm.png',
+      github: '',
+      demo: ''
+    },
+    {
       period: '2025.09 – 2025.12',
       name: 'FocusMate',
       status: 'done',
