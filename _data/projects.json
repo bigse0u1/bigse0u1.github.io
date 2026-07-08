@@ -19,26 +19,6 @@
     "path": "_projects/vesalius_ai.md"
   },
   {
-    "slug": "k_llm",
-    "title": "k_llm",
-    "date": "2026-05-15",
-    "description": "Based on KIOM terminology and prescription data, we constructed a Korean Medicine knowledge graph and analyzed changes in question-answering performance across Korean and global LLMs.",
-    "image": "assets/img/projects/k_llm.png",
-    "stack": "Python · RAG · GraphRAG",
-    "status": "ongoing",
-    "github": "",
-    "demo": "",
-    "tags": [
-      "Python",
-      "LLM",
-      "RAG",
-      "GraphRAG",
-      "Korean Medicine",
-      "Medical AI"
-    ],
-    "path": "_projects/k_llm.md"
-  },
-  {
     "slug": "focusmate",
     "title": "FocusMate",
     "date": "2025-09-01",
@@ -55,5 +35,25 @@
       "Web"
     ],
     "path": "_projects/focusmate.md"
+  },
+  {
+    "slug": "KTM-LLM",
+    "title": "KTM-LLM",
+    "date": "2026-05-15",
+    "description": "Based on KIOM terminology and prescription data, we constructed a Korean Medicine knowledge graph and analyzed changes in question-answering performance across Korean and global LLMs.",
+    "image": "assets/img/projects/KTM-LLM.png",
+    "stack": "Python · RAG · GraphRAG",
+    "status": "ongoing",
+    "github": "",
+    "demo": "",
+    "tags": [
+      "Python",
+      "LLM",
+      "RAG",
+      "GraphRAG",
+      "Korean Medicine",
+      "Medical AI"
+    ],
+    "path": "_projects/KTM-LLM.md"
   }
 ]

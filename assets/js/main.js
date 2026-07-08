@@ -51,11 +51,11 @@ const SITE = {
     },
     {
       period: '2026.05 – ',
-      name: 'K_LLM',
+      name: 'KTM-LLM',
       status: 'ongoing',
-      desc: 'Based on KIOM terminology and prescription data, we constructed a Korean Medicine knowledge graph and analyzed changes in question-answering performance across Korean and global LLMs.',
+      desc: 'Built a Korean Medicine knowledge graph and evaluated Korean/global LLMs for QA.',
       stack: 'Python · RAG · GraphRAG',
-      image: 'assets/img/projects/k_llm.png',
+      image: 'assets/img/projects/KTM-LLM.png',
       github: '',
       demo: ''
     },
