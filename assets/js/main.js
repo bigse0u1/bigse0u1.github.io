@@ -385,7 +385,14 @@ function renderProjects() {
   el.style.background = '';
   el.style.border = '';
 
-  PROJECTS.forEach(p => {
+  const sorted = [...PROJECTS].sort((a, b) => {
+    const aOngoing = a.status === 'ongoing' ? 0 : 1;
+    const bOngoing = b.status === 'ongoing' ? 0 : 1;
+    if (aOngoing !== bOngoing) return aOngoing - bOngoing;
+    return (b.date || '').localeCompare(a.date || '');
+  });
+
+  sorted.forEach(p => {
     const card = document.createElement('div');
     card.className = 'proj-card';
     card.onclick = () => navigate('projects', { type: 'project', slug: p.slug });
