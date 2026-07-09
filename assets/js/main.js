@@ -46,7 +46,7 @@ const SITE = {
       desc: 'A Vision-Language-Action Based Surgical Assistant Robot for Context-Aware Surgical Support',
       stack: 'Robotics · VLA · Python · ROS 2 · VLA · Computer Vision',
       image: 'assets/img/projects/Vesalius_ai.png',
-      github: '',
+      github: 'https://github.com/bigse0u1/Vesalius-Ai',
       demo: ''
     },
     {
@@ -54,7 +54,7 @@ const SITE = {
       name: 'KTM-LLM',
       status: 'ongoing',
       desc: 'Built a Korean Medicine knowledge graph and evaluated Korean/global LLMs for QA.',
-      stack: 'Python · RAG · GraphRAG',
+      stack: 'LLM · RAG · GraphRAG',
       image: 'assets/img/projects/KTM-LLM.png',
       github: '',
       demo: ''
