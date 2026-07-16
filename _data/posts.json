@@ -2,7 +2,7 @@
   {
     "slug": "Python-2",
     "title": "[Python] 3. Console Input/Output and Lists",
-    "date": "2026-07-07 02:30",
+    "date": "2026-07-15 03:01",
     "categories": [
       "Study",
       "Programming Languages"
@@ -11,7 +11,7 @@
       "Python",
       "List"
     ],
-    "description": "파이썬 기본 문법 정리",
+    "description": "파이썬 기본 문법 정리: 입출력과 리스트",
     "excerpt": "AI의 성능이 날이 갈수록 발전하면서 코드를 작성할 때 AI에 의존하는 일이 점점 많아졌다. 그러다 보니 어느 순간 파이썬의 기본 문법조차 조금씩 헷갈리는 경우가 생겼다. 그래서 이번 기회에 파이썬 기초를 다시 차근차근 정리하며 제대로 다져보려고 한다.  1. 화면 입출력  input(…",
     "path": "_posts/2026-07-15-Python-2.md"
   },
@@ -28,7 +28,7 @@
       "Variable",
       "Data Type"
     ],
-    "description": "파이썬 기본 문법 정리",
+    "description": "파이썬 기본 문법 정리: 변수와 자료형",
     "excerpt": "AI의 성능이 날이 갈수록 발전하면서 코드를 작성할 때 AI에 의존하는 일이 점점 많아졌다. 그러다 보니 어느 순간 파이썬의 기본 문법조차 조금씩 헷갈리는 경우가 생겼다. 그래서 이번 기회에 파이썬 기초를 다시 차근차근 정리하며 제대로 다져보려고 한다.  1. 메모리 공간 컴퓨터는 0과…",
     "path": "_posts/2026-07-07-Python-1.md"
   },
@@ -53,7 +53,7 @@
   {
     "slug": "Review-2",
     "title": "[Review] QUAR-VLA: Vision-Language-Action Model for Quadruped Robots",
-    "date": "2026-05-31 14:28:00",
+    "date": "2026-05-31 14:28",
     "categories": [
       "Research",
       "Paper Review"
@@ -69,7 +69,7 @@
   {
     "slug": "Review-1",
     "title": "[Review] A Survey on Vision-Language-Action Models: An Action Tokenization Perspective",
-    "date": "2026-05-16 02:18:00",
+    "date": "2026-05-16 02:18",
     "categories": [
       "Research",
       "Paper Review"
@@ -86,7 +86,7 @@
   {
     "slug": "C-6",
     "title": "[C] 6. Array_배열",
-    "date": "2026-02-13 01:33:00",
+    "date": "2026-02-13 01:33",
     "categories": [
       "Study",
       "Programming Languages"
@@ -102,7 +102,7 @@
   {
     "slug": "Markdown-1",
     "title": "[Markdown] 1. 기본 문법",
-    "date": "2026-02-04 21:00:00",
+    "date": "2026-02-04 21:00",
     "categories": [
       "Study",
       "Programming Languages"
@@ -118,7 +118,7 @@
   {
     "slug": "SAS-1",
     "title": "[SAS] 1. SAS의 기초",
-    "date": "2026-01-25 12:00:00",
+    "date": "2026-01-25 12:00",
     "categories": [
       "Study",
       "Programming Languages"
