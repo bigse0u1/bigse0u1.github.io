@@ -5,7 +5,8 @@
     "date": "2026-07-15 03:01",
     "categories": [
       "Study",
-      "Programming Languages"
+      "Programming Languages",
+      "Python"
     ],
     "tags": [
       "Python",
@@ -21,7 +22,8 @@
     "date": "2026-07-07 02:30",
     "categories": [
       "Study",
-      "Programming Languages"
+      "Programming Languages",
+      "Python"
     ],
     "tags": [
       "Python",
@@ -38,13 +40,15 @@
     "date": "2026-06-12 01:32",
     "categories": [
       "Research",
-      "Paper Review"
+      "Paper Review",
+      "Robotics"
     ],
     "tags": [
       "VLA",
       "VLN",
       "Legged Robot",
-      "Navigation"
+      "Navigation",
+      "Robotics"
     ],
     "description": "언어 명령을 실제 보행 행동으로 바꾸는 보행 로봇용 내비게이션 VLA 모델 리뷰",
     "excerpt": "논문 정보    NaVILA: Legged Robot Vision-Language-Action Model for Navigation    UC San Diego · USC · NVIDIA   arXiv:2412.04453 · RSS 2025  0. 논문 한 줄 요약  사람이 말로 내린 …",
@@ -56,11 +60,13 @@
     "date": "2026-05-31 14:28",
     "categories": [
       "Research",
-      "Paper Review"
+      "Paper Review",
+      "Robotics"
     ],
     "tags": [
       "Quadruped Robot",
-      "VLA"
+      "VLA",
+      "Robotics"
     ],
     "description": "4족보행 로봇을 위한 Vision-Language-Action 모델 리뷰",
     "excerpt": "논문 정보    QUAR-VLA: Vision-Language-Action Model for Quadruped Robots    Pengxiang Ding, Han Zhao et al. · Westlake University & Zhejiang University    arXiv 231…",
@@ -72,7 +78,8 @@
     "date": "2026-05-16 02:18",
     "categories": [
       "Research",
-      "Paper Review"
+      "Paper Review",
+      "Robotics"
     ],
     "tags": [
       "Survey Papers",
@@ -89,7 +96,8 @@
     "date": "2026-02-13 01:33",
     "categories": [
       "Study",
-      "Programming Languages"
+      "Programming Languages",
+      "C"
     ],
     "tags": [
       "C",
@@ -105,7 +113,8 @@
     "date": "2026-02-04 21:00",
     "categories": [
       "Study",
-      "Programming Languages"
+      "Programming Languages",
+      "Markdown"
     ],
     "tags": [
       "Markup language",
@@ -121,7 +130,8 @@
     "date": "2026-01-25 12:00",
     "categories": [
       "Study",
-      "Programming Languages"
+      "Programming Languages",
+      "SAS"
     ],
     "tags": [
       "SAS",

@@ -434,41 +434,64 @@ function renderSidebar() {
   allEl.onclick = () => setCategoryFilter('');
   nav.appendChild(allEl);
 
-  // Build parent → sub hierarchy (categories[0] = parent, categories[1] = sub)
+  // Build parent → sub → subsub hierarchy
+  // (categories[0] = parent, categories[1] = sub, categories[2] = subsub)
   const tree = {};
   POSTS.forEach(p => {
-    const [parent, sub] = p.categories || [];
+    const [parent, sub, subsub] = p.categories || [];
     if (!parent) return;
     if (!tree[parent]) tree[parent] = { count: 0, subs: {} };
     tree[parent].count++;
-    if (sub) tree[parent].subs[sub] = (tree[parent].subs[sub] || 0) + 1;
+    if (sub) {
+      if (!tree[parent].subs[sub]) tree[parent].subs[sub] = { count: 0, subsubs: {} };
+      tree[parent].subs[sub].count++;
+      if (subsub) {
+        tree[parent].subs[sub].subsubs[subsub] = (tree[parent].subs[sub].subsubs[subsub] || 0) + 1;
+      }
+    }
   });
 
+  // Level 1 (parent) and level 2 (sub) are always visible;
+  // level 3 (subsub) reveals only once its parent sub is clicked.
   Object.entries(tree).sort().forEach(([parent, data]) => {
     const hasSubs = Object.keys(data.subs).length > 0;
-    const isExpanded = state.expandedCats.has(parent);
 
     const parentEl = document.createElement('div');
     parentEl.className = 'sb-link' + (state.catFilter === parent ? ' active' : '');
-    parentEl.innerHTML = `${hasSubs ? `<span class="sb-arrow">${isExpanded ? '▾' : '▸'}</span>` : ''}${parent} <span class="sb-cnt">${data.count}</span>`;
-    parentEl.onclick = () => {
-      if (hasSubs) {
-        if (state.expandedCats.has(parent)) state.expandedCats.delete(parent);
-        else state.expandedCats.add(parent);
-      }
-      setCategoryFilter(parent);
-    };
+    parentEl.innerHTML = `${parent} <span class="sb-cnt">${data.count}</span>`;
+    parentEl.onclick = () => setCategoryFilter(parent);
     nav.appendChild(parentEl);
 
-    if (hasSubs && isExpanded) {
-      Object.entries(data.subs).sort().forEach(([sub, cnt]) => {
-        const subEl = document.createElement('div');
-        subEl.className = 'sb-link sb-sub' + (state.catFilter === sub ? ' active' : '');
-        subEl.innerHTML = `ㄴ ${sub} <span class="sb-cnt">${cnt}</span>`;
-        subEl.onclick = (e) => { e.stopPropagation(); setCategoryFilter(sub); };
-        nav.appendChild(subEl);
-      });
-    }
+    if (!hasSubs) return;
+
+    Object.entries(data.subs).sort().forEach(([sub, subData]) => {
+      const hasSubsubs = Object.keys(subData.subsubs).length > 0;
+      const subKey = `${parent}::${sub}`;
+      const isExpanded = state.expandedCats.has(subKey);
+
+      const subEl = document.createElement('div');
+      subEl.className = 'sb-link sb-sub' + (state.catFilter === sub ? ' active' : '');
+      subEl.innerHTML = `${hasSubsubs ? `<span class="sb-arrow">${isExpanded ? '▾' : '▸'}</span>` : ''}ㄴ ${sub} <span class="sb-cnt">${subData.count}</span>`;
+      subEl.onclick = (e) => {
+        e.stopPropagation();
+        if (hasSubsubs) {
+          if (state.expandedCats.has(subKey)) state.expandedCats.delete(subKey);
+          else state.expandedCats.add(subKey);
+        }
+        setCategoryFilter(sub);
+      };
+      nav.appendChild(subEl);
+
+      if (hasSubsubs && isExpanded) {
+        Object.entries(subData.subsubs).sort().forEach(([subsub, cnt]) => {
+          const subsubEl = document.createElement('div');
+          subsubEl.className = 'sb-link sb-subsub' + (state.catFilter === subsub ? ' active' : '');
+          subsubEl.innerHTML = `ㄴ ${subsub} <span class="sb-cnt">${cnt}</span>`;
+          subsubEl.onclick = (e) => { e.stopPropagation(); setCategoryFilter(subsub); };
+          nav.appendChild(subsubEl);
+        });
+      }
+    });
   });
 }
 

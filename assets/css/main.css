@@ -762,6 +762,12 @@ img { max-width: 100%; display: block; }
   color: var(--text-mute);
 }
 
+.sb-subsub {
+  padding-left: 2.1rem;
+  font-size: 0.7rem;
+  color: var(--text-mute);
+}
+
 /* Search bar */
 .search-wrap {
   padding: 0.7rem 1.2rem;
