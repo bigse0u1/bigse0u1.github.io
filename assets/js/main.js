@@ -17,11 +17,13 @@ const SITE = {
   ],
   // News: 논문 통과, 수상 등 소식. 없으면 섹션 자체가 안 보임.
   news: [
+    { date: '2026.08', text: '<strong>Academic Excellence Scholarship</strong>. Yonsei University' },
     { date: '2026.01', text: '<strong>HIRA DATATHON</strong> — Excellence Award. HIRA (Health Insurance Review & Assessment Service) <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>' }
     // 예시: { date: '2026.03', text: 'Paper <strong>XXX</strong> accepted to <strong>CVPR 2026</strong>.' }
   ],
   // Honors & Awards: 수상 목록
   awards: [
+    { date: '2026.08.21', title: 'Academic Excellence Scholarship', organizer: 'Yonsei University' },
     { date: '2026.01.30', title: 'HIRA DATATHON — Excellence Award', organizer: 'HIRA (Health Insurance Review & Assessment Service)', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
   ],
   experience: [
