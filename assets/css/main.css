@@ -1227,6 +1227,52 @@ img { max-width: 100%; display: block; }
   overflow-x: auto;
 }
 
+.detail-body .chart-wrap {
+  position: relative;
+  height: 340px;
+  margin: 1.8rem 0;
+  padding: 1.2rem;
+  background: var(--ink-panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.detail-body .chart-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.detail-body .chart-error {
+  margin: 1.8rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--vglow);
+  border: 1px solid var(--vermillion);
+  border-radius: 4px;
+  color: var(--vermillion);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.detail-body .yt-embed {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 */
+  margin: 1.8rem 0;
+  background: var(--ink-panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.detail-body .yt-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .detail-body blockquote {
   position: relative;
   margin: 1.8rem 0;

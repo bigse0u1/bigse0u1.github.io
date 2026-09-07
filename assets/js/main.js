@@ -887,6 +887,43 @@ async function renderDetail(detail) {
     }
   }
 
+  // Data charts — turn ```chart fenced JSON blocks (Chart.js config) into canvas charts
+  if (typeof Chart !== 'undefined') {
+    el.querySelectorAll('.detail-body pre code.language-chart').forEach(code => {
+      const wrap = document.createElement('div');
+      wrap.className = 'chart-wrap';
+      try {
+        const config = JSON.parse(code.textContent);
+        const canvas = document.createElement('canvas');
+        wrap.appendChild(canvas);
+        code.parentElement.replaceWith(wrap);
+        new Chart(canvas, config);
+      } catch (err) {
+        wrap.className = 'chart-error';
+        wrap.textContent = `차트 설정(JSON) 오류: ${err.message}`;
+        code.parentElement.replaceWith(wrap);
+        console.error('Chart render failed:', err);
+      }
+    });
+  }
+
+  // YouTube embeds — turn ```youtube fenced blocks (video ID or URL) into a responsive iframe
+  el.querySelectorAll('.detail-body pre code.language-youtube').forEach(code => {
+    const raw = code.textContent.trim();
+    const idMatch = raw.match(/^[\w-]{11}$/)
+      ? raw
+      : (raw.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/) || [])[1];
+    const wrap = document.createElement('div');
+    if (idMatch) {
+      wrap.className = 'yt-embed';
+      wrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${idMatch}" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>`;
+    } else {
+      wrap.className = 'chart-error';
+      wrap.textContent = `YouTube 링크를 인식할 수 없습니다: ${raw}`;
+    }
+    code.parentElement.replaceWith(wrap);
+  });
+
   if (typeof hljs !== 'undefined') {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
@@ -1071,6 +1108,14 @@ async function init() {
         fontFamily: "'JetBrains Mono', 'Courier New', monospace"
       }
     });
+  }
+
+  // Chart.js — dark theme matching the site palette
+  if (typeof Chart !== 'undefined') {
+    Chart.defaults.color = '#9898aa';
+    Chart.defaults.borderColor = '#252530';
+    Chart.defaults.font.family = "'JetBrains Mono', 'Courier New', monospace";
+    Chart.defaults.plugins.legend.labels.color = '#e4e4ee';
   }
 
   // Restore hash if returning from giscus OAuth redirect
