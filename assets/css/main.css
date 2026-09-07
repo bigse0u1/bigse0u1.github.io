@@ -1216,6 +1216,17 @@ img { max-width: 100%; display: block; }
   font-family: var(--mono);
 }
 
+.detail-body .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.8rem 0;
+  padding: 1.2rem;
+  background: var(--ink-panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
 .detail-body blockquote {
   position: relative;
   margin: 1.8rem 0;

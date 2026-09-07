@@ -872,6 +872,21 @@ async function renderDetail(detail) {
     </div>`;
 
   buildTOC();
+
+  // Mermaid diagrams — turn ```mermaid fenced blocks into rendered SVG
+  if (typeof mermaid !== 'undefined') {
+    el.querySelectorAll('.detail-body pre code.language-mermaid').forEach(code => {
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      code.parentElement.replaceWith(div);
+    });
+    const mermaidEls = el.querySelectorAll('.detail-body .mermaid');
+    if (mermaidEls.length) {
+      mermaid.run({ nodes: mermaidEls }).catch(err => console.error('Mermaid render failed:', err));
+    }
+  }
+
   if (typeof hljs !== 'undefined') {
     el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   }
@@ -1038,6 +1053,26 @@ async function loadVisitorCount() {
    INIT
 ═══════════════════════════════════════════════ */
 async function init() {
+  // Mermaid diagrams — dark theme matching the site palette
+  if (typeof mermaid !== 'undefined') {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#18181c',
+        primaryColor: '#1e1e24',
+        primaryTextColor: '#e4e4ee',
+        primaryBorderColor: '#b83228',
+        lineColor: '#5a5a6a',
+        secondaryColor: '#131316',
+        tertiaryColor: '#131316',
+        textColor: '#e4e4ee',
+        fontFamily: "'JetBrains Mono', 'Courier New', monospace"
+      }
+    });
+  }
+
   // Restore hash if returning from giscus OAuth redirect
   if (location.search.includes('giscus=')) {
     const saved = sessionStorage.getItem('giscus_return_hash');
