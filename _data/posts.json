@@ -6,7 +6,7 @@
     "categories": [
       "Research",
       "Paper Review",
-      "Medical AI"
+      "Robotics"
     ],
     "tags": [
       "Medical AI",
@@ -14,7 +14,7 @@
       "VLA"
     ],
     "description": "SAM 2와 Llama 2를 통합하여 수술실 환경에서 의료진의 음성 명령을 바탕으로 수술 도구를 정밀하게 인식, 파악 및 전달하는 VLA 모델 기반의 로봇 스크럽 간호사 시스템",
-    "excerpt": "논문 정보    GPT-4 can pass the Korean National Licensing Examination for Korean Medicine Doctors    IEEE/RSJ International Conference on Intelligent Robots and Sys…",
+    "excerpt": "논문 정보    RoboNurse-VLA: Robotic Scrub Nurse System based on Vision-Language-Action Model    IEEE/RSJ International Conference on Intelligent Robots and Systems(…",
     "path": "_posts/2026-09-23-Review-5.md"
   },
   {
