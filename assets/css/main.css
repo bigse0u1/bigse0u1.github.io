@@ -1575,6 +1575,20 @@ img { max-width: 100%; display: block; }
   .study-sidebar { display: none; }
   .graph-section { display: none; }
 
+  /* Tag bar — horizontal scroll strip instead of wrapping into a thick block */
+  .tag-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tag-bar::-webkit-scrollbar { display: none; }
+  .tag-label, .tag-btn { flex-shrink: 0; white-space: nowrap; }
+
+  /* Projects — one card per row on phones */
+  .proj-grid { grid-template-columns: 1fr; }
+  .proj-card { aspect-ratio: 16/9; }
+
   /* Detail */
   .detail-wrap {
     grid-template-columns: 1fr;
