@@ -394,21 +394,40 @@ function renderProjects() {
     return (b.date || '').localeCompare(a.date || '');
   });
 
+  // Group by year (newest year first; each year keeps the ongoing-first/date-desc order above)
+  const byYear = new Map();
   sorted.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'proj-card';
-    card.onclick = () => navigate('projects', { type: 'project', slug: p.slug });
-    card.innerHTML = `
-      ${p.image ? `<img src="${p.image}" alt="${p.title}" class="proj-card-img">` : '<div class="proj-card-placeholder">◈</div>'}
-      <div class="proj-card-body">
-        <div class="proj-card-tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="proj-card-tag">${t}</span>`).join('')}</div>
-        <div class="proj-card-title">
-          ${p.title}
-          ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
-        </div>
-        <div class="proj-card-desc">${p.description||''}</div>
-      </div>`;
-    el.appendChild(card);
+    const year = (p.date || '').slice(0, 4) || 'Unknown';
+    if (!byYear.has(year)) byYear.set(year, []);
+    byYear.get(year).push(p);
+  });
+
+  [...byYear.keys()].sort((a, b) => b.localeCompare(a)).forEach(year => {
+    const section = document.createElement('div');
+    section.className = 'proj-year-section';
+    section.innerHTML = `<div class="proj-year-heading">${year}</div>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'proj-grid';
+    byYear.get(year).forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'proj-card';
+      card.onclick = () => navigate('projects', { type: 'project', slug: p.slug });
+      card.innerHTML = `
+        ${p.image ? `<img src="${p.image}" alt="${p.title}" class="proj-card-img">` : '<div class="proj-card-placeholder">◈</div>'}
+        <div class="proj-card-body">
+          <div class="proj-card-tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="proj-card-tag">${t}</span>`).join('')}</div>
+          <div class="proj-card-title">
+            ${p.title}
+            ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
+          </div>
+          <div class="proj-card-desc">${p.description||''}</div>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    el.appendChild(section);
   });
 }
 
