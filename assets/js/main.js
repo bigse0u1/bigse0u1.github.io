@@ -531,10 +531,12 @@ function renderTagBar() {
     : POSTS;
   const tags = {};
   tagPosts.forEach(p => (p.tags||[]).forEach(t => tags[t] = (tags[t]||0)+1));
-  Object.entries(tags).sort().forEach(([tag]) => {
+  Object.entries(tags)
+    .sort(([tagA, countA], [tagB, countB]) => countB - countA || tagA.localeCompare(tagB))
+    .forEach(([tag, count]) => {
     const btn = document.createElement('button');
     btn.className = 'tag-btn' + (state.tagFilter === tag ? ' active' : '');
-    btn.textContent = tag;
+    btn.innerHTML = `${tag} <span class="tag-cnt">${count}</span>`;
     btn.onclick = () => { state.tagFilter = tag; renderStudy(); };
     bar.appendChild(btn);
   });
