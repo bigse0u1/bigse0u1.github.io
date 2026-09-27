@@ -411,7 +411,7 @@ function renderProjects() {
     grid.className = 'proj-grid';
     byYear.get(year).forEach(p => {
       const card = document.createElement('div');
-      card.className = 'proj-card' + (p.image ? '' : ' proj-card-no-image');
+      card.className = 'proj-card';
       card.onclick = () => navigate('projects', { type: 'project', slug: p.slug });
       card.innerHTML = `
         ${p.image ? `<img src="${p.image}" alt="${p.title}" class="proj-card-img">` : ''}
