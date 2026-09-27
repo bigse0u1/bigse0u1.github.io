@@ -723,6 +723,7 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: 200px 1fr;
   min-height: calc(100vh - var(--nav-h));
+  overflow-x: hidden;
 }
 
 .study-sidebar {
@@ -969,7 +970,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* Posts list */
-.study-main { display: flex; flex-direction: column; }
+.study-main { display: flex; flex-direction: column; min-width: 0; overflow-x: hidden; }
 
 .posts-list { padding: 0.5rem 1.5rem 3rem; overflow-x: hidden; }
 
@@ -1020,7 +1021,7 @@ img { max-width: 100%; display: block; }
   overflow-wrap: break-word;
 }
 
-.post-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.post-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; min-width: 0; }
 
 .post-tag {
   font-family: var(--mono);
@@ -1030,6 +1031,8 @@ img { max-width: 100%; display: block; }
   padding: 0.08rem 0.38rem;
   transition: all 150ms;
   cursor: pointer;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 .post-tag:hover {
