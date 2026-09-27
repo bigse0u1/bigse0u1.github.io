@@ -1585,6 +1585,13 @@ img { max-width: 100%; display: block; }
   .tag-bar::-webkit-scrollbar { display: none; }
   .tag-label, .tag-btn { flex-shrink: 0; white-space: nowrap; }
 
+  /* Post list rows — stack date below content instead of a wide side-by-side row */
+  .post-row {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+  .post-date { font-size: 0.62rem; }
+
   /* Projects — one card per row on phones */
   .proj-grid { grid-template-columns: 1fr; }
   .proj-card { aspect-ratio: 16/9; }
