@@ -43,6 +43,16 @@ const SITE = {
   projects_home: [
     {
       period: '2026.06 – ',
+      name: 'AmazingTouch',
+      status: 'ongoing',
+      desc: 'Fingertip tactile sensing for adaptive grasping with Amazing Hand.',
+      stack: 'Robotics · Python · ROS 2',
+      image: 'assets/img/projects/AmazingTouch.png',
+      github: '',
+      demo: ''
+    },
+    {
+      period: '2026.06 – ',
       name: 'Vesalius Ai',
       status: 'ongoing',
       desc: 'A Vision-Language-Action Based Surgical Assistant Robot for Context-Aware Surgical Support',
