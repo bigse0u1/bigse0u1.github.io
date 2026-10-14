@@ -374,6 +374,8 @@ img { max-width: 100%; display: block; }
 .news-text a:hover { border-color: var(--gold); }
 
 /* ─── Publications ─── */
+#papers-list { max-width: 900px; }
+
 .pub-item {
   display: grid;
   grid-template-columns: 120px 1fr;

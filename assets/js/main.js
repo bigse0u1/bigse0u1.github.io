@@ -15,11 +15,11 @@ const SITE = {
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
     { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)', logo: 'assets/img/logo/Changwon.svg' }
   ],
-  // News: 논문 통과, 수상 등 소식. 없으면 섹션 자체가 안 보임.
+  // News: 논문 통과, 수상 등 소식. 문장 형태로 작성. 없으면 섹션 자체가 안 보임.
   news: [
-    { date: '2026.08', text: '<strong>Academic Excellence Scholarship</strong>. Yonsei University' },
-    { date: '2026.01', text: '<strong>HIRA DATATHON</strong> — Excellence Award. HIRA (Health Insurance Review & Assessment Service) <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>' }
-    // 예시: { date: '2026.03', text: 'Paper <strong>XXX</strong> accepted to <strong>CVPR 2026</strong>.' }
+    { date: '2026.08', text: 'Received the <strong>Academic Excellence Scholarship</strong> from Yonsei University.' },
+    { date: '2026.01', text: 'Won the <strong>Excellence Award</strong> at the <strong>HIRA DATATHON</strong>, hosted by the Health Insurance Review & Assessment Service <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>.' }
+    // 예시: { date: '2026.03', text: 'Our paper <strong>XXX</strong> was accepted to <strong>CVPR 2026</strong>.' }
   ],
   // Honors & Awards: 수상 목록
   awards: [
@@ -114,7 +114,7 @@ const md = (text) => {
    STATE
 ═══════════════════════════════════════════════ */
 let state = {
-  page: 'home',       // home | projects | study
+  page: 'home',       // home | projects | papers | study
   detail: null,       // null | { type: 'post'|'project', slug }
   catFilter: '',
   tagFilter: '',
@@ -154,6 +154,7 @@ function updateHash() {
   } else {
     switch (state.page) {
       case 'projects': hash = '#projects'; break;
+      case 'papers': hash = '#papers'; break;
       case 'study':
         hash = '#study';
         if (state.catFilter) hash += '/' + encodeURIComponent(state.catFilter);
@@ -175,6 +176,8 @@ function routeFromHash() {
     state.searchQuery = '';
   } else if (hash === '#projects') {
     state.page = 'projects';
+  } else if (hash === '#papers') {
+    state.page = 'papers';
   } else if (hash.startsWith('#study')) {
     state.page = 'study';
     const rest = hash.slice(6);
@@ -223,6 +226,7 @@ function render() {
   switch (state.page) {
     case 'home':     renderHome();     document.getElementById('page-home').classList.add('active');     break;
     case 'projects': renderProjects(); document.getElementById('page-projects').classList.add('active'); break;
+    case 'papers':   renderPapers();   document.getElementById('page-papers').classList.add('active');   break;
     case 'study':    renderStudy();    document.getElementById('page-study').classList.add('active');    break;
   }
 }
@@ -320,27 +324,7 @@ function renderHome() {
       </div>`;
   }
 
-  // 5. Publications — 있을 때만 표시
-  if (SITE.publications.length) {
-    const pubHtml = SITE.publications.map(p => `
-      <div class="pub-item">
-        <div class="pub-thumb">${p.image ? `<img src="${p.image}" alt="${p.title}">` : '◈'}</div>
-        <div>
-          <div class="pub-title">${p.title}</div>
-          <div class="pub-authors">${p.authors}</div>
-          <div class="pub-venue">${p.venue}, ${p.year}</div>
-          <div class="pub-links">
-            ${Object.entries(p.links || {}).map(([k,v]) => `<a href="${v}" target="_blank" class="pub-link">${k}</a>`).join('')}
-          </div>
-        </div>
-      </div>`).join('');
-
-    el.innerHTML += `
-      <div class="section">
-        <div class="section-head"><span class="section-title">Publications</span></div>
-        ${pubHtml}
-      </div>`;
-  }
+  // Publications now live on their own tab — see renderPapers()
 
   // 6. Projects (home preview)
   const projHtml = SITE.projects_home.map(p => `
@@ -439,6 +423,33 @@ function renderProjects() {
     section.appendChild(grid);
     el.appendChild(section);
   });
+}
+
+/* ═══════════════════════════════════════════════
+   PAPERS
+═══════════════════════════════════════════════ */
+function renderPapers() {
+  const el = document.getElementById('papers-list');
+  el.innerHTML = '';
+  el.closest('.proj-page-wrap').classList.add('fade-in');
+
+  if (!SITE.publications.length) {
+    el.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— No papers yet. Add entries to <code>SITE.publications</code> in <code>main.js</code> —</div>';
+    return;
+  }
+
+  el.innerHTML = SITE.publications.map(p => `
+    <div class="pub-item">
+      <div class="pub-thumb">${p.image ? `<img src="${p.image}" alt="${p.title}">` : '◈'}</div>
+      <div>
+        <div class="pub-title">${p.title}</div>
+        <div class="pub-authors">${p.authors}</div>
+        <div class="pub-venue">${p.venue}, ${p.year}</div>
+        <div class="pub-links">
+          ${Object.entries(p.links || {}).map(([k,v]) => `<a href="${v}" target="_blank" class="pub-link">${k}</a>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
 }
 
 /* ═══════════════════════════════════════════════
