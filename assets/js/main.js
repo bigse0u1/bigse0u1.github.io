@@ -16,10 +16,12 @@ const SITE = {
     { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)', logo: 'assets/img/logo/Changwon.svg' }
   ],
   // News: 논문 통과, 수상 등 소식. 문장 형태로 작성. 없으면 섹션 자체가 안 보임.
+  // badgeType: award(초록) | talk(파랑) | publication(금색) | note(회색, 기본값)
   news: [
-    { date: '2026.08', text: 'Received the <strong>Academic Excellence Scholarship</strong> from Yonsei University.' },
-    { date: '2026.01', text: 'Won the <strong>Excellence Award</strong> at the <strong>HIRA DATATHON</strong>, hosted by the Health Insurance Review & Assessment Service <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>.' }
-    // 예시: { date: '2026.03', text: 'Our paper <strong>XXX</strong> was accepted to <strong>CVPR 2026</strong>.' }
+    { date: '2026.08', icon: '🎖️', text: 'Received the <strong>Academic Excellence Scholarship</strong> from Yonsei University!', badge: 'Award', badgeType: 'award' },
+    { date: '2026.01', icon: '🏆', text: 'Won the <strong>Excellence Award</strong> at the <strong>HIRA DATATHON</strong>, hosted by the Health Insurance Review & Assessment Service <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>!', badge: 'Award', badgeType: 'award' }
+    // 예시: { date: '2026.03', icon: '📝', text: 'Our paper <strong>XXX</strong> was accepted to <strong>CVPR 2026</strong>!', badge: 'Publication', badgeType: 'publication' }
+    // 예시: { date: '2026.03', icon: '🎤', text: 'Presented <strong>XXX</strong> as a poster at <strong>CVPR 2026</strong>!', badge: 'Talk', badgeType: 'talk' }
   ],
   // Honors & Awards: 수상 목록
   awards: [
@@ -250,9 +252,9 @@ function renderHome() {
   if (SITE.news.length) {
     const newsHtml = SITE.news.map(n => `
       <div class="news-item">
-        <div class="news-dot"></div>
-        <div class="news-date">${n.date}</div>
-        <div class="news-text">${n.text}</div>
+        <div class="news-date">📅 ${n.date}</div>
+        <div class="news-text">${n.icon ? n.icon + ' ' : ''}${n.text}</div>
+        ${n.badge ? `<div class="news-badge news-badge-${n.badgeType || 'note'}">${n.badge}</div>` : ''}
       </div>`).join('');
 
     el.innerHTML += `

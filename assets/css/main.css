@@ -309,55 +309,69 @@ img { max-width: 100%; display: block; }
   background: var(--vglow);
 }
 
-/* ─── NEWS / Timeline ─── */
+/* ─── NEWS ─── */
 .news-timeline {
-  position: relative;
-  padding-left: 1.6rem;
-}
-
-.news-timeline::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--vermillion), var(--border));
+  display: flex;
+  flex-direction: column;
 }
 
 .news-item {
-  position: relative;
-  margin-bottom: 1.1rem;
-  padding-left: 1.2rem;
+  display: grid;
+  grid-template-columns: 95px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border-soft);
 }
 
-.news-item:last-child { margin-bottom: 0; }
-
-.news-dot {
-  position: absolute;
-  left: -1.6rem;
-  top: 0.25rem;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--ink);
-  border: 1.5px solid var(--vermillion);
-  transform: translateX(-4.5px);
-  z-index: 1;
-}
+.news-item:last-child { border-bottom: none; padding-bottom: 0; }
+.news-item:first-child { padding-top: 0; }
 
 .news-date {
   font-family: var(--mono);
   font-size: 0.65rem;
-  color: var(--vermillion);
-  letter-spacing: 0.08em;
-  margin-bottom: 0.15rem;
+  color: var(--text-mute);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .news-text {
   font-size: 0.85rem;
   color: var(--text-soft);
   line-height: 1.6;
+}
+
+.news-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  padding: 0.18rem 0.55rem;
+  letter-spacing: 0.04em;
+  border-radius: 2px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.news-badge-award {
+  color: #28c840;
+  border: 1px solid #28c840;
+  background: rgba(40, 200, 64, 0.08);
+}
+
+.news-badge-talk {
+  color: #5b8dd9;
+  border: 1px solid #5b8dd9;
+  background: rgba(91, 141, 217, 0.08);
+}
+
+.news-badge-publication {
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  background: var(--gold-soft);
+}
+
+.news-badge-note {
+  color: var(--text-mute);
+  border: 1px solid var(--border);
 }
 
 .news-text strong {
@@ -1639,6 +1653,13 @@ img { max-width: 100%; display: block; }
     grid-template-columns: 1fr;
     gap: 0.2rem;
   }
+
+  /* News — stack date / text / badge instead of a cramped row */
+  .news-item {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+  .news-badge { justify-self: start; }
 
   /* Home project period — below content */
   .home-proj-item {
