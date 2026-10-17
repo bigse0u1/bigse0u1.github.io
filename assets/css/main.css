@@ -1692,6 +1692,7 @@ img { max-width: 100%; display: block; }
     flex-direction: column;
     gap: 0.35rem;
   }
+  .news-date { flex: 0 0 auto; padding-top: 0; }
   .news-content { flex-basis: auto; }
   .news-side { margin-top: 0.1rem; }
 
