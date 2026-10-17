@@ -1148,9 +1148,13 @@ async function loadVisitorCount() {
 }
 
 /* ═══════════════════════════════════════════════
-   POST TREE — leaves grow with the number of posts
+   KNOWLEDGE TREE — leaves grow as posts / projects / papers are added
 ═══════════════════════════════════════════════ */
-const LEAVES_PER_POST = 4;
+const LEAF_KINDS = {
+  study:   { label: 'Study',    color: '91,141,217',  weight: 4 },
+  project: { label: 'Projects', color: '40,200,64',   weight: 6 },
+  paper:   { label: 'Papers',   color: '196,146,60',  weight: 10 }
+};
 const MAX_LEAVES = 400;
 
 function initTree(canvas) {
@@ -1159,35 +1163,64 @@ function initTree(canvas) {
   const caption = document.getElementById('tree-caption');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let seed = 7;
+  let seed = 11;
   const rand = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
 
   const segs = [];
   const tips = [];
+  const joints = [];
   (function grow(p, d, len, depth) {
     const e = [p[0] + d[0] * len, p[1] + d[1] * len, p[2] + d[2] * len];
     segs.push({ a: p, b: e, depth });
     if (depth <= 2) tips.push(e);
     if (depth === 0) return;
-    const n = depth >= 3 ? 3 : 2;
+    if (depth < 4) joints.push(e);
+    const n = depth === 4 ? 4 : (depth === 3 ? 3 : 2);
     for (let i = 0; i < n; i++) {
-      const yaw = (i / n) * Math.PI * 2 + rand() * 0.9;
-      const tilt = 0.45 + rand() * 0.35;
-      let nd = [d[0] + Math.cos(yaw) * tilt, d[1] * 0.9 + 0.25, d[2] + Math.sin(yaw) * tilt];
+      const yaw = (i / n) * Math.PI * 2 + rand() * 0.8;
+      const tilt = 0.75 + rand() * 0.45;
+      let nd = [d[0] + Math.cos(yaw) * tilt, d[1] * 0.55 + 0.04, d[2] + Math.sin(yaw) * tilt];
       const l = Math.hypot(nd[0], nd[1], nd[2]);
       nd = nd.map(v => v / l);
-      grow(e, nd, len * (0.68 + rand() * 0.08), depth - 1);
+      grow(e, nd, len * (0.7 + rand() * 0.1), depth - 1);
     }
-  })([0, 0, 0], [0, 1, 0], 1.0, 4);
+  })([0, 0, 0], [0, 1, 0], 0.75, 4);
 
   const leafPool = [];
   for (let i = 0; i < MAX_LEAVES; i++) {
     const t = tips[i % tips.length];
     leafPool.push({
-      pos: [t[0] + (rand() - 0.5) * 0.4, t[1] + (rand() - 0.5) * 0.4, t[2] + (rand() - 0.5) * 0.4],
-      gold: rand() < 0.28,
+      pos: [t[0] + (rand() - 0.5) * 0.45, t[1] + (rand() - 0.5) * 0.3, t[2] + (rand() - 0.5) * 0.45],
       size: 0.8 + rand() * 0.5
     });
+  }
+
+  let kinds = [];
+  let kindKey = '';
+  function syncKinds() {
+    const counts = { study: POSTS.length, project: PROJECTS.length, paper: SITE.publications.length };
+    const key = JSON.stringify(counts);
+    if (key === kindKey) return counts;
+    kindKey = key;
+    kinds = [];
+    for (const k of Object.keys(counts)) {
+      for (let i = 0; i < counts[k] * LEAF_KINDS[k].weight; i++) kinds.push(k);
+    }
+    kinds = kinds.slice(0, MAX_LEAVES);
+    let sd = 5;
+    for (let i = kinds.length - 1; i > 0; i--) {
+      sd = (sd * 16807) % 2147483647;
+      const j = sd % (i + 1);
+      [kinds[i], kinds[j]] = [kinds[j], kinds[i]];
+    }
+    if (caption) {
+      caption.innerHTML = `<span class="tree-fig">Fig. 1</span> Growth of research notes` +
+        `<div class="tree-legend">` +
+        Object.keys(LEAF_KINDS).map(k =>
+          `<span><i style="background:rgb(${LEAF_KINDS[k].color})"></i>${LEAF_KINDS[k].label} ${counts[k]}</span>`
+        ).join('') + `</div>`;
+    }
+    return counts;
   }
 
   let w = 0, h = 0;
@@ -1202,48 +1235,54 @@ function initTree(canvas) {
     if (!canvas.isConnected) return;
     if (canvas.offsetParent !== null) {
       if (canvas.clientWidth !== w || canvas.clientHeight !== h) resize();
-      const count = Math.min(MAX_LEAVES, POSTS.length * LEAVES_PER_POST);
-      if (caption) caption.textContent = `${POSTS.length} posts · ${count} leaves`;
+      syncKinds();
 
-      const ang = reduceMotion ? 0.6 : t * 0.00025;
+      const ang = reduceMotion ? 0.6 : t * 0.00007;
       const ca = Math.cos(ang), sa = Math.sin(ang);
-      const D = 7, scale = h / 3.4, cy = 1.45;
+      const D = 7;
+      const scale = Math.min(h / 2.6, w / 3.4);
       const proj = ([x, y, z]) => {
         const rx = x * ca - z * sa, rz = x * sa + z * ca;
         const k = D / (D + rz);
-        return [w / 2 + rx * scale * k, h * 0.92 - (y - 0) * scale * k * 0.98 + (cy - 1.45) * scale, rz, k];
+        return [w / 2 + rx * scale * k, h * 0.9 - y * scale * k, rz, k];
       };
 
       ctx.clearRect(0, 0, w, h);
 
-      ctx.strokeStyle = 'rgba(90,90,106,0.35)';
+      ctx.strokeStyle = 'rgba(90,90,106,0.3)';
       ctx.lineWidth = 1;
+      ctx.setLineDash([2, 4]);
       ctx.beginPath();
-      ctx.ellipse(w / 2, h * 0.92, scale * 0.9, scale * 0.16, 0, 0, Math.PI * 2);
+      ctx.ellipse(w / 2, h * 0.9, scale * 1.3, scale * 0.2, 0, 0, Math.PI * 2);
       ctx.stroke();
+      ctx.setLineDash([]);
 
       ctx.lineCap = 'round';
-      for (const s of segs) {
-        const a = proj(s.a), b = proj(s.b);
-        ctx.strokeStyle = `rgba(152,152,170,${0.35 + (b[3] - 0.8) * 0.5})`;
-        ctx.lineWidth = 0.6 + s.depth * 0.55;
+      for (const sg of segs) {
+        const a = proj(sg.a), b = proj(sg.b);
+        ctx.strokeStyle = `rgba(152,152,170,${0.3 + (b[3] - 0.8) * 0.5})`;
+        ctx.lineWidth = 0.5 + sg.depth * 0.45;
         ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
       }
+      ctx.fillStyle = 'rgba(152,152,170,0.75)';
+      for (const j of joints) {
+        const q = proj(j);
+        ctx.beginPath(); ctx.arc(q[0], q[1], 1.3 * q[3], 0, Math.PI * 2); ctx.fill();
+      }
 
-      const leaves = leafPool.slice(0, count).map(l => ({ l, p: proj(l.pos) })).sort((a, b) => b.p[2] - a.p[2]);
-      for (const { l, p } of leaves) {
-        const r = 3.2 * l.size * p[3] * (h / 260);
-        ctx.fillStyle = l.gold ? `rgba(196,146,60,${0.55 + (p[3] - 0.8)})` : `rgba(184,50,40,${0.55 + (p[3] - 0.8)})`;
-        ctx.beginPath();
-        ctx.moveTo(p[0], p[1] - r * 1.3); ctx.lineTo(p[0] + r, p[1]);
-        ctx.lineTo(p[0], p[1] + r * 1.3); ctx.lineTo(p[0] - r, p[1]);
-        ctx.closePath(); ctx.fill();
+      const leaves = kinds.map((kind, i) => ({ kind, l: leafPool[i], p: proj(leafPool[i].pos) }))
+        .sort((x, y) => y.p[2] - x.p[2]);
+      for (const { kind, l, p } of leaves) {
+        const r = 2.6 * l.size * p[3] * Math.max(0.8, h / 280);
+        const alpha = Math.min(1, 0.6 + (p[3] - 0.8));
+        const col = LEAF_KINDS[kind].color;
+        ctx.fillStyle = `rgba(${col},${alpha * 0.25})`;
+        ctx.beginPath(); ctx.arc(p[0], p[1], r * 2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = `rgba(${col},${alpha})`;
+        ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2); ctx.fill();
       }
     }
-    if (!reduceMotion || canvas.dataset.drawn !== '1') {
-      canvas.dataset.drawn = '1';
-      if (!reduceMotion) requestAnimationFrame(draw);
-    }
+    if (!reduceMotion) requestAnimationFrame(draw);
   }
   requestAnimationFrame(draw);
 }
