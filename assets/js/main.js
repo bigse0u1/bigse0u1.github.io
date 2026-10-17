@@ -10,6 +10,7 @@ const SITE = {
   github: 'bigse0u1',
   linkedin: 'https://www.linkedin.com/in/taekyeong-lee-70269b364/',
   scholar: '',
+  interests: ['VLA', 'World Model', 'Robotics', 'Physical AI'],
   intro: 'Hi, I\'m Taekyeong Lee.<br>Undergraduate Student in Dept of Software, Yonsei University (Mirae).<br>I\'m passionate about Robotics and VLA — teaching machines to see, think, and move.',
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
@@ -1200,7 +1201,11 @@ async function init() {
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-6 9.18v3.82c0 1.66 2.69 3 6 3s6-1.34 6-3v-3.82l-6 3.27-6-3.27Z"/></svg>
       </a>
     </div>
-    <p class="profile-bio">${SITE.bio}</p>`;
+    <p class="profile-bio">${SITE.bio}</p>
+    <div class="profile-interests">
+      <div class="profile-interests-label">Research Interests</div>
+      <div class="profile-interests-tags">${SITE.interests.map(t => `<span class="interest-tag">${t}</span>`).join('')}</div>
+    </div>`;
 
   // Nav event listeners
   document.querySelectorAll('.nav-link').forEach(l => {

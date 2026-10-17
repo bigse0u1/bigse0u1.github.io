@@ -247,6 +247,33 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 
+.profile-interests { text-align: center; }
+
+.profile-interests-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 0.6rem;
+}
+
+.profile-interests-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.interest-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--vermillion);
+  border: 1px solid var(--vermillion);
+  background: var(--vglow);
+  padding: 0.15rem 0.55rem;
+}
+
 /* ─── Right col: sections ─── */
 .home-right { min-width: 0; padding-left: 3rem; }
 
