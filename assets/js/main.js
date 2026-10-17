@@ -1201,7 +1201,6 @@ async function init() {
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-6 9.18v3.82c0 1.66 2.69 3 6 3s6-1.34 6-3v-3.82l-6 3.27-6-3.27Z"/></svg>
       </a>
     </div>
-    <p class="profile-bio">${SITE.bio}</p>
     <div class="profile-interests">
       <div class="profile-interests-label">Research Interests</div>
       <div class="profile-interests-tags">${SITE.interests.map(t => `<span class="interest-tag">${t}</span>`).join('')}</div>

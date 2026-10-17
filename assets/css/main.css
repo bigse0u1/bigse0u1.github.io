@@ -227,19 +227,14 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border);
-  width: 38px;
-  height: 38px;
-  transition: all 150ms;
+  width: 34px;
+  height: 34px;
+  transition: color 150ms;
 }
 
-.profile-btn svg { width: 17px; height: 17px; }
+.profile-btn svg { width: 19px; height: 19px; }
 
-.profile-btn:hover {
-  color: var(--text);
-  border-color: var(--text-soft);
-  background: var(--ink-panel);
-}
+.profile-btn:hover { color: var(--vermillion); }
 
 .profile-btn-disabled {
   opacity: 0.35;
@@ -247,32 +242,43 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 
-.profile-interests { text-align: center; }
+.profile-interests {
+  text-align: center;
+  margin-top: 0.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border-soft);
+}
 
 .profile-interests-label {
   font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.15em;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-mute);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.7rem;
 }
 
 .profile-interests-tags {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.35rem;
+  gap: 0.4rem 0.9rem;
 }
 
 .interest-tag {
   font-family: var(--mono);
-  font-size: 0.65rem;
-  color: var(--vermillion);
-  border: 1px solid var(--vermillion);
-  background: var(--vglow);
-  padding: 0.15rem 0.55rem;
+  font-size: 0.68rem;
+  color: var(--text-soft);
+  transition: color 150ms;
 }
+
+.interest-tag::before {
+  content: '#';
+  color: var(--text-mute);
+  margin-right: 0.15rem;
+}
+
+.interest-tag:hover { color: var(--vermillion); }
 
 /* ─── Right col: sections ─── */
 .home-right { min-width: 0; padding-left: 3rem; }
