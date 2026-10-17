@@ -15,13 +15,14 @@ const SITE = {
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
     { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)', logo: 'assets/img/logo/Changwon.svg' }
   ],
-  // News: 논문 통과, 수상 등 소식. 문장 형태로 작성. 없으면 섹션 자체가 안 보임.
-  // badgeType: award(초록) | talk(파랑) | publication(금색) | note(회색, 기본값)
+  // News: 논문 통과, 수상 등 소식. text는 짧게, 받은 곳(기관)은 org에 따로 적기.
+  // badgeType: award(초록) | scholarship(보라) | talk(파랑) | publication(금색) | note(회색, 기본값)
+  // proof: 증빙 이미지/PDF 있으면 경로 적기 (선택)
   news: [
-    { date: '2026.08', icon: '🎖️', text: 'Received the <strong>Academic Excellence Scholarship</strong> from Yonsei University!', badge: 'Award', badgeType: 'award' },
-    { date: '2026.01', icon: '🏆', text: 'Won the <strong>Excellence Award</strong> at the <strong>HIRA DATATHON</strong>, hosted by the Health Insurance Review & Assessment Service <a href="assets/img/AWARDS/HIRA_DATATHON.png">[proof]</a>!', badge: 'Award', badgeType: 'award' }
-    // 예시: { date: '2026.03', icon: '📝', text: 'Our paper <strong>XXX</strong> was accepted to <strong>CVPR 2026</strong>!', badge: 'Publication', badgeType: 'publication' }
-    // 예시: { date: '2026.03', icon: '🎤', text: 'Presented <strong>XXX</strong> as a poster at <strong>CVPR 2026</strong>!', badge: 'Talk', badgeType: 'talk' }
+    { date: '2026.08', icon: '🎖️', text: 'Received the <strong>Academic Excellence Scholarship</strong>!', org: 'Yonsei University', badge: 'Scholarship', badgeType: 'scholarship' },
+    { date: '2026.01', icon: '🏆', text: 'Won the <strong>Excellence Award</strong> at the HIRA DATATHON!', org: 'Health Insurance Review & Assessment Service', badge: 'Award', badgeType: 'award', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
+    // 예시: { date: '2026.03', icon: '📝', text: 'Our paper <strong>XXX</strong> was accepted!', org: 'CVPR 2026', badge: 'Publication', badgeType: 'publication' }
+    // 예시: { date: '2026.03', icon: '🎤', text: 'Presented <strong>XXX</strong> as a poster!', org: 'CVPR 2026', badge: 'Talk', badgeType: 'talk' }
   ],
   // Honors & Awards: 수상 목록
   awards: [
@@ -252,9 +253,15 @@ function renderHome() {
   if (SITE.news.length) {
     const newsHtml = SITE.news.map(n => `
       <div class="news-item">
-        <div class="news-date">📅 ${n.date}</div>
-        <div class="news-text">${n.icon ? n.icon + ' ' : ''}${n.text}</div>
-        ${n.badge ? `<div class="news-badge news-badge-${n.badgeType || 'note'}">${n.badge}</div>` : ''}
+        <div class="news-date">${n.date}</div>
+        <div class="news-content">
+          <div class="news-text">${n.icon ? n.icon + ' ' : ''}${n.text}</div>
+          ${n.org ? `<div class="news-org">${n.org}</div>` : ''}
+        </div>
+        <div class="news-side">
+          ${n.badge ? `<div class="news-badge news-badge-${n.badgeType || 'note'}">${n.badge}</div>` : ''}
+          ${n.proof ? `<a href="${n.proof}" target="_blank" class="news-proof">PDF</a>` : ''}
+        </div>
       </div>`).join('');
 
     el.innerHTML += `
