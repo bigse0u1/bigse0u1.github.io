@@ -150,6 +150,15 @@ img { max-width: 100%; display: block; }
   top: calc(var(--nav-h) + 2rem);
 }
 
+@media (min-width: 821px) {
+  .home-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: clamp(560px, calc(100vh - var(--nav-h) - 5rem), 780px);
+  }
+}
+
 
 
 .profile-photo-wrap {
@@ -244,7 +253,7 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 
-.gh-wrap { margin: 2.2rem auto 0; width: 100%; max-width: 220px; }
+.gh-wrap { margin: auto auto 0; padding-top: 1.6rem; width: 100%; max-width: 220px; }
 
 .gh-grid {
   display: grid;
@@ -1693,8 +1702,9 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 480px) {
   /* Nav — very small screens */
-  .nav-link { padding: 0.35rem 0.6rem; font-size: 0.68rem; }
-  .nav-brand { font-size: 0.75rem; }
+  .nav { padding: 0 0.6rem; }
+  .nav-link { padding: 0.35rem 0.4rem; font-size: 0.62rem; letter-spacing: 0; }
+  .nav-brand { font-size: 0.7rem; margin-right: 0.5rem; }
 
   /* Profile — smaller photo on very small screens */
   .profile-photo-wrap { width: 110px; }
@@ -1732,4 +1742,34 @@ img { max-width: 100%; display: block; }
   /* Posts padding */
   .posts-list { padding: 0.5rem 1rem 3rem; }
   .post-row:hover { margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; }
+}
+
+/* ═══════════════════════════════════════════════
+   LARGE SCREENS — scale the whole UI up
+═══════════════════════════════════════════════ */
+@media (min-width: 1800px) {
+  html { font-size: 18px; }
+  :root { --nav-h: 60px; --left-w: 300px; }
+  .home-wrap { max-width: 1560px; }
+  .profile-photo-wrap { width: 220px; }
+  .profile-photo { width: 220px; height: 220px; }
+  .gh-wrap { max-width: 270px; }
+  .profile-btn { width: 40px; height: 40px; }
+  .profile-btn svg { width: 22px; height: 22px; }
+}
+
+@media (min-width: 2400px) {
+  html { font-size: 20px; }
+  :root { --nav-h: 66px; --left-w: 340px; }
+  .home-wrap { max-width: 1800px; }
+  .profile-photo-wrap { width: 250px; }
+  .profile-photo { width: 250px; height: 250px; }
+  .gh-wrap { max-width: 300px; }
+  .profile-btn { width: 44px; height: 44px; }
+  .profile-btn svg { width: 24px; height: 24px; }
+}
+
+@media (min-width: 821px) and (min-height: 1000px) {
+  .home-left { height: auto; }
+  .gh-wrap { margin-top: 2.4rem; }
 }
