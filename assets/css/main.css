@@ -150,49 +150,6 @@ img { max-width: 100%; display: block; }
   top: calc(var(--nav-h) + 2rem);
 }
 
-@media (min-width: 821px) {
-  .home-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: calc(100vh - var(--nav-h) - 4rem);
-    min-height: 560px;
-  }
-  .tree-wrap { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
-  .tree-wrap canvas { flex: 1; min-height: 0; width: 100%; }
-}
-
-.tree-wrap { display: none; }
-@media (min-width: 821px) { .tree-wrap { display: flex; } }
-
-.tree-caption {
-  font-family: var(--serif);
-  font-size: 0.7rem;
-  color: var(--text-mute);
-  text-align: center;
-  margin: 0.3rem 0 1rem;
-}
-
-.tree-fig { font-style: italic; color: var(--text-soft); margin-right: 0.3rem; }
-
-.tree-legend {
-  display: flex;
-  justify-content: center;
-  gap: 0.9rem;
-  margin-top: 0.4rem;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.04em;
-}
-
-.tree-legend i {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  margin-right: 0.35rem;
-  vertical-align: middle;
-}
 
 .profile-photo-wrap {
   position: relative;
@@ -286,44 +243,6 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 
-.profile-interests {
-  text-align: center;
-  margin-top: 0.4rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid var(--border-soft);
-}
-
-.profile-interests-label {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: 0.7rem;
-}
-
-.profile-interests-tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.4rem 0.9rem;
-}
-
-.interest-tag {
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  color: var(--text-soft);
-  transition: color 150ms;
-}
-
-.interest-tag::before {
-  content: '#';
-  color: var(--text-mute);
-  margin-right: 0.15rem;
-}
-
-.interest-tag:hover { color: var(--vermillion); }
-
 /* ─── Right col: sections ─── */
 .home-right { min-width: 0; padding-left: 3rem; }
 
@@ -356,28 +275,6 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-soft);
-}
-
-/* Research interests */
-.interests {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.interest-chip {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-soft);
-  border: 1px solid var(--border);
-  padding: 0.22rem 0.65rem;
-  transition: all 150ms;
-}
-
-.interest-chip:hover {
-  color: var(--vermillion);
-  border-color: var(--vermillion);
-  background: var(--vglow);
 }
 
 /* ─── NEWS ─── */
