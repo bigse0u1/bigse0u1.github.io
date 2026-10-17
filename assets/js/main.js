@@ -1147,6 +1147,37 @@ async function loadVisitorCount() {
 }
 
 /* ═══════════════════════════════════════════════
+   GITHUB CONTRIBUTIONS HEATMAP
+═══════════════════════════════════════════════ */
+const GH_WEEKS = 26;
+
+async function renderGithubHeatmap(wrap) {
+  if (!wrap) return;
+  try {
+    const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${SITE.github}?y=last`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const days = data.contributions.slice(-GH_WEEKS * 7);
+    if (!days.length) return;
+
+    const pad = new Date(days[0].date + 'T00:00:00').getDay();
+    const cells = [...Array(pad).fill(null), ...days];
+    const weeks = Math.ceil(cells.length / 7);
+    const total = days.reduce((n, d) => n + d.count, 0);
+
+    wrap.innerHTML = `
+      <div class="gh-grid" style="grid-template-columns:repeat(${weeks},1fr)">
+        ${cells.map(d => d
+          ? `<i class="gh-cell gh-l${d.level}" title="${d.count} contributions · ${d.date}"></i>`
+          : '<i class="gh-cell gh-empty"></i>').join('')}
+      </div>
+      <div class="gh-caption">${total} contributions · last ${GH_WEEKS} weeks</div>`;
+  } catch (e) {
+    wrap.innerHTML = '';
+  }
+}
+
+/* ═══════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════ */
 async function init() {
@@ -1208,7 +1239,9 @@ async function init() {
       <a class="profile-btn ${SITE.scholar ? '' : 'profile-btn-disabled'}" ${SITE.scholar ? `href="${SITE.scholar}" target="_blank"` : ''} title="Google Scholar" aria-label="Google Scholar">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-6 9.18v3.82c0 1.66 2.69 3 6 3s6-1.34 6-3v-3.82l-6 3.27-6-3.27Z"/></svg>
       </a>
-    </div>`;
+    </div>
+    <div class="gh-wrap" id="gh-wrap"></div>`;
+  renderGithubHeatmap(document.getElementById('gh-wrap'));
 
   // Nav event listeners
   document.querySelectorAll('.nav-link').forEach(l => {
