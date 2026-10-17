@@ -150,6 +150,30 @@ img { max-width: 100%; display: block; }
   top: calc(var(--nav-h) + 2rem);
 }
 
+@media (min-width: 821px) {
+  .home-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100vh - var(--nav-h) - 4rem);
+    min-height: 560px;
+  }
+  .tree-wrap { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
+  .tree-wrap canvas { flex: 1; min-height: 0; width: 100%; }
+}
+
+.tree-wrap { display: none; }
+@media (min-width: 821px) { .tree-wrap { display: flex; } }
+
+.tree-caption {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--text-mute);
+  text-align: center;
+  margin: 0.2rem 0 1rem;
+}
+
 .profile-photo-wrap {
   position: relative;
   width: 180px;
@@ -1047,6 +1071,24 @@ img { max-width: 100%; display: block; }
 .study-main { display: flex; flex-direction: column; min-width: 0; overflow-x: hidden; }
 
 .posts-list { padding: 0.5rem 1.5rem 3rem; overflow-x: hidden; }
+
+.post-year-heading {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--text-mute);
+  margin: 1.4rem 0 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.post-year-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft);
+}
 
 .post-row {
   border-bottom: 1px solid var(--border-soft);

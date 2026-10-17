@@ -595,7 +595,16 @@ function renderPostsList() {
     return;
   }
 
+  let lastYear = '';
   filtered.forEach(post => {
+    const year = (post.date || '').slice(0, 4);
+    if (year && year !== lastYear) {
+      lastYear = year;
+      const heading = document.createElement('div');
+      heading.className = 'post-year-heading';
+      heading.textContent = year;
+      el.appendChild(heading);
+    }
     const row = document.createElement('div');
     row.className = 'post-row';
     row.onclick = () => navigate('study', { type: 'post', slug: post.slug });
@@ -1139,6 +1148,107 @@ async function loadVisitorCount() {
 }
 
 /* ═══════════════════════════════════════════════
+   POST TREE — leaves grow with the number of posts
+═══════════════════════════════════════════════ */
+const LEAVES_PER_POST = 4;
+const MAX_LEAVES = 400;
+
+function initTree(canvas) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const caption = document.getElementById('tree-caption');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let seed = 7;
+  const rand = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+  const segs = [];
+  const tips = [];
+  (function grow(p, d, len, depth) {
+    const e = [p[0] + d[0] * len, p[1] + d[1] * len, p[2] + d[2] * len];
+    segs.push({ a: p, b: e, depth });
+    if (depth <= 2) tips.push(e);
+    if (depth === 0) return;
+    const n = depth >= 3 ? 3 : 2;
+    for (let i = 0; i < n; i++) {
+      const yaw = (i / n) * Math.PI * 2 + rand() * 0.9;
+      const tilt = 0.45 + rand() * 0.35;
+      let nd = [d[0] + Math.cos(yaw) * tilt, d[1] * 0.9 + 0.25, d[2] + Math.sin(yaw) * tilt];
+      const l = Math.hypot(nd[0], nd[1], nd[2]);
+      nd = nd.map(v => v / l);
+      grow(e, nd, len * (0.68 + rand() * 0.08), depth - 1);
+    }
+  })([0, 0, 0], [0, 1, 0], 1.0, 4);
+
+  const leafPool = [];
+  for (let i = 0; i < MAX_LEAVES; i++) {
+    const t = tips[i % tips.length];
+    leafPool.push({
+      pos: [t[0] + (rand() - 0.5) * 0.4, t[1] + (rand() - 0.5) * 0.4, t[2] + (rand() - 0.5) * 0.4],
+      gold: rand() < 0.28,
+      size: 0.8 + rand() * 0.5
+    });
+  }
+
+  let w = 0, h = 0;
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function draw(t) {
+    if (!canvas.isConnected) return;
+    if (canvas.offsetParent !== null) {
+      if (canvas.clientWidth !== w || canvas.clientHeight !== h) resize();
+      const count = Math.min(MAX_LEAVES, POSTS.length * LEAVES_PER_POST);
+      if (caption) caption.textContent = `${POSTS.length} posts · ${count} leaves`;
+
+      const ang = reduceMotion ? 0.6 : t * 0.00025;
+      const ca = Math.cos(ang), sa = Math.sin(ang);
+      const D = 7, scale = h / 3.4, cy = 1.45;
+      const proj = ([x, y, z]) => {
+        const rx = x * ca - z * sa, rz = x * sa + z * ca;
+        const k = D / (D + rz);
+        return [w / 2 + rx * scale * k, h * 0.92 - (y - 0) * scale * k * 0.98 + (cy - 1.45) * scale, rz, k];
+      };
+
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(90,90,106,0.35)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.ellipse(w / 2, h * 0.92, scale * 0.9, scale * 0.16, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.lineCap = 'round';
+      for (const s of segs) {
+        const a = proj(s.a), b = proj(s.b);
+        ctx.strokeStyle = `rgba(152,152,170,${0.35 + (b[3] - 0.8) * 0.5})`;
+        ctx.lineWidth = 0.6 + s.depth * 0.55;
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      }
+
+      const leaves = leafPool.slice(0, count).map(l => ({ l, p: proj(l.pos) })).sort((a, b) => b.p[2] - a.p[2]);
+      for (const { l, p } of leaves) {
+        const r = 3.2 * l.size * p[3] * (h / 260);
+        ctx.fillStyle = l.gold ? `rgba(196,146,60,${0.55 + (p[3] - 0.8)})` : `rgba(184,50,40,${0.55 + (p[3] - 0.8)})`;
+        ctx.beginPath();
+        ctx.moveTo(p[0], p[1] - r * 1.3); ctx.lineTo(p[0] + r, p[1]);
+        ctx.lineTo(p[0], p[1] + r * 1.3); ctx.lineTo(p[0] - r, p[1]);
+        ctx.closePath(); ctx.fill();
+      }
+    }
+    if (!reduceMotion || canvas.dataset.drawn !== '1') {
+      canvas.dataset.drawn = '1';
+      if (!reduceMotion) requestAnimationFrame(draw);
+    }
+  }
+  requestAnimationFrame(draw);
+}
+
+/* ═══════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════ */
 async function init() {
@@ -1201,10 +1311,15 @@ async function init() {
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-6 9.18v3.82c0 1.66 2.69 3 6 3s6-1.34 6-3v-3.82l-6 3.27-6-3.27Z"/></svg>
       </a>
     </div>
+    <div class="tree-wrap">
+      <canvas id="tree-canvas"></canvas>
+      <div class="tree-caption" id="tree-caption"></div>
+    </div>
     <div class="profile-interests">
       <div class="profile-interests-label">Research Interests</div>
       <div class="profile-interests-tags">${SITE.interests.map(t => `<span class="interest-tag">${t}</span>`).join('')}</div>
     </div>`;
+  initTree(document.getElementById('tree-canvas'));
 
   // Nav event listeners
   document.querySelectorAll('.nav-link').forEach(l => {
