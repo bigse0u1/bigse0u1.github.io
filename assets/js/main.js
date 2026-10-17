@@ -19,10 +19,10 @@ const SITE = {
   // badgeType: award(초록) | scholarship(보라) | talk(파랑) | publication(금색) | note(회색, 기본값)
   // proof: 증빙 이미지/PDF 있으면 경로 적기 (선택)
   news: [
-    { date: '2026.08', icon: '🎖️', text: 'Received the <strong>Academic Excellence Scholarship</strong>!', org: 'Yonsei University', badge: 'Scholarship', badgeType: 'scholarship' },
-    { date: '2026.01', icon: '🏆', text: 'Won the <strong>Excellence Award</strong> at the HIRA DATATHON!', org: 'Health Insurance Review & Assessment Service', badge: 'Award', badgeType: 'award', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
-    // 예시: { date: '2026.03', icon: '📝', text: 'Our paper <strong>XXX</strong> was accepted!', org: 'CVPR 2026', badge: 'Publication', badgeType: 'publication' }
-    // 예시: { date: '2026.03', icon: '🎤', text: 'Presented <strong>XXX</strong> as a poster!', org: 'CVPR 2026', badge: 'Talk', badgeType: 'talk' }
+    { date: '2026.08', text: 'Received the <strong>Academic Excellence Scholarship</strong>!', org: 'Yonsei University', badge: 'Scholarship', badgeType: 'scholarship' },
+    { date: '2026.01', text: 'Won the <strong>Excellence Award</strong> at the HIRA DATATHON!', org: 'Health Insurance Review & Assessment Service', badge: 'Award', badgeType: 'award', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
+    // 예시: { date: '2026.03', text: 'Our paper <strong>XXX</strong> was accepted!', org: 'CVPR 2026', badge: 'Publication', badgeType: 'publication' }
+    // 예시: { date: '2026.03', text: 'Presented <strong>XXX</strong> as a poster!', org: 'CVPR 2026', badge: 'Talk', badgeType: 'talk' }
   ],
   // Honors & Awards: 수상 목록
   awards: [
@@ -255,7 +255,7 @@ function renderHome() {
       <div class="news-item">
         <div class="news-date">${n.date}</div>
         <div class="news-content">
-          <div class="news-text">${n.icon ? n.icon + ' ' : ''}${n.text}</div>
+          <div class="news-text">${n.text}</div>
           ${n.org ? `<div class="news-org">${n.org}</div>` : ''}
         </div>
         <div class="news-side">
@@ -654,9 +654,9 @@ function renderGraph() {
 
   // Category → color
   const catColors = {
-    'Research': '#e05252',
-    'Study': '#5b8dd9',
-    'Programming': '#3db077',
+    'Research': '#b83228',
+    'Study': '#c4923c',
+    'Programming': '#8a8a9e',
   };
   function postColor(p) {
     const cats = p.categories || [];
@@ -665,7 +665,7 @@ function renderGraph() {
         if (c.includes(key)) return catColors[key];
       }
     }
-    return '#c49a3c';
+    return '#8a8a9e';
   }
 
   // Filter posts by active category + tag
@@ -741,7 +741,7 @@ function renderGraph() {
 
   // Links
   const linkEl = canvas.append('g').selectAll('line').data(links).join('line')
-    .attr('stroke', 'rgba(255,255,255,0.1)').attr('stroke-width', 1);
+    .attr('stroke', cssVar('--border')).attr('stroke-width', 1);
 
   // Nodes
   const nodeEl = canvas.append('g').selectAll('g').data(nodes).join('g')
@@ -753,9 +753,9 @@ function renderGraph() {
 
   nodeEl.append('circle')
     .attr('r', d => d.r)
-    .attr('fill', d => d.type === 'post' ? d.color : '#b8903a')
+    .attr('fill', d => d.type === 'post' ? d.color : cssVar('--text-mute'))
     .attr('fill-opacity', d => d.type === 'post' ? 0.85 : 0.55)
-    .attr('stroke', d => d.type === 'post' ? d.color : '#d4a84b')
+    .attr('stroke', d => d.type === 'post' ? d.color : cssVar('--text-mute'))
     .attr('stroke-width', d => d.type === 'post' ? 1.5 : 0.8)
     .attr('stroke-opacity', 0.6);
 
@@ -766,7 +766,7 @@ function renderGraph() {
     .attr('text-anchor', 'middle')
     .style('font-family', 'var(--mono)')
     .style('font-size', '7.5px')
-    .style('fill', 'rgba(255,255,255,0.35)')
+    .style('fill', cssVar('--text-mute'))
     .style('pointer-events', 'none');
 
   // Resize handle (added once to graph-section)
@@ -1014,7 +1014,7 @@ async function renderDetail(detail) {
     s.setAttribute('data-reactions-enabled', '1');
     s.setAttribute('data-emit-metadata', '0');
     s.setAttribute('data-input-position', 'bottom');
-    s.setAttribute('data-theme', 'dark');
+    s.setAttribute('data-theme', currentTheme() === 'light' ? 'light' : 'dark');
     s.setAttribute('data-lang', 'ko');
     s.crossOrigin = 'anonymous';
     s.async = true;
@@ -1178,36 +1178,58 @@ async function renderGithubHeatmap(wrap) {
 }
 
 /* ═══════════════════════════════════════════════
-   INIT
+   THEME (dark / ivory)
 ═══════════════════════════════════════════════ */
-async function init() {
-  // Mermaid diagrams — dark theme matching the site palette
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function currentTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+}
+
+function applyLibThemes() {
+  const light = currentTheme() === 'light';
   if (typeof mermaid !== 'undefined') {
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'dark',
-      themeVariables: {
-        darkMode: true,
-        background: '#18181c',
-        primaryColor: '#1e1e24',
-        primaryTextColor: '#e4e4ee',
-        primaryBorderColor: '#b83228',
-        lineColor: '#5a5a6a',
-        secondaryColor: '#131316',
-        tertiaryColor: '#131316',
-        textColor: '#e4e4ee',
+      theme: light ? 'neutral' : 'dark',
+      themeVariables: light ? {
+        background: '#ebe4d3', primaryColor: '#f6f1e6', primaryTextColor: '#2b2621',
+        primaryBorderColor: '#a8281f', lineColor: '#8a8272', secondaryColor: '#f0eadc',
+        tertiaryColor: '#f0eadc', textColor: '#2b2621',
+        fontFamily: "'JetBrains Mono', 'Courier New', monospace"
+      } : {
+        darkMode: true, background: '#18181c', primaryColor: '#1e1e24', primaryTextColor: '#e4e4ee',
+        primaryBorderColor: '#b83228', lineColor: '#5a5a6a', secondaryColor: '#131316',
+        tertiaryColor: '#131316', textColor: '#e4e4ee',
         fontFamily: "'JetBrains Mono', 'Courier New', monospace"
       }
     });
   }
-
-  // Chart.js — dark theme matching the site palette
   if (typeof Chart !== 'undefined') {
-    Chart.defaults.color = '#9898aa';
-    Chart.defaults.borderColor = '#252530';
+    Chart.defaults.color = cssVar('--text-soft');
+    Chart.defaults.borderColor = cssVar('--border');
     Chart.defaults.font.family = "'JetBrains Mono', 'Courier New', monospace";
-    Chart.defaults.plugins.legend.labels.color = '#e4e4ee';
+    Chart.defaults.plugins.legend.labels.color = cssVar('--text');
   }
+}
+
+function toggleTheme() {
+  const next = currentTheme() === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+  applyLibThemes();
+  render();
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+async function init() {
+  applyLibThemes();
+  const themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) themeBtn.onclick = toggleTheme;
 
   // Restore hash if returning from giscus OAuth redirect
   if (location.search.includes('giscus=')) {
