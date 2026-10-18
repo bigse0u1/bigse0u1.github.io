@@ -647,6 +647,13 @@ function renderGraph() {
   };
 
   if (graphCollapsed) return;
+
+  // On first paint the page isn't visible yet, so the container has no width — measure on the next frame
+  if (!container.clientWidth && !renderGraph.retried) {
+    renderGraph.retried = true;
+    requestAnimationFrame(() => { renderGraph(); renderGraph.retried = false; });
+    return;
+  }
   container.innerHTML = '';
 
   const W = container.clientWidth || 680;
@@ -677,14 +684,17 @@ function renderGraph() {
   }
 
   // Build nodes + links
+  const shorten = (t, n) => t.length > n ? t.slice(0, n - 1) + '…' : t;
   const postNodes = activePosts.map(p => ({
     id: p.slug, type: 'post', label: p.title,
-    slug: p.slug, color: postColor(p), r: 8
+    short: shorten(p.title.replace(/^\[[^\]]+\]\s*/, ''), 28),
+    slug: p.slug, color: postColor(p),
+    r: 6 + Math.min(4, (p.tags || []).length) * 1.1
   }));
 
   const tagMap = new Map();
   activePosts.forEach(p => (p.tags || []).forEach(t => {
-    if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, r: 4 });
+    if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, r: 3.5 });
   }));
 
   const nodes = [...postNodes, ...tagMap.values()];
@@ -693,34 +703,31 @@ function renderGraph() {
     links.push({ source: p.slug, target: `t::${t}` });
   }));
 
+  nodes.forEach(n => { n.x = 90 + Math.random() * (W - 180); n.y = 40 + Math.random() * (H - 80); });
+
+  const adj = new Map(nodes.map(n => [n.id, new Set([n.id])]));
+  links.forEach(l => { adj.get(l.source).add(l.target); adj.get(l.target).add(l.source); });
+
   // SVG — height 100% so it fills the resizable container
   const svg = d3.select(container).append('svg')
     .attr('width', '100%').attr('height', '100%')
     .attr('viewBox', `0 0 ${W} ${H}`)
     .attr('preserveAspectRatio', 'xMidYMid meet');
 
-  // Glow filter
-  const defs = svg.append('defs');
-  const fil = defs.append('filter').attr('id', 'glow-fx')
-    .attr('x', '-40%').attr('y', '-40%').attr('width', '180%').attr('height', '180%');
-  fil.append('feGaussianBlur').attr('in', 'SourceGraphic').attr('stdDeviation', '4').attr('result', 'blur');
-  const fm = fil.append('feMerge');
-  fm.append('feMergeNode').attr('in', 'blur');
-  fm.append('feMergeNode').attr('in', 'SourceGraphic');
-
   // Force simulation
   const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(60).strength(0.5))
-    .force('charge', d3.forceManyBody().strength(-80))
-    .force('center', d3.forceCenter(W / 2, H / 2).strength(0.25))
-    .force('collide', d3.forceCollide(d => d.r + 6))
+    .force('link', d3.forceLink(links).id(d => d.id).distance(95).strength(0.3))
+    .force('charge', d3.forceManyBody().strength(-520))
+    .force('x', d3.forceX(W / 2).strength(0.028))
+    .force('y', d3.forceY(H / 2).strength(0.22))
+    .force('collide', d3.forceCollide(d => d.type === 'post' ? 44 : 22))
     .force('bound', () => {
-      const pad = 24;
+      const padX = 80, padY = 26;
       nodes.forEach(n => {
-        if (n.x < pad)       n.vx += (pad - n.x) * 0.12;
-        if (n.x > W - pad)   n.vx -= (n.x - (W - pad)) * 0.12;
-        if (n.y < pad)       n.vy += (pad - n.y) * 0.12;
-        if (n.y > H - pad)   n.vy -= (n.y - (H - pad)) * 0.12;
+        if (n.x < padX)       n.vx += (padX - n.x) * 0.12;
+        if (n.x > W - padX)   n.vx -= (n.x - (W - padX)) * 0.12;
+        if (n.y < padY)       n.vy += (padY - n.y) * 0.12;
+        if (n.y > H - padY)   n.vy -= (n.y - (H - padY)) * 0.12;
       });
     });
 
@@ -751,15 +758,25 @@ function renderGraph() {
       .on('drag',  (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
       .on('end',   (ev, d) => { if (!ev.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
 
+  nodeEl.style('cursor', 'pointer');
+
   nodeEl.append('circle')
     .attr('r', d => d.r)
-    .attr('fill', d => d.type === 'post' ? d.color : cssVar('--text-mute'))
-    .attr('fill-opacity', d => d.type === 'post' ? 0.85 : 0.55)
-    .attr('stroke', d => d.type === 'post' ? d.color : cssVar('--text-mute'))
-    .attr('stroke-width', d => d.type === 'post' ? 1.5 : 0.8)
-    .attr('stroke-opacity', 0.6);
+    .attr('fill', d => d.type === 'post' ? d.color : cssVar('--ink'))
+    .attr('fill-opacity', d => d.type === 'post' ? 0.92 : 1)
+    .attr('stroke', d => d.type === 'post' ? cssVar('--ink') : cssVar('--text-mute'))
+    .attr('stroke-width', d => d.type === 'post' ? 2 : 1);
 
-  // Tag labels (always visible)
+  // Post titles (serif) and tag names (mono)
+  nodeEl.filter(d => d.type === 'post').append('text')
+    .text(d => d.short)
+    .attr('dy', d => d.r + 12)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'var(--serif)')
+    .style('font-size', '9.5px')
+    .style('fill', cssVar('--text-soft'))
+    .style('pointer-events', 'none');
+
   nodeEl.filter(d => d.type === 'tag').append('text')
     .text(d => d.label)
     .attr('dy', d => d.r + 9)
@@ -768,6 +785,18 @@ function renderGraph() {
     .style('font-size', '7.5px')
     .style('fill', cssVar('--text-mute'))
     .style('pointer-events', 'none');
+
+  // Legend (fixed, not zoomed)
+  const legendItems = [['Research', catColors.Research], ['Study', catColors.Study], ['Other', '#8a8a9e']]
+    .filter(([name, col]) => postNodes.some(n => n.color === col));
+  const legend = svg.append('g').attr('transform', `translate(16,${H - 14})`);
+  let lx = 0;
+  legendItems.forEach(([name, col]) => {
+    legend.append('circle').attr('cx', lx + 3).attr('cy', -3).attr('r', 3.5).attr('fill', col);
+    legend.append('text').attr('x', lx + 11).attr('y', 0).text(name)
+      .style('font-family', 'var(--mono)').style('font-size', '8px').style('fill', cssVar('--text-mute'));
+    lx += 22 + name.length * 5.2;
+  });
 
   // Resize handle (added once to graph-section)
   if (section && !section.querySelector('.graph-resize-handle')) {
@@ -802,26 +831,31 @@ function renderGraph() {
   // Tooltip
   const tip = d3.select(container).append('div').attr('class', 'graph-tip');
 
-  nodeEl.filter(d => d.type === 'post')
+  nodeEl
     .on('mouseenter', function(ev, d) {
-      d3.select(this).select('circle').attr('filter', 'url(#glow-fx)').attr('r', d.r + 3);
-      // Highlight connected links
-      linkEl.attr('stroke-opacity', l =>
-        (l.source.id === d.id || l.target.id === d.id) ? 0.8 : 0.1);
-      tip.style('opacity', '1')
-        .style('left', (ev.offsetX + 14) + 'px')
-        .style('top',  (ev.offsetY - 10) + 'px')
-        .text(d.label);
+      const near = adj.get(d.id);
+      nodeEl.style('opacity', n => near.has(n.id) ? 1 : 0.18);
+      linkEl.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.06)
+            .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? cssVar('--vermillion') : cssVar('--border'));
+      if (d.type === 'post') {
+        tip.style('opacity', '1')
+          .style('left', (ev.offsetX + 14) + 'px')
+          .style('top',  (ev.offsetY - 10) + 'px')
+          .text(d.label);
+      }
     })
     .on('mousemove', ev => {
       tip.style('left', (ev.offsetX + 14) + 'px').style('top', (ev.offsetY - 10) + 'px');
     })
-    .on('mouseleave', function(_ev, d) {
-      d3.select(this).select('circle').attr('filter', null).attr('r', d.r);
-      linkEl.attr('stroke-opacity', 1);
+    .on('mouseleave', function() {
+      nodeEl.style('opacity', 1);
+      linkEl.attr('stroke-opacity', 1).attr('stroke', cssVar('--border'));
       tip.style('opacity', '0');
     })
-    .on('click', (_ev, d) => navigate('study', { type: 'post', slug: d.slug }));
+    .on('click', (_ev, d) => {
+      if (d.type === 'post') navigate('study', { type: 'post', slug: d.slug });
+      else filterTag(d.label);
+    });
 
   // Tick
   sim.on('tick', () => {
