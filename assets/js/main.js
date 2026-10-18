@@ -297,7 +297,7 @@ function renderHome() {
         <div class="edu-period">${e.period}</div>
         <div>
           <div class="edu-school">
-            <a href="${e.labUrl}" target="_blank" style="color:var(--text);border-bottom:1px solid var(--border-soft);transition:border-color 150ms" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border-soft)'">${e.lab}</a>,&nbsp;${e.affiliation}
+            <a href="${e.labUrl}" target="_blank" style="color:var(--text);border-bottom:1px solid var(--border-soft);transition:border-color 150ms" onmouseover="this.style.borderColor='var(--vermillion)'" onmouseout="this.style.borderColor='var(--border-soft)'">${e.lab}</a>,&nbsp;${e.affiliation}
           </div>
           <div class="edu-degree">${e.role}</div>
           <div class="edu-degree" style="margin-top:0.3rem">• Advisor: ${e.advisor}</div>
@@ -320,7 +320,7 @@ function renderHome() {
         <div>
           <div class="edu-school">
             ${a.title}
-            ${a.proof ? `<a href="${a.proof}" target="_blank" style="font-family:var(--mono);font-size:0.65rem;color:var(--gold);margin-left:0.5rem;border-bottom:1px solid var(--gold-soft)">[proof]</a>` : ''}
+            ${a.proof ? `<a href="${a.proof}" target="_blank" style="font-family:var(--mono);font-size:0.65rem;color:var(--vermillion);margin-left:0.5rem;border-bottom:1px solid rgba(var(--accent-rgb),0.3)">[proof]</a>` : ''}
           </div>
           <div class="edu-degree">${a.organizer}</div>
         </div>
@@ -873,7 +873,7 @@ async function renderDetail(detail) {
     : 'Project';
 
   const metaExtra = detail.type === 'project' && item.stack
-    ? `<span style="font-family:var(--mono);font-size:0.68rem;color:var(--gold)">${item.stack}</span>` : '';
+    ? `<span style="font-family:var(--mono);font-size:0.68rem;color:var(--text-mute)">${item.stack}</span>` : '';
 
   const links = detail.type === 'project'
     ? `<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.8rem">
