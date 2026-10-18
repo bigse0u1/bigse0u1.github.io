@@ -654,7 +654,7 @@ function renderGraph() {
 
   // Category → color
   const catColors = {
-    'Research': '#b83228',
+    'Research': '#5b8dd9',
     'Study': '#c4923c',
     'Programming': '#8a8a9e',
   };
@@ -1196,12 +1196,12 @@ function applyLibThemes() {
       theme: light ? 'neutral' : 'dark',
       themeVariables: light ? {
         background: '#ebe4d3', primaryColor: '#f6f1e6', primaryTextColor: '#2b2621',
-        primaryBorderColor: '#a8281f', lineColor: '#8a8272', secondaryColor: '#f0eadc',
+        primaryBorderColor: '#2c5aa0', lineColor: '#8a8272', secondaryColor: '#f0eadc',
         tertiaryColor: '#f0eadc', textColor: '#2b2621',
         fontFamily: "'JetBrains Mono', 'Courier New', monospace"
       } : {
         darkMode: true, background: '#18181c', primaryColor: '#1e1e24', primaryTextColor: '#e4e4ee',
-        primaryBorderColor: '#b83228', lineColor: '#5a5a6a', secondaryColor: '#131316',
+        primaryBorderColor: '#5b8dd9', lineColor: '#5a5a6a', secondaryColor: '#131316',
         tertiaryColor: '#131316', textColor: '#e4e4ee',
         fontFamily: "'JetBrains Mono', 'Courier New', monospace"
       }
