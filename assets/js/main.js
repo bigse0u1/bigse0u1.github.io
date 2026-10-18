@@ -659,12 +659,12 @@ function renderGraph() {
   const W = container.clientWidth || 680;
   const H = 300;
 
-  // Category → color
-  const catColors = {
-    'Research': '#5b8dd9',
-    'Study': '#c4923c',
-    'Programming': '#8a8a9e',
-  };
+  // Category → color (brighter, glowing hues on dark; calm tones on ivory)
+  const neon = currentTheme() === 'dark';
+  const OTHER = neon ? '#8c93b8' : '#8a8a9e';
+  const catColors = neon
+    ? { 'Research': '#4fa3ff', 'Study': '#ffb454', 'Programming': OTHER }
+    : { 'Research': '#5b8dd9', 'Study': '#c4923c', 'Programming': OTHER };
   function postColor(p) {
     const cats = p.categories || [];
     for (const c of cats) {
@@ -672,7 +672,7 @@ function renderGraph() {
         if (c.includes(key)) return catColors[key];
       }
     }
-    return '#8a8a9e';
+    return OTHER;
   }
 
   // Filter posts by active category + tag
@@ -703,7 +703,10 @@ function renderGraph() {
     links.push({ source: p.slug, target: `t::${t}` });
   }));
 
-  nodes.forEach(n => { n.x = 90 + Math.random() * (W - 180); n.y = 40 + Math.random() * (H - 80); });
+  // Seeded start so the layout is the same on every visit
+  let seed = 42;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  nodes.forEach(n => { n.x = 90 + rnd() * (W - 180); n.y = 40 + rnd() * (H - 100); });
 
   const adj = new Map(nodes.map(n => [n.id, new Set([n.id])]));
   links.forEach(l => { adj.get(l.source).add(l.target); adj.get(l.target).add(l.source); });
@@ -714,20 +717,30 @@ function renderGraph() {
     .attr('viewBox', `0 0 ${W} ${H}`)
     .attr('preserveAspectRatio', 'xMidYMid meet');
 
+  // Neon glow filter (dark theme only)
+  const defs = svg.append('defs');
+  const glow = defs.append('filter').attr('id', 'glow-fx')
+    .attr('x', '-80%').attr('y', '-80%').attr('width', '260%').attr('height', '260%');
+  glow.append('feGaussianBlur').attr('in', 'SourceGraphic').attr('stdDeviation', '3.2').attr('result', 'blur');
+  const gm = glow.append('feMerge');
+  gm.append('feMergeNode').attr('in', 'blur');
+  gm.append('feMergeNode').attr('in', 'SourceGraphic');
+  const linkColor = neon ? 'rgba(120,170,255,0.28)' : cssVar('--border');
+
   // Force simulation
   const sim = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(links).id(d => d.id).distance(95).strength(0.3))
     .force('charge', d3.forceManyBody().strength(-520))
     .force('x', d3.forceX(W / 2).strength(0.028))
     .force('y', d3.forceY(H / 2).strength(0.22))
-    .force('collide', d3.forceCollide(d => d.type === 'post' ? 44 : 22))
+    .force('collide', d3.forceCollide(d => d.type === 'post' ? 72 : 24))
     .force('bound', () => {
-      const padX = 80, padY = 26;
+      const padX = 80, padY = 26, padYb = 44;
       nodes.forEach(n => {
         if (n.x < padX)       n.vx += (padX - n.x) * 0.12;
         if (n.x > W - padX)   n.vx -= (n.x - (W - padX)) * 0.12;
         if (n.y < padY)       n.vy += (padY - n.y) * 0.12;
-        if (n.y > H - padY)   n.vy -= (n.y - (H - padY)) * 0.12;
+        if (n.y > H - padYb)  n.vy -= (n.y - (H - padYb)) * 0.12;
       });
     });
 
@@ -748,7 +761,7 @@ function renderGraph() {
 
   // Links
   const linkEl = canvas.append('g').selectAll('line').data(links).join('line')
-    .attr('stroke', cssVar('--border')).attr('stroke-width', 1);
+    .attr('stroke', linkColor).attr('stroke-width', neon ? 1.1 : 1);
 
   // Nodes
   const nodeEl = canvas.append('g').selectAll('g').data(nodes).join('g')
@@ -760,12 +773,20 @@ function renderGraph() {
 
   nodeEl.style('cursor', 'pointer');
 
+  // Pulsing halo behind posts
+  nodeEl.filter(d => d.type === 'post').append('circle')
+    .attr('class', 'graph-halo')
+    .attr('r', d => d.r + 6)
+    .attr('fill', d => d.color)
+    .style('animation-delay', (_d, i) => `${(i % 5) * 0.7}s`);
+
   nodeEl.append('circle')
     .attr('r', d => d.r)
     .attr('fill', d => d.type === 'post' ? d.color : cssVar('--ink'))
-    .attr('fill-opacity', d => d.type === 'post' ? 0.92 : 1)
-    .attr('stroke', d => d.type === 'post' ? cssVar('--ink') : cssVar('--text-mute'))
-    .attr('stroke-width', d => d.type === 'post' ? 2 : 1);
+    .attr('fill-opacity', d => d.type === 'post' ? 0.95 : 1)
+    .attr('stroke', d => d.type === 'post' ? cssVar('--ink') : (neon ? '#7fa6e6' : cssVar('--text-mute')))
+    .attr('stroke-width', d => d.type === 'post' ? 2 : 1.2)
+    .attr('filter', neon ? 'url(#glow-fx)' : null);
 
   // Post titles (serif) and tag names (mono)
   nodeEl.filter(d => d.type === 'post').append('text')
@@ -787,7 +808,7 @@ function renderGraph() {
     .style('pointer-events', 'none');
 
   // Legend (fixed, not zoomed)
-  const legendItems = [['Research', catColors.Research], ['Study', catColors.Study], ['Other', '#8a8a9e']]
+  const legendItems = [['Research', catColors.Research], ['Study', catColors.Study], ['Other', OTHER]]
     .filter(([name, col]) => postNodes.some(n => n.color === col));
   const legend = svg.append('g').attr('transform', `translate(16,${H - 14})`);
   let lx = 0;
@@ -836,7 +857,7 @@ function renderGraph() {
       const near = adj.get(d.id);
       nodeEl.style('opacity', n => near.has(n.id) ? 1 : 0.18);
       linkEl.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.06)
-            .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? cssVar('--vermillion') : cssVar('--border'));
+            .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? (neon ? '#8fc2ff' : cssVar('--vermillion')) : linkColor);
       if (d.type === 'post') {
         tip.style('opacity', '1')
           .style('left', (ev.offsetX + 14) + 'px')
@@ -849,7 +870,7 @@ function renderGraph() {
     })
     .on('mouseleave', function() {
       nodeEl.style('opacity', 1);
-      linkEl.attr('stroke-opacity', 1).attr('stroke', cssVar('--border'));
+      linkEl.attr('stroke-opacity', 1).attr('stroke', linkColor);
       tip.style('opacity', '0');
     })
     .on('click', (_ev, d) => {
