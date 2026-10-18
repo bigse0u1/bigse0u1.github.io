@@ -1245,14 +1245,16 @@ function currentTheme() {
 
 function applyLibThemes() {
   const light = currentTheme() === 'light';
+  const hd = document.getElementById('hljs-dark'), hl = document.getElementById('hljs-light');
+  if (hd && hl) { hd.disabled = light; hl.disabled = !light; }
   if (typeof mermaid !== 'undefined') {
     mermaid.initialize({
       startOnLoad: false,
       theme: light ? 'neutral' : 'dark',
       themeVariables: light ? {
-        background: '#ebe4d3', primaryColor: '#f6f1e6', primaryTextColor: '#2b2621',
-        primaryBorderColor: '#2c5aa0', lineColor: '#8a8272', secondaryColor: '#f0eadc',
-        tertiaryColor: '#f0eadc', textColor: '#2b2621',
+        background: '#f1f3f6', primaryColor: '#ffffff', primaryTextColor: '#1d2330',
+        primaryBorderColor: '#2c5aa0', lineColor: '#8a92a1', secondaryColor: '#f7f8fa',
+        tertiaryColor: '#f7f8fa', textColor: '#1d2330',
         fontFamily: "'JetBrains Mono', 'Courier New', monospace"
       } : {
         darkMode: true, background: '#18181c', primaryColor: '#1e1e24', primaryTextColor: '#e4e4ee',

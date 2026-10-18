@@ -31,14 +31,14 @@
   --left-w: 260px;
 }
 
-/* ─── Light theme: ivory paper ─── */
+/* ─── Light theme: clean white ─── */
 :root[data-theme="light"] {
-  --ink:         #f6f1e6;
-  --ink-soft:    #f0eadc;
-  --ink-panel:   #ebe4d3;
-  --ink-card:    #e4dcc8;
-  --border:      #d8cfb9;
-  --border-soft: #e4ddca;
+  --ink:         #ffffff;
+  --ink-soft:    #f7f8fa;
+  --ink-panel:   #f1f3f6;
+  --ink-card:    #e9edf2;
+  --border:      #dde2ea;
+  --border-soft: #ebeef3;
   --vermillion:  #2c5aa0;
   --vred:        #244b86;
   --vglow:       rgba(44,90,160,0.08);
@@ -48,10 +48,10 @@
   --gold-rgb:    148,105,28;
   --sage:        #4f7a5f;
   --sage-rgb:    79,122,95;
-  --text:        #2b2621;
-  --text-soft:   #5a5348;
-  --text-mute:   #8a8272;
-  --nav-bg:      rgba(246,241,230,0.92);
+  --text:        #1d2330;
+  --text-soft:   #4a5262;
+  --text-mute:   #8a92a1;
+  --nav-bg:      rgba(255,255,255,0.92);
 }
 
 /* ═══ RESET ═══ */
@@ -1862,3 +1862,9 @@ img { max-width: 100%; display: block; }
 :root[data-theme="light"] .proj-card .proj-status-ongoing { color: #8fb4ee; border-color: #8fb4ee; background: rgba(143,180,238,0.14); }
 :root[data-theme="light"] .proj-card .proj-status-done { color: #bdb6a6; border-color: #6b655a; }
 :root[data-theme="light"] .proj-card-tag { color: #8fb4ee; border-color: #8fb4ee; }
+
+/* Light theme: code blocks follow the page instead of staying black */
+:root[data-theme="light"] .detail-body pre { background: var(--ink-soft) !important; }
+:root[data-theme="light"] .detail-body pre code { color: var(--text); }
+:root[data-theme="light"] .code-header { background: var(--ink-panel); }
+:root[data-theme="light"] .code-wrap { border-color: var(--border); }
