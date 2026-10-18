@@ -658,6 +658,8 @@ function renderGraph() {
 
   const W = container.clientWidth || 680;
   const H = 300;
+  const VIEW = 1.12;                       // lay out on a bigger canvas, show it zoomed out
+  const LW = W * VIEW, LH = H * VIEW;
 
   // Category → color (brighter, glowing hues on dark; calm tones on ivory)
   const neon = currentTheme() === 'dark';
@@ -689,12 +691,12 @@ function renderGraph() {
     id: p.slug, type: 'post', label: p.title,
     short: shorten(p.title.replace(/^\[[^\]]+\]\s*/, ''), 28),
     slug: p.slug, color: postColor(p),
-    r: 6 + Math.min(4, (p.tags || []).length) * 1.1
+    r: 4.8 + Math.min(4, (p.tags || []).length) * 0.9
   }));
 
   const tagMap = new Map();
   activePosts.forEach(p => (p.tags || []).forEach(t => {
-    if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, r: 3.5 });
+    if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, r: 3 });
   }));
 
   const nodes = [...postNodes, ...tagMap.values()];
@@ -706,7 +708,7 @@ function renderGraph() {
   // Seeded start so the layout is the same on every visit
   let seed = 42;
   const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-  nodes.forEach(n => { n.x = 90 + rnd() * (W - 180); n.y = 40 + rnd() * (H - 100); });
+  nodes.forEach(n => { n.x = 90 + rnd() * (LW - 180); n.y = 40 + rnd() * (LH - 100); });
 
   const adj = new Map(nodes.map(n => [n.id, new Set([n.id])]));
   links.forEach(l => { adj.get(l.source).add(l.target); adj.get(l.target).add(l.source); });
@@ -716,6 +718,16 @@ function renderGraph() {
     .attr('width', '100%').attr('height', '100%')
     .attr('viewBox', `0 0 ${W} ${H}`)
     .attr('preserveAspectRatio', 'xMidYMid meet');
+
+  // Soft radial gradients for post nodes (bright core → body colour, no dark outline)
+  const gradDefs = svg.append('defs');
+  [...new Set(postNodes.map(n => n.color))].forEach(col => {
+    const g = gradDefs.append('radialGradient').attr('id', 'ng-' + col.slice(1))
+      .attr('cx', '38%').attr('cy', '35%').attr('r', '75%');
+    g.append('stop').attr('offset', '0%').attr('stop-color', d3.color(col).brighter(neon ? 1.1 : 0.6));
+    g.append('stop').attr('offset', '70%').attr('stop-color', col);
+    g.append('stop').attr('offset', '100%').attr('stop-color', d3.color(col).darker(neon ? 0.15 : 0.2));
+  });
 
   // Neon glow filter (dark theme only)
   const defs = svg.append('defs');
@@ -731,16 +743,16 @@ function renderGraph() {
   const sim = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(links).id(d => d.id).distance(95).strength(0.3))
     .force('charge', d3.forceManyBody().strength(-520))
-    .force('x', d3.forceX(W / 2).strength(0.028))
-    .force('y', d3.forceY(H / 2).strength(0.22))
-    .force('collide', d3.forceCollide(d => d.type === 'post' ? 72 : 24))
+    .force('x', d3.forceX(LW / 2).strength(0.028))
+    .force('y', d3.forceY(LH / 2).strength(0.22))
+    .force('collide', d3.forceCollide(d => d.type === 'post' ? 62 : 20))
     .force('bound', () => {
       const padX = 80, padY = 26, padYb = 44;
       nodes.forEach(n => {
         if (n.x < padX)       n.vx += (padX - n.x) * 0.12;
-        if (n.x > W - padX)   n.vx -= (n.x - (W - padX)) * 0.12;
+        if (n.x > LW - padX)  n.vx -= (n.x - (LW - padX)) * 0.12;
         if (n.y < padY)       n.vy += (padY - n.y) * 0.12;
-        if (n.y > H - padYb)  n.vy -= (n.y - (H - padYb)) * 0.12;
+        if (n.y > LH - padYb) n.vy -= (n.y - (LH - padYb)) * 0.12;
       });
     });
 
@@ -752,11 +764,12 @@ function renderGraph() {
     .scaleExtent([0.3, 4])
     .on('zoom', ev => canvas.attr('transform', ev.transform));
   svg.call(zoom).on('dblclick.zoom', null);
+  svg.call(zoom.transform, d3.zoomIdentity.scale(1 / VIEW));
 
   // Reset zoom — always update onclick to reference current svg/zoom
   const resetBtn = document.getElementById('graph-reset-btn');
   if (resetBtn) {
-    resetBtn.onclick = () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity);
+    resetBtn.onclick = () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity.scale(1 / VIEW));
   }
 
   // Links
@@ -776,34 +789,34 @@ function renderGraph() {
   // Pulsing halo behind posts
   nodeEl.filter(d => d.type === 'post').append('circle')
     .attr('class', 'graph-halo')
-    .attr('r', d => d.r + 6)
+    .attr('r', d => d.r + 5)
     .attr('fill', d => d.color)
     .style('animation-delay', (_d, i) => `${(i % 5) * 0.7}s`);
 
   nodeEl.append('circle')
     .attr('r', d => d.r)
-    .attr('fill', d => d.type === 'post' ? d.color : cssVar('--ink'))
-    .attr('fill-opacity', d => d.type === 'post' ? 0.95 : 1)
-    .attr('stroke', d => d.type === 'post' ? cssVar('--ink') : (neon ? '#7fa6e6' : cssVar('--text-mute')))
-    .attr('stroke-width', d => d.type === 'post' ? 2 : 1.2)
+    .attr('fill', d => d.type === 'post' ? `url(#ng-${d.color.slice(1)})` : cssVar('--ink'))
+    .attr('stroke', d => d.type === 'post' ? d.color : (neon ? '#7fa6e6' : cssVar('--text-mute')))
+    .attr('stroke-opacity', d => d.type === 'post' ? 0.35 : 1)
+    .attr('stroke-width', d => d.type === 'post' ? 3 : 1)
     .attr('filter', neon ? 'url(#glow-fx)' : null);
 
   // Post titles (serif) and tag names (mono)
   nodeEl.filter(d => d.type === 'post').append('text')
     .text(d => d.short)
-    .attr('dy', d => d.r + 12)
+    .attr('dy', d => d.r + 10)
     .attr('text-anchor', 'middle')
     .style('font-family', 'var(--serif)')
-    .style('font-size', '9.5px')
+    .style('font-size', '9px')
     .style('fill', cssVar('--text-soft'))
     .style('pointer-events', 'none');
 
   nodeEl.filter(d => d.type === 'tag').append('text')
     .text(d => d.label)
-    .attr('dy', d => d.r + 9)
+    .attr('dy', d => d.r + 8)
     .attr('text-anchor', 'middle')
     .style('font-family', 'var(--mono)')
-    .style('font-size', '7.5px')
+    .style('font-size', '7.2px')
     .style('fill', cssVar('--text-mute'))
     .style('pointer-events', 'none');
 
@@ -881,9 +894,9 @@ function renderGraph() {
   // Tick
   sim.on('tick', () => {
     linkEl
-      .attr('x1', d => cx(d.source.x, W)).attr('y1', d => cy(d.source.y, H))
-      .attr('x2', d => cx(d.target.x, W)).attr('y2', d => cy(d.target.y, H));
-    nodeEl.attr('transform', d => `translate(${cx(d.x, W, d.r)},${cy(d.y, H, d.r)})`);
+      .attr('x1', d => cx(d.source.x, LW)).attr('y1', d => cy(d.source.y, LH))
+      .attr('x2', d => cx(d.target.x, LW)).attr('y2', d => cy(d.target.y, LH));
+    nodeEl.attr('transform', d => `translate(${cx(d.x, LW, d.r)},${cy(d.y, LH, d.r)})`);
   });
 
   function cx(v, max, r = 0) { return Math.max(r + 2, Math.min(max - r - 2, v)); }
