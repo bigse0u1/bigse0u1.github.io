@@ -690,7 +690,7 @@ function renderGraph() {
   const postNodes = activePosts.map(p => ({
     id: p.slug, type: 'post', label: p.title,
     short: shorten(p.title.replace(/^\[[^\]]+\]\s*/, ''), 28),
-    slug: p.slug, color: postColor(p), r: 3.2
+    slug: p.slug, color: postColor(p), r: 1.7
   }));
 
   const tagMap = new Map();
@@ -701,7 +701,7 @@ function renderGraph() {
     tg.colors[postColor(p)] = (tg.colors[postColor(p)] || 0) + 1;
   }));
   tagMap.forEach(tg => {
-    tg.r = 5 + Math.sqrt(tg.count) * 3.4;
+    tg.r = 2.4 + Math.sqrt(tg.count) * 1.1;
     tg.color = Object.entries(tg.colors).sort((x, y) => y[1] - x[1])[0][0];
   });
 
@@ -747,11 +747,11 @@ function renderGraph() {
 
   // Force simulation
   const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(d => 34 + d.target.r + d.source.r).strength(0.5))
+    .force('link', d3.forceLink(links).id(d => d.id).distance(d => 26 + d.target.r + d.source.r).strength(0.5))
     .force('charge', d3.forceManyBody().strength(d => d.type === 'tag' ? -420 : -25))
     .force('x', d3.forceX(LW / 2).strength(0.028))
     .force('y', d3.forceY(LH / 2).strength(0.22))
-    .force('collide', d3.forceCollide(d => d.type === 'tag' ? d.r + 30 : 9))
+    .force('collide', d3.forceCollide(d => d.type === 'tag' ? d.r + 26 : 7))
     .force('bound', () => {
       const padX = 80, padY = 26, padYb = 44;
       nodes.forEach(n => {
@@ -795,7 +795,7 @@ function renderGraph() {
   // Pulsing halo behind posts
   nodeEl.filter(d => d.type === 'tag').append('circle')
     .attr('class', 'graph-halo')
-    .attr('r', d => d.r + 7)
+    .attr('r', d => d.r + 4)
     .attr('fill', d => d.color)
     .style('animation-delay', (_d, i) => `${(i % 5) * 0.7}s`);
 
@@ -804,24 +804,28 @@ function renderGraph() {
     .attr('fill', d => `url(#ng-${d.color.slice(1)})`)
     .attr('stroke', d => d.color)
     .attr('stroke-opacity', 0.35)
-    .attr('stroke-width', d => d.type === 'tag' ? 3 : 2)
+    .attr('stroke-width', d => d.type === 'tag' ? 2 : 1.5)
     .attr('filter', neon ? 'url(#glow-fx)' : null);
 
   // Tag names (primary) — always visible with post count
-  nodeEl.filter(d => d.type === 'tag').append('text')
-    .text(d => `${d.label}  ${d.count}`)
-    .attr('dy', d => d.r + 12)
+  const tagText = nodeEl.filter(d => d.type === 'tag').append('text')
+    .attr('dy', d => d.r + 9)
     .attr('text-anchor', 'middle')
     .style('font-family', 'var(--mono)')
-    .style('font-size', '9.5px')
+    .style('font-size', '8.5px')
     .style('fill', cssVar('--text-soft'))
     .style('pointer-events', 'none');
+  tagText.append('tspan').text(d => d.label);
+  tagText.append('tspan').text(d => ` (${d.count})`)
+    .style('font-size', '6.8px')
+    .style('fill', cssVar('--text-mute'))
+    .style('opacity', 0.75);
 
   // Post titles — only revealed when a connected tag/post is hovered
   nodeEl.filter(d => d.type === 'post').append('text')
     .attr('class', 'post-label')
     .text(d => d.short)
-    .attr('dy', d => d.r + 10)
+    .attr('dy', d => d.r + 8)
     .attr('text-anchor', 'middle')
     .style('font-family', 'var(--serif)')
     .style('font-size', '8.5px')
