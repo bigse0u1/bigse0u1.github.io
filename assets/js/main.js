@@ -690,14 +690,20 @@ function renderGraph() {
   const postNodes = activePosts.map(p => ({
     id: p.slug, type: 'post', label: p.title,
     short: shorten(p.title.replace(/^\[[^\]]+\]\s*/, ''), 28),
-    slug: p.slug, color: postColor(p),
-    r: 4.8 + Math.min(4, (p.tags || []).length) * 0.9
+    slug: p.slug, color: postColor(p), r: 3.2
   }));
 
   const tagMap = new Map();
   activePosts.forEach(p => (p.tags || []).forEach(t => {
-    if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, r: 3 });
+    if (!tagMap.has(t)) tagMap.set(t, { id: `t::${t}`, type: 'tag', label: t, count: 0, colors: {} });
+    const tg = tagMap.get(t);
+    tg.count++;
+    tg.colors[postColor(p)] = (tg.colors[postColor(p)] || 0) + 1;
   }));
+  tagMap.forEach(tg => {
+    tg.r = 5 + Math.sqrt(tg.count) * 3.4;
+    tg.color = Object.entries(tg.colors).sort((x, y) => y[1] - x[1])[0][0];
+  });
 
   const nodes = [...postNodes, ...tagMap.values()];
   const links = [];
@@ -721,7 +727,7 @@ function renderGraph() {
 
   // Soft radial gradients for post nodes (bright core → body colour, no dark outline)
   const gradDefs = svg.append('defs');
-  [...new Set(postNodes.map(n => n.color))].forEach(col => {
+  [...new Set([...postNodes, ...tagMap.values()].map(n => n.color))].forEach(col => {
     const g = gradDefs.append('radialGradient').attr('id', 'ng-' + col.slice(1))
       .attr('cx', '38%').attr('cy', '35%').attr('r', '75%');
     g.append('stop').attr('offset', '0%').attr('stop-color', d3.color(col).brighter(neon ? 1.1 : 0.6));
@@ -741,11 +747,11 @@ function renderGraph() {
 
   // Force simulation
   const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(95).strength(0.3))
-    .force('charge', d3.forceManyBody().strength(-520))
+    .force('link', d3.forceLink(links).id(d => d.id).distance(d => 34 + d.target.r + d.source.r).strength(0.5))
+    .force('charge', d3.forceManyBody().strength(d => d.type === 'tag' ? -420 : -25))
     .force('x', d3.forceX(LW / 2).strength(0.028))
     .force('y', d3.forceY(LH / 2).strength(0.22))
-    .force('collide', d3.forceCollide(d => d.type === 'post' ? 62 : 20))
+    .force('collide', d3.forceCollide(d => d.type === 'tag' ? d.r + 30 : 9))
     .force('bound', () => {
       const padX = 80, padY = 26, padYb = 44;
       nodes.forEach(n => {
@@ -787,42 +793,45 @@ function renderGraph() {
   nodeEl.style('cursor', 'pointer');
 
   // Pulsing halo behind posts
-  nodeEl.filter(d => d.type === 'post').append('circle')
+  nodeEl.filter(d => d.type === 'tag').append('circle')
     .attr('class', 'graph-halo')
-    .attr('r', d => d.r + 5)
+    .attr('r', d => d.r + 7)
     .attr('fill', d => d.color)
     .style('animation-delay', (_d, i) => `${(i % 5) * 0.7}s`);
 
   nodeEl.append('circle')
     .attr('r', d => d.r)
-    .attr('fill', d => d.type === 'post' ? `url(#ng-${d.color.slice(1)})` : cssVar('--ink'))
-    .attr('stroke', d => d.type === 'post' ? d.color : (neon ? '#7fa6e6' : cssVar('--text-mute')))
-    .attr('stroke-opacity', d => d.type === 'post' ? 0.35 : 1)
-    .attr('stroke-width', d => d.type === 'post' ? 3 : 1)
+    .attr('fill', d => `url(#ng-${d.color.slice(1)})`)
+    .attr('stroke', d => d.color)
+    .attr('stroke-opacity', 0.35)
+    .attr('stroke-width', d => d.type === 'tag' ? 3 : 2)
     .attr('filter', neon ? 'url(#glow-fx)' : null);
 
-  // Post titles (serif) and tag names (mono)
+  // Tag names (primary) — always visible with post count
+  nodeEl.filter(d => d.type === 'tag').append('text')
+    .text(d => `${d.label}  ${d.count}`)
+    .attr('dy', d => d.r + 12)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'var(--mono)')
+    .style('font-size', '9.5px')
+    .style('fill', cssVar('--text-soft'))
+    .style('pointer-events', 'none');
+
+  // Post titles — only revealed when a connected tag/post is hovered
   nodeEl.filter(d => d.type === 'post').append('text')
+    .attr('class', 'post-label')
     .text(d => d.short)
     .attr('dy', d => d.r + 10)
     .attr('text-anchor', 'middle')
     .style('font-family', 'var(--serif)')
-    .style('font-size', '9px')
-    .style('fill', cssVar('--text-soft'))
-    .style('pointer-events', 'none');
-
-  nodeEl.filter(d => d.type === 'tag').append('text')
-    .text(d => d.label)
-    .attr('dy', d => d.r + 8)
-    .attr('text-anchor', 'middle')
-    .style('font-family', 'var(--mono)')
-    .style('font-size', '7.2px')
-    .style('fill', cssVar('--text-mute'))
+    .style('font-size', '8.5px')
+    .style('fill', cssVar('--text'))
+    .style('opacity', 0)
     .style('pointer-events', 'none');
 
   // Legend (fixed, not zoomed)
   const legendItems = [['Research', catColors.Research], ['Study', catColors.Study], ['Other', OTHER]]
-    .filter(([name, col]) => postNodes.some(n => n.color === col));
+    .filter(([name, col]) => nodes.some(n => n.color === col));
   const legend = svg.append('g').attr('transform', `translate(16,${H - 14})`);
   let lx = 0;
   legendItems.forEach(([name, col]) => {
@@ -831,6 +840,8 @@ function renderGraph() {
       .style('font-family', 'var(--mono)').style('font-size', '8px').style('fill', cssVar('--text-mute'));
     lx += 22 + name.length * 5.2;
   });
+  legend.append('text').attr('x', lx + 6).attr('y', 0).text('node size = number of posts')
+    .style('font-family', 'var(--mono)').style('font-size', '8px').style('fill', cssVar('--text-mute')).style('opacity', 0.7);
 
   // Resize handle (added once to graph-section)
   if (section && !section.querySelector('.graph-resize-handle')) {
@@ -869,6 +880,7 @@ function renderGraph() {
     .on('mouseenter', function(ev, d) {
       const near = adj.get(d.id);
       nodeEl.style('opacity', n => near.has(n.id) ? 1 : 0.18);
+      nodeEl.select('.post-label').style('opacity', n => near.has(n.id) ? 1 : 0);
       linkEl.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.06)
             .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? (neon ? '#8fc2ff' : cssVar('--vermillion')) : linkColor);
       if (d.type === 'post') {
@@ -883,6 +895,7 @@ function renderGraph() {
     })
     .on('mouseleave', function() {
       nodeEl.style('opacity', 1);
+      nodeEl.select('.post-label').style('opacity', 0);
       linkEl.attr('stroke-opacity', 1).attr('stroke', linkColor);
       tip.style('opacity', '0');
     })
