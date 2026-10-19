@@ -453,7 +453,7 @@ img { max-width: 100%; display: block; }
 .news-text a:hover { border-color: var(--vermillion); }
 
 /* ─── Publications ─── */
-#papers-list { max-width: 900px; }
+#papers-list { max-width: 60rem; }
 
 .pub-item {
   display: grid;
@@ -649,7 +649,7 @@ img { max-width: 100%; display: block; }
    PROJECTS PAGE — Album Grid
 ═══════════════════════════════════════════════ */
 .proj-page-wrap {
-  max-width: 1400px;
+  max-width: 93rem;
   margin: 0 auto;
   padding: 2.5rem clamp(1.5rem, 6vw, 5rem) 5rem;
 }
@@ -701,12 +701,8 @@ img { max-width: 100%; display: block; }
   gap: 1rem;
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1300px) {
   .proj-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-@media (min-width: 1600px) {
-  .proj-grid { grid-template-columns: repeat(5, 1fr); }
 }
 
 .proj-card {
@@ -1724,7 +1720,10 @@ img { max-width: 100%; display: block; }
 
   /* Projects — one card per row on phones */
   .proj-grid { grid-template-columns: 1fr; }
-  .proj-card { aspect-ratio: 16/9; }
+  .proj-card { aspect-ratio: 2.3 / 1; }
+  .proj-card-body { padding: 0.9rem 1rem; }
+  .proj-card-title { font-size: 0.95rem; }
+  .proj-card-desc { -webkit-line-clamp: 1; font-size: 0.72rem; }
 
   /* Detail */
   .detail-wrap {
