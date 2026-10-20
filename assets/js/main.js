@@ -920,11 +920,25 @@ function renderGraph() {
     .attr('stroke-opacity', 0.95).attr('stroke-width', 3);
 
   // Tick
+  // Gentle idle drift: each node floats a few px on its own slow orbit (visual only — layout is untouched)
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const drift = new Map(nodes.map(n => [n.id, {
+    px: rnd() * 6.28, py: rnd() * 6.28,
+    fx: 0.00035 + rnd() * 0.0004, fy: 0.00035 + rnd() * 0.0004,
+    a: n.type === 'tag' ? 3.4 : 5
+  }]));
+  let now = 0;
+  const pos = n => {
+    const d = drift.get(n.id);
+    const ox = reduceMotion ? 0 : Math.sin(now * d.fx + d.px) * d.a;
+    const oy = reduceMotion ? 0 : Math.cos(now * d.fy + d.py) * d.a;
+    return [cx(n.x, LW, n.r) + ox, cy(n.y, LH, n.r) + oy];
+  };
   const ticked = () => {
     linkEl
-      .attr('x1', d => cx(d.source.x, LW)).attr('y1', d => cy(d.source.y, LH))
-      .attr('x2', d => cx(d.target.x, LW)).attr('y2', d => cy(d.target.y, LH));
-    nodeEl.attr('transform', d => `translate(${cx(d.x, LW, d.r)},${cy(d.y, LH, d.r)})`);
+      .attr('x1', d => pos(d.source)[0]).attr('y1', d => pos(d.source)[1])
+      .attr('x2', d => pos(d.target)[0]).attr('y2', d => pos(d.target)[1]);
+    nodeEl.attr('transform', d => `translate(${pos(d)[0]},${pos(d)[1]})`);
   };
 
   // Settle the layout up-front so it never "swims" when a tag is selected; dragging still animates
@@ -932,6 +946,16 @@ function renderGraph() {
   for (let i = 0; i < 320; i++) sim.tick();
   ticked();
   sim.on('tick', ticked);
+
+  if (renderGraph.timer) renderGraph.timer.stop();
+  if (!reduceMotion) {
+    renderGraph.timer = d3.timer(elapsed => {
+      if (!container.isConnected) { renderGraph.timer.stop(); return; }
+      if (container.offsetParent === null) return;
+      now = elapsed;
+      ticked();
+    });
+  }
 
   function cx(v, max, r = 0) { return Math.max(r + 2, Math.min(max - r - 2, v)); }
   function cy(v, max, r = 0) { return Math.max(r + 2, Math.min(max - r - 2, v)); }
