@@ -681,9 +681,6 @@ function renderGraph() {
   let activePosts = state.catFilter
     ? POSTS.filter(p => (p.categories || []).some(c => c === state.catFilter || c.startsWith(state.catFilter)))
     : POSTS;
-  if (state.tagFilter) {
-    activePosts = activePosts.filter(p => (p.tags || []).includes(state.tagFilter));
-  }
 
   // Build nodes + links
   const shorten = (t, n) => t.length > n ? t.slice(0, n - 1) + '…' : t;
@@ -718,6 +715,18 @@ function renderGraph() {
 
   const adj = new Map(nodes.map(n => [n.id, new Set([n.id])]));
   links.forEach(l => { adj.get(l.source).add(l.target); adj.get(l.target).add(l.source); });
+
+  // Selected tag → highlight it, its posts and the tags those posts share
+  const focusId = state.tagFilter ? `t::${state.tagFilter}` : null;
+  const focusSet = focusId && adj.has(focusId) ? new Set(adj.get(focusId)) : null;
+  if (focusSet) [...focusSet].forEach(id => adj.get(id).forEach(x => focusSet.add(x)));
+  const inFocus = id => !focusSet || focusSet.has(id);
+  const applyBase = () => {
+    nodeEl.style('opacity', n => inFocus(n.id) ? 1 : 0.14);
+    nodeEl.select('.post-label').style('opacity', 0);
+    linkEl.attr('stroke-opacity', l => (inFocus(l.source.id) && inFocus(l.target.id)) ? 1 : 0.05)
+          .attr('stroke', linkColor);
+  };
 
   // SVG — height 100% so it fills the resizable container
   const svg = d3.select(container).append('svg')
@@ -898,9 +907,7 @@ function renderGraph() {
       tip.style('left', (ev.offsetX + 14) + 'px').style('top', (ev.offsetY - 10) + 'px');
     })
     .on('mouseleave', function() {
-      nodeEl.style('opacity', 1);
-      nodeEl.select('.post-label').style('opacity', 0);
-      linkEl.attr('stroke-opacity', 1).attr('stroke', linkColor);
+      applyBase();
       tip.style('opacity', '0');
     })
     .on('click', (_ev, d) => {
@@ -908,13 +915,23 @@ function renderGraph() {
       else filterTag(d.label);
     });
 
+  applyBase();
+  if (focusId) nodeEl.filter(d => d.id === focusId).select('circle:last-of-type')
+    .attr('stroke-opacity', 0.95).attr('stroke-width', 3);
+
   // Tick
-  sim.on('tick', () => {
+  const ticked = () => {
     linkEl
       .attr('x1', d => cx(d.source.x, LW)).attr('y1', d => cy(d.source.y, LH))
       .attr('x2', d => cx(d.target.x, LW)).attr('y2', d => cy(d.target.y, LH));
     nodeEl.attr('transform', d => `translate(${cx(d.x, LW, d.r)},${cy(d.y, LH, d.r)})`);
-  });
+  };
+
+  // Settle the layout up-front so it never "swims" when a tag is selected; dragging still animates
+  sim.stop();
+  for (let i = 0; i < 320; i++) sim.tick();
+  ticked();
+  sim.on('tick', ticked);
 
   function cx(v, max, r = 0) { return Math.max(r + 2, Math.min(max - r - 2, v)); }
   function cy(v, max, r = 0) { return Math.max(r + 2, Math.min(max - r - 2, v)); }
