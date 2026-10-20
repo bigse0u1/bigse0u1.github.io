@@ -10,6 +10,7 @@ const SITE = {
   github: 'bigse0u1',
   linkedin: 'https://www.linkedin.com/in/taekyeong-lee-70269b364/',
   scholar: '',
+  cv: '',   // 예: 'assets/cv/Taekyeong_Lee_CV.pdf' — 비워두면 아이콘이 흐리게 비활성
   intro: 'Hi, I\'m Taekyeong Lee.<br>Undergraduate Student in Dept of Software, Yonsei University (Mirae).<br>I\'m passionate about Robotics and VLA — teaching machines to see, think, and move.',
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
@@ -1388,6 +1389,9 @@ async function init() {
       </a>
       <a class="profile-btn ${SITE.scholar ? '' : 'profile-btn-disabled'}" ${SITE.scholar ? `href="${SITE.scholar}" target="_blank"` : ''} title="Google Scholar" aria-label="Google Scholar">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-6 9.18v3.82c0 1.66 2.69 3 6 3s6-1.34 6-3v-3.82l-6 3.27-6-3.27Z"/></svg>
+      </a>
+      <a class="profile-btn ${SITE.cv ? '' : 'profile-btn-disabled'}" ${SITE.cv ? `href="${SITE.cv}" target="_blank"` : ''} title="CV" aria-label="CV">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
       </a>
     </div>
     <div class="gh-wrap" id="gh-wrap"></div>`;
