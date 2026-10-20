@@ -41,6 +41,10 @@ const SITE = {
       advisor: 'Prof. Dong-Hee Shin'
     }
   ],
+  // Gallery: 학회/행사별 사진. 사진 파일은 assets/img/gallery/ 에 넣기
+  gallery: [
+    // { title: 'CVPR 2026', date: '2026.06', location: 'Denver, USA', description: '', photos: [ { src: 'assets/img/gallery/cvpr2026-01.jpg', caption: 'Poster session' } ] }
+  ],
   publications: [
     // { title: '', authors: '', venue: '', year: '', image: '', links: { 'paper': '', 'code': '' } }
   ],
@@ -118,7 +122,7 @@ const md = (text) => {
    STATE
 ═══════════════════════════════════════════════ */
 let state = {
-  page: 'home',       // home | projects | papers | study
+  page: 'home',       // home | papers | projects | study | gallery
   detail: null,       // null | { type: 'post'|'project', slug }
   catFilter: '',
   tagFilter: '',
@@ -159,6 +163,7 @@ function updateHash() {
     switch (state.page) {
       case 'projects': hash = '#projects'; break;
       case 'papers': hash = '#papers'; break;
+      case 'gallery': hash = '#gallery'; break;
       case 'study':
         hash = '#study';
         if (state.catFilter) hash += '/' + encodeURIComponent(state.catFilter);
@@ -182,6 +187,8 @@ function routeFromHash() {
     state.page = 'projects';
   } else if (hash === '#papers') {
     state.page = 'papers';
+  } else if (hash === '#gallery') {
+    state.page = 'gallery';
   } else if (hash.startsWith('#study')) {
     state.page = 'study';
     const rest = hash.slice(6);
@@ -231,6 +238,7 @@ function render() {
     case 'home':     renderHome();     document.getElementById('page-home').classList.add('active');     break;
     case 'projects': renderProjects(); document.getElementById('page-projects').classList.add('active'); break;
     case 'papers':   renderPapers();   document.getElementById('page-papers').classList.add('active');   break;
+    case 'gallery':  renderGallery();  document.getElementById('page-gallery').classList.add('active');  break;
     case 'study':    renderStudy();    document.getElementById('page-study').classList.add('active');    break;
   }
 }
@@ -444,7 +452,7 @@ function renderPapers() {
   el.closest('.proj-page-wrap').classList.add('fade-in');
 
   if (!SITE.publications.length) {
-    el.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— No papers yet. Add entries to <code>SITE.publications</code> in <code>main.js</code> —</div>';
+    el.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— No publications yet. Add entries to <code>SITE.publications</code> in <code>main.js</code> —</div>';
     return;
   }
 
@@ -461,6 +469,88 @@ function renderPapers() {
       </div>
     </div>`).join('');
 }
+
+/* ═══════════════════════════════════════════════
+   GALLERY
+═══════════════════════════════════════════════ */
+function renderGallery() {
+  const el = document.getElementById('gallery-list');
+  el.innerHTML = '';
+  el.closest('.proj-page-wrap').classList.add('fade-in');
+
+  if (!SITE.gallery.length) {
+    el.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— No photos yet. Add events to <code>SITE.gallery</code> in <code>main.js</code> —</div>';
+    return;
+  }
+
+  el.innerHTML = SITE.gallery.map((ev, i) => `
+    <section class="gal-event">
+      <div class="gal-head">
+        <h2 class="gal-title">${ev.title}</h2>
+        <div class="gal-meta">${[ev.date, ev.location].filter(Boolean).join(' · ')}</div>
+      </div>
+      ${ev.description ? `<p class="gal-desc">${ev.description}</p>` : ''}
+      <div class="gal-grid">
+        ${ev.photos.map((ph, j) => `
+          <figure class="gal-item" data-ev="${i}" data-ph="${j}">
+            <img src="${ph.src}" alt="${ph.caption || ev.title}" loading="lazy">
+          </figure>`).join('')}
+      </div>
+    </section>`).join('');
+
+  el.querySelectorAll('.gal-item').forEach(f => {
+    f.onclick = () => openLightbox(+f.dataset.ev, +f.dataset.ph);
+  });
+}
+
+const lightbox = { ev: 0, ph: 0, open: false };
+
+function showLightbox() {
+  const ev = SITE.gallery[lightbox.ev];
+  const photo = ev.photos[lightbox.ph];
+  const box = document.getElementById('lightbox');
+  box.querySelector('.lb-img').src = photo.src;
+  box.querySelector('.lb-cap').textContent =
+    `${photo.caption ? photo.caption + ' — ' : ''}${ev.title}  (${lightbox.ph + 1} / ${ev.photos.length})`;
+}
+
+function openLightbox(ev, ph) {
+  lightbox.ev = ev; lightbox.ph = ph; lightbox.open = true;
+  const box = document.getElementById('lightbox');
+  box.classList.add('open');
+  box.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  showLightbox();
+}
+
+function closeLightbox() {
+  lightbox.open = false;
+  const box = document.getElementById('lightbox');
+  box.classList.remove('open');
+  box.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function stepLightbox(d) {
+  const n = SITE.gallery[lightbox.ev].photos.length;
+  lightbox.ph = (lightbox.ph + d + n) % n;
+  showLightbox();
+}
+
+(function initLightbox() {
+  const box = document.getElementById('lightbox');
+  if (!box) return;
+  box.querySelector('.lb-close').onclick = closeLightbox;
+  box.querySelector('.lb-prev').onclick = e => { e.stopPropagation(); stepLightbox(-1); };
+  box.querySelector('.lb-next').onclick = e => { e.stopPropagation(); stepLightbox(1); };
+  box.onclick = e => { if (e.target === box) closeLightbox(); };
+  document.addEventListener('keydown', e => {
+    if (!lightbox.open) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') stepLightbox(-1);
+    else if (e.key === 'ArrowRight') stepLightbox(1);
+  });
+})();
 
 /* ═══════════════════════════════════════════════
    STUDY
