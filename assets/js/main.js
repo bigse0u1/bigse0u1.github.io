@@ -46,50 +46,12 @@ const SITE = {
     // { title: 'CVPR 2026', date: '2026.06', location: 'Denver, USA', description: '', photos: [ { src: 'assets/img/gallery/cvpr2026-01.jpg', caption: 'Poster session' } ] }
   ],
   publications: [
-    // { title: '', authors: '', venue: '', year: '', image: '', links: { 'paper': '', 'code': '' } }
+    // { title: '', authors: 'Taekyeong Lee*, Co Author', venue: 'CVPR Findings', venueUrl: '', date: '2026/06',
+    //   type: 'Conference',            // Conference | Journal | Preprint …  (종류가 2개 이상이면 필터가 생김)
+    //   badge: 'Spotlight',            // 선택
+    //   image: '',                     // 선택 (썸네일)
+    //   links: { arXiv: '', Paper: '', Project: '', Code: '' } }
   ],
-  projects_home: [
-    {
-      period: '2026.06 – ',
-      name: 'AmazingTouch',
-      status: 'ongoing',
-      desc: 'Fingertip tactile sensing for adaptive grasping with Amazing Hand.',
-      stack: 'Robotics · Python · ROS 2',
-      image: 'assets/img/projects/AmazingTouch.png',
-      github: '',
-      demo: ''
-    },
-    {
-      period: '2026.06 – ',
-      name: 'Vesalius Ai',
-      status: 'ongoing',
-      desc: 'A Vision-Language-Action Based Surgical Assistant Robot for Context-Aware Surgical Support',
-      stack: 'Robotics · VLA · Python · ROS 2 · VLA · Computer Vision',
-      image: 'assets/img/projects/Vesalius_ai.png',
-      github: 'https://github.com/bigse0u1/Vesalius-Ai',
-      demo: ''
-    },
-    {
-      period: '2026.05 – ',
-      name: 'KTM-LLM',
-      status: 'ongoing',
-      desc: 'Built a Korean Medicine knowledge graph and evaluated Korean/global LLMs for QA.',
-      stack: 'LLM · RAG · GraphRAG',
-      image: 'assets/img/projects/KTM-LLM.png',
-      github: '',
-      demo: ''
-    },
-    {
-      period: '2025.09 – 2025.12',
-      name: 'FocusMate',
-      status: 'done',
-      desc: 'A Real-Time User Attention Evaluation Model Using Integrated Visual Biosignals',
-      stack: 'TypeScript · MediaPipe · HTML · CSS',
-      image: 'assets/img/projects/focusmate.png',
-      github: 'https://github.com/bigse0u1/FOCUS_MATE',
-      demo: 'https://yonsei-focusmate.netlify.app/'
-    }
-  ]
 };
 
 /* ═══════════════════════════════════════════════
@@ -344,40 +306,6 @@ function renderHome() {
 
   // Publications now live on their own tab — see renderPapers()
 
-  // 6. Projects (home preview)
-  const projHtml = SITE.projects_home.map(p => `
-    <div class="home-proj-item">
-      <div class="edu-period">${p.period}</div>
-      <div style="display:flex;gap:0.9rem;align-items:flex-start">
-        ${p.image ? `<img src="${p.image}" class="home-proj-thumb" alt="${p.name}">` : ''}
-        <div>
-          <div class="home-proj-name">
-            ${p.name}
-            ${p.status === 'ongoing'
-              ? '<span class="proj-status proj-status-ongoing">In Progress</span>'
-              : p.status === 'done'
-              ? '<span class="proj-status proj-status-done">Done</span>'
-              : ''}
-          </div>
-          <div class="home-proj-desc">${p.desc}</div>
-          <div class="home-proj-stack">${p.stack}</div>
-          <div class="home-proj-links">
-            ${p.github ? `<a href="${p.github}" target="_blank" class="small-link">GitHub</a>` : ''}
-            ${p.demo ? `<a href="${p.demo}" target="_blank" class="small-link">Demo</a>` : ''}
-          </div>
-        </div>
-      </div>
-    </div>`).join('');
-
-  el.innerHTML += `
-    <div class="section">
-      <div class="section-head">
-        <span class="section-title">Projects</span>
-        <a onclick="navigate('projects')" style="margin-left:auto;font-family:var(--mono);font-size:0.65rem;color:var(--text-mute);cursor:pointer">All →</a>
-      </div>
-      ${projHtml || '<div style="color:var(--text-mute);font-size:0.82rem">No projects yet.</div>'}
-    </div>`;
-
   document.querySelector('.nav-date').textContent = new Date().toISOString().slice(0,10).replace(/-/g,'.');
 }
 
@@ -390,23 +318,23 @@ function renderProjects() {
   el.closest('.proj-page-wrap').classList.add('fade-in');
 
   if (!PROJECTS.length) {
-    el.style.background = 'none';
-    el.style.border = 'none';
     el.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— No projects yet. Add <code>.md</code> files to <code>_projects/</code> —</div>';
     return;
   }
 
-  el.style.background = '';
-  el.style.border = '';
+  const ym = d => (d || '').slice(0, 7).replace('-', '.');
+  const period = p => {
+    const start = ym(p.date);
+    if (p.end) return `${start} – ${p.end}`;
+    return p.status === 'ongoing' ? `${start} – Present` : start;
+  };
 
+  // Newest first; ongoing projects lead within the same year
   const sorted = [...PROJECTS].sort((a, b) => {
-    const aOngoing = a.status === 'ongoing' ? 0 : 1;
-    const bOngoing = b.status === 'ongoing' ? 0 : 1;
-    if (aOngoing !== bOngoing) return aOngoing - bOngoing;
-    return (b.date || '').localeCompare(a.date || '');
+    const ao = a.status === 'ongoing' ? 0 : 1, bo = b.status === 'ongoing' ? 0 : 1;
+    return ao - bo || (b.date || '').localeCompare(a.date || '');
   });
 
-  // Group by year (newest year first; each year keeps the ongoing-first/date-desc order above)
   const byYear = new Map();
   sorted.forEach(p => {
     const year = (p.date || '').slice(0, 4) || 'Unknown';
@@ -414,38 +342,43 @@ function renderProjects() {
     byYear.get(year).push(p);
   });
 
-  [...byYear.keys()].sort((a, b) => b.localeCompare(a)).forEach(year => {
-    const section = document.createElement('div');
-    section.className = 'proj-year-section';
-    section.innerHTML = `<div class="proj-year-heading">${year}</div>`;
-
-    const grid = document.createElement('div');
-    grid.className = 'proj-grid';
-    byYear.get(year).forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'proj-card';
-      card.onclick = () => navigate('projects', { type: 'project', slug: p.slug });
-      card.innerHTML = `
-        ${p.image ? `<img src="${p.image}" alt="${p.title}" class="proj-card-img">` : ''}
-        <div class="proj-card-body">
-          <div class="proj-card-tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="proj-card-tag">${t}</span>`).join('')}</div>
-          <div class="proj-card-title">
-            ${p.title}
-            ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
+  el.innerHTML = [...byYear.keys()].sort((a, b) => b.localeCompare(a)).map(year => `
+    <section class="proj-year-section">
+      <div class="proj-year-heading">${year}</div>
+      ${byYear.get(year).map(p => `
+        <article class="pj-item" data-slug="${p.slug}">
+          ${p.image ? `<div class="pj-media"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>` : ''}
+          <div class="pj-body">
+            <div class="pj-meta">
+              <span class="pj-period">${period(p)}</span>
+              ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
+              ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
+              ${p.type ? `<span class="pj-chip">${p.type}</span>` : ''}
+            </div>
+            <h3 class="pj-title">${p.title}</h3>
+            ${p.org ? `<div class="pj-org">${p.org}</div>` : ''}
+            ${p.description ? `<p class="pj-desc">${p.description}</p>` : ''}
+            ${p.stack ? `<div class="pj-stack">${p.stack}</div>` : ''}
+            <div class="pj-links">
+              ${p.github ? `<a href="${p.github}" target="_blank" class="pj-link">GitHub</a>` : ''}
+              ${p.demo ? `<a href="${p.demo}" target="_blank" class="pj-link">Demo</a>` : ''}
+              <a class="pj-link pj-more">Details →</a>
+            </div>
           </div>
-          <div class="proj-card-desc">${p.description||''}</div>
-        </div>`;
-      grid.appendChild(card);
-    });
+        </article>`).join('')}
+    </section>`).join('');
 
-    section.appendChild(grid);
-    el.appendChild(section);
+  el.querySelectorAll('.pj-item').forEach(card => {
+    card.onclick = () => navigate('projects', { type: 'project', slug: card.dataset.slug });
+    card.querySelectorAll('a[href]').forEach(a => a.onclick = e => e.stopPropagation());
   });
 }
 
 /* ═══════════════════════════════════════════════
    PAPERS
 ═══════════════════════════════════════════════ */
+let pubTypeFilter = 'All';
+
 function renderPapers() {
   const el = document.getElementById('papers-list');
   el.innerHTML = '';
@@ -456,18 +389,37 @@ function renderPapers() {
     return;
   }
 
-  el.innerHTML = SITE.publications.map(p => `
-    <div class="pub-item">
-      <div class="pub-thumb">${p.image ? `<img src="${p.image}" alt="${p.title}">` : '◈'}</div>
-      <div>
-        <div class="pub-title">${p.title}</div>
-        <div class="pub-authors">${p.authors}</div>
-        <div class="pub-venue">${p.venue}, ${p.year}</div>
-        <div class="pub-links">
-          ${Object.entries(p.links || {}).map(([k,v]) => `<a href="${v}" target="_blank" class="pub-link">${k}</a>`).join('')}
-        </div>
-      </div>
-    </div>`).join('');
+  const all = [...SITE.publications].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  const types = [...new Set(all.map(p => p.type).filter(Boolean))];
+  if (!types.includes(pubTypeFilter)) pubTypeFilter = 'All';
+  const shown = all.filter(p => pubTypeFilter === 'All' || p.type === pubTypeFilter);
+  const me = SITE.author;
+  const authors = a => (a || '').split(me).join(`<strong>${me}</strong>`);
+
+  el.innerHTML = `
+    ${types.length > 1 ? `<div class="pub-filters">${['All', ...types].map(t =>
+      `<button class="tag-btn${t === pubTypeFilter ? ' active' : ''}" data-type="${t}">${t}</button>`).join('')}</div>` : ''}
+    <ol class="pub-list">
+      ${shown.map((p, i) => `
+        <li class="pub-entry">
+          <span class="pub-no">${all.length - all.indexOf(p)}</span>
+          ${p.image ? `<img class="pub-thumb-img" src="${p.image}" alt="${p.title}" loading="lazy">` : ''}
+          <div class="pub-main">
+            <div class="pub-title">${p.title}</div>
+            <div class="pub-authors">${authors(p.authors)}</div>
+            <div class="pub-venue">${p.venueUrl ? `<a href="${p.venueUrl}" target="_blank">${p.venue}</a>` : p.venue}${p.date ? `, ${p.date}` : ''}
+              ${p.badge ? `<span class="news-badge news-badge-award pub-badge">${p.badge}</span>` : ''}
+            </div>
+            <div class="pub-links">
+              ${Object.entries(p.links || {}).filter(([, v]) => v).map(([k, v]) => `<a href="${v}" target="_blank" class="pub-link">${k}</a>`).join('')}
+            </div>
+          </div>
+        </li>`).join('')}
+    </ol>`;
+
+  el.querySelectorAll('.pub-filters .tag-btn').forEach(b => {
+    b.onclick = () => { pubTypeFilter = b.dataset.type; renderPapers(); };
+  });
 }
 
 /* ═══════════════════════════════════════════════

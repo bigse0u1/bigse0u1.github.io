@@ -7,6 +7,10 @@
     "image": "assets/img/projects/Vesalius_ai.png",
     "stack": "Robotics · VLA · Python · ROS 2 · VLA · Computer Vision",
     "status": "ongoing",
+    "end": "",
+    "role": "",
+    "type": "",
+    "org": "",
     "github": "https://github.com/bigse0u1/Vesalius-Ai",
     "demo": "",
     "tags": [
@@ -26,6 +30,10 @@
     "image": "assets/img/projects/focusmate.png",
     "stack": "TypeScript · MediaPipe · HTML · CSS",
     "status": "done",
+    "end": "",
+    "role": "",
+    "type": "",
+    "org": "",
     "github": "https://github.com/bigse0u1/FOCUS_MATE",
     "demo": "https://yonsei-focusmate.netlify.app/",
     "tags": [
@@ -44,6 +52,10 @@
     "image": "assets/img/projects/KTM-LLM.png",
     "stack": "Python · RAG · GraphRAG",
     "status": "ongoing",
+    "end": "",
+    "role": "",
+    "type": "",
+    "org": "",
     "github": "",
     "demo": "",
     "tags": [
@@ -64,6 +76,10 @@
     "image": "assets/img/projects/AmazingTouch.png",
     "stack": "ROS2, Python",
     "status": "ongoing",
+    "end": "",
+    "role": "",
+    "type": "",
+    "org": "",
     "github": "",
     "demo": "",
     "tags": [
