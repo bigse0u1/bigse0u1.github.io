@@ -1904,3 +1904,55 @@ img { max-width: 100%; display: block; }
   .pub-entry, .pub-entry:not(:has(.pub-thumb-img)) { grid-template-columns: 1.6rem minmax(0, 1fr); }
   .pub-thumb-img { display: none; }
 }
+
+/* ═══════════════════════════════════════════════
+   SOFTER SHAPES — pill chips, gently rounded surfaces
+═══════════════════════════════════════════════ */
+.tag-btn, .post-tag, .pj-chip, .pj-link, .pub-link, .small-link, .news-proof,
+.proj-status, .news-badge, .code-lang, .code-copy-btn, .graph-toggle-btn, .graph-reset-btn {
+  border-radius: 999px;
+}
+
+.tag-btn, .post-tag, .pj-chip, .pj-link, .pub-link, .small-link, .news-proof, .code-lang, .code-copy-btn {
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+}
+
+.proj-status, .news-badge { padding-left: 0.65em; padding-right: 0.65em; }
+.pj-more { padding-left: 0; }
+
+.search-input { border-radius: 999px; padding-left: 1.1rem; }
+.graph-section, .graph-tip, .detail-body .mermaid, .detail-body .chart-wrap,
+.detail-body .chart-error, .detail-body .yt-embed, .post-nav-btn { border-radius: 10px; }
+.detail-body blockquote { border-radius: 0 10px 10px 0; }
+.code-wrap { border-radius: 10px; }
+.detail-body code { border-radius: 5px; }
+.profile-photo { border-radius: 6px; }
+.pj-media, .pub-thumb-img, .gal-item { border-radius: 8px; }
+
+/* Rounded navigation: sidebar rows and top tabs */
+.sb-link {
+  margin: 0.1rem 0.7rem;
+  padding: 0.34rem 0.7rem;
+  border-left: none;
+  border-radius: 8px;
+}
+
+.sb-link.active { border-left-color: transparent; }
+
+.nav-link {
+  border-bottom: none;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+}
+
+.nav-link.active {
+  background: var(--vglow);
+  border-bottom-color: transparent;
+}
+
+@media (max-width: 480px) {
+  .nav-link { padding: 0.35rem 0.42rem; }
+  .nav-brand { margin-right: 0.3rem; }
+  .theme-toggle { margin-left: 0.15rem; width: 26px; }
+}

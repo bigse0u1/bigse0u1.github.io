@@ -157,8 +157,10 @@ function routeFromHash() {
     state.catFilter = rest.startsWith('/') ? decodeURIComponent(rest.slice(1)) : '';
     state.tagFilter = '';
   } else if (hash.startsWith('#post/')) {
+    state.page = 'study';
     state.detail = { type: 'post', slug: decodeURIComponent(hash.slice(6)) };
   } else if (hash.startsWith('#project/')) {
+    state.page = 'projects';
     state.detail = { type: 'project', slug: decodeURIComponent(hash.slice(9)) };
   } else {
     state.page = 'home';
