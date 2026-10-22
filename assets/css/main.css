@@ -1955,3 +1955,6 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   cursor: default;
 }
+
+/* CV tab: opens the PDF; dimmed until a file is set */
+.nav-cv-off { opacity: 0.4; cursor: default; }

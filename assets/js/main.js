@@ -1476,9 +1476,14 @@ async function init() {
   renderGithubHeatmap(document.getElementById('gh-wrap'));
 
   // Nav event listeners
-  document.querySelectorAll('.nav-link').forEach(l => {
+  document.querySelectorAll('.nav-link[data-page]').forEach(l => {
     l.addEventListener('click', () => navigate(l.dataset.page));
   });
+
+  // CV opens the PDF directly; dimmed until SITE.cv is set
+  const navCv = document.getElementById('nav-cv');
+  navCv.classList.toggle('nav-cv-off', !SITE.cv);
+  navCv.addEventListener('click', () => { if (SITE.cv) window.open(SITE.cv, '_blank'); });
 
   // Load data then render based on current hash
   await loadData();
