@@ -449,41 +449,65 @@ function renderGallery() {
   el.innerHTML = '';
   el.closest('.proj-page-wrap').classList.add('fade-in');
 
-  // No events yet: show the empty frame (same layout as a real event, dimmed)
+  // No events yet: show empty cards (same layout as a real event, dimmed)
   if (!SITE.gallery.length) {
     el.innerHTML = `
-      <section class="gal-event gal-ghost">
-        <div class="gal-head">
-          <h2 class="gal-title">Conference or event name</h2>
-          <div class="gal-meta">2026.00 · City, Country</div>
-        </div>
-        <p class="gal-desc">A short note about the event goes here.</p>
-        <div class="gal-grid">
-          ${[0, 1, 2].map(() => `<figure class="gal-item gal-item-empty"><div class="gal-frame"><span>Photo</span></div></figure>`).join('')}
-        </div>
-      </section>
+      <div class="gal-grid gal-ghost">
+        ${[0, 1, 2].map(() => `
+          <article class="gal-card">
+            <div class="gal-frame gal-frame-empty"><span>Photo</span></div>
+            <div class="gal-info">
+              <h2 class="gal-title">Conference or event name</h2>
+              <div class="gal-meta">2026.00 · City, Country</div>
+            </div>
+          </article>`).join('')}
+      </div>
       <p class="pub-empty-note">Coming soon — conference photos will be shown here.</p>`;
     return;
   }
 
-  el.innerHTML = SITE.gallery.map((ev, i) => `
-    <section class="gal-event">
-      <div class="gal-head">
+  // One card per event; photos slide sideways inside the card
+  el.innerHTML = `<div class="gal-grid">${SITE.gallery.map((ev, i) => `
+    <article class="gal-card" data-ev="${i}">
+      <div class="gal-frame">
+        <div class="gal-track">
+          ${ev.photos.map((ph, j) => `
+            <figure class="gal-slide" data-ph="${j}">
+              <img src="${ph.src}" alt="${ph.caption || ev.title}" loading="lazy">
+            </figure>`).join('')}
+        </div>
+        ${ev.photos.length > 1 ? `
+          <button class="gal-nav gal-prev" aria-label="Previous photo">‹</button>
+          <button class="gal-nav gal-next" aria-label="Next photo">›</button>
+          <div class="gal-dots">${ev.photos.map((_, j) => `<i class="${j ? '' : 'on'}"></i>`).join('')}</div>` : ''}
+      </div>
+      <div class="gal-info">
         <h2 class="gal-title">${ev.title}</h2>
         <div class="gal-meta">${[ev.date, ev.location].filter(Boolean).join(' · ')}</div>
+        <p class="gal-cap">${ev.photos[0].caption || ev.description || ''}</p>
       </div>
-      ${ev.description ? `<p class="gal-desc">${ev.description}</p>` : ''}
-      <div class="gal-grid">
-        ${ev.photos.map((ph, j) => `
-          <figure class="gal-item" data-ev="${i}" data-ph="${j}">
-            <div class="gal-frame"><img src="${ph.src}" alt="${ph.caption || ev.title}" loading="lazy"></div>
-            ${ph.caption ? `<figcaption class="gal-cap">${ph.caption}</figcaption>` : ''}
-          </figure>`).join('')}
-      </div>
-    </section>`).join('');
+    </article>`).join('')}</div>`;
 
-  el.querySelectorAll('.gal-item').forEach(f => {
-    f.onclick = () => openLightbox(+f.dataset.ev, +f.dataset.ph);
+  el.querySelectorAll('.gal-card').forEach(card => {
+    const ev = SITE.gallery[+card.dataset.ev];
+    const track = card.querySelector('.gal-track');
+    const dots = card.querySelectorAll('.gal-dots i');
+    const cap = card.querySelector('.gal-cap');
+    const index = () => Math.round(track.scrollLeft / track.clientWidth);
+
+    track.addEventListener('scroll', () => {
+      const k = index();
+      dots.forEach((d, j) => d.classList.toggle('on', j === k));
+      cap.textContent = ev.photos[k].caption || ev.description || '';
+    }, { passive: true });
+
+    const step = d => track.scrollTo({ left: (index() + d) * track.clientWidth, behavior: 'smooth' });
+    const prev = card.querySelector('.gal-prev');
+    const next = card.querySelector('.gal-next');
+    if (prev) prev.onclick = e => { e.stopPropagation(); step(-1); };
+    if (next) next.onclick = e => { e.stopPropagation(); step(1); };
+
+    track.addEventListener('click', () => openLightbox(+card.dataset.ev, index()));
   });
 }
 
