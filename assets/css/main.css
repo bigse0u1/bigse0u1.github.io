@@ -1960,3 +1960,15 @@ img { max-width: 100%; display: block; }
 /* Collapsed graph: leave just a clean one-line header */
 .graph-section.is-collapsed .graph-resize-handle { display: none; }
 .graph-section.is-collapsed .graph-header { border-bottom-color: transparent; }
+
+/* Publications placeholder (shown until the first entry is added) */
+.pub-ghost, .pub-ghost-filters { opacity: 0.38; pointer-events: none; user-select: none; }
+.pub-ghost .pub-entry { border-bottom: none; }
+.pub-ghost .pub-title { color: var(--text-soft); }
+.pub-empty-note {
+  margin-top: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-mute);
+}

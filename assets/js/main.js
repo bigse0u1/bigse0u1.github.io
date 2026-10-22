@@ -124,7 +124,7 @@ function updateHash() {
   } else {
     switch (state.page) {
       case 'projects': hash = '#projects'; break;
-      case 'papers': hash = '#papers'; break;
+      case 'papers': hash = '#publications'; break;
       case 'gallery': hash = '#gallery'; break;
       case 'study':
         hash = '#study';
@@ -147,7 +147,7 @@ function routeFromHash() {
     state.searchQuery = '';
   } else if (hash === '#projects') {
     state.page = 'projects';
-  } else if (hash === '#papers') {
+  } else if (hash === '#publications' || hash === '#papers') {
     state.page = 'papers';
   } else if (hash === '#gallery') {
     state.page = 'gallery';
@@ -387,7 +387,23 @@ function renderPapers() {
   el.closest('.proj-page-wrap').classList.add('fade-in');
 
   if (!SITE.publications.length) {
-    el.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— No publications yet. Add entries to <code>SITE.publications</code> in <code>main.js</code> —</div>';
+    el.innerHTML = `
+      <div class="pub-filters pub-ghost-filters">${['All', 'Conference', 'Journal'].map((t, i) =>
+        `<button class="tag-btn${i === 0 ? ' active' : ''}" tabindex="-1" disabled>${t}</button>`).join('')}</div>
+      <ol class="pub-list pub-ghost">
+        <li class="pub-entry">
+          <span class="pub-no">1</span>
+          <div class="pub-main">
+            <div class="pub-title">Title of your first publication will appear here</div>
+            <div class="pub-authors"><strong>${SITE.author}</strong>*, Co-author, Advisor</div>
+            <div class="pub-venue">Conference / Journal name, 2026/00</div>
+            <div class="pub-links">
+              ${['arXiv', 'Paper', 'Project', 'Code'].map(k => `<span class="pub-link">${k}</span>`).join('')}
+            </div>
+          </div>
+        </li>
+      </ol>
+      <p class="pub-empty-note">Coming soon — publications will be listed here.</p>`;
     return;
   }
 
