@@ -113,8 +113,15 @@ function navigate(page, detail = null) {
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.dataset.page === page);
   });
+  revealActiveTab();
+  document.querySelector('.nav').classList.remove('nav-hidden');
 
   window.scrollTo(0, 0);
+}
+
+function revealActiveTab() {
+  const a = document.querySelector('.nav-link.active');
+  if (a) a.scrollIntoView({ inline: 'center', block: 'nearest' });
 }
 
 function updateHash() {
@@ -170,6 +177,7 @@ function routeFromHash() {
     l.classList.toggle('active', l.dataset.page === state.page);
   });
 
+  revealActiveTab();
   render();
 }
 
@@ -1541,6 +1549,16 @@ async function init() {
     const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
     prog.style.width = Math.min(pct, 100) + '%';
   });
+
+  // Phone: hide the nav while scrolling down, bring it back on scroll up
+  const nav = document.querySelector('.nav');
+  let lastY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > lastY + 6 && y > 80) nav.classList.add('nav-hidden');
+    else if (y < lastY - 6 || y < 10) nav.classList.remove('nav-hidden');
+    lastY = y;
+  }, { passive: true });
 
   window.addEventListener('popstate', routeFromHash);
   routeFromHash();

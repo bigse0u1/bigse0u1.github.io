@@ -2003,3 +2003,21 @@ img { max-width: 100%; display: block; }
 
 /* CV tab: opens the PDF; dimmed until a file is set */
 .nav-cv-off { opacity: 0.4; cursor: default; }
+
+/* Phone nav: tabs scroll sideways; the bar slips away while scrolling down */
+@media (max-width: 820px) {
+  .nav { transition: transform 260ms ease; }
+  .nav.nav-hidden { transform: translateY(-100%); }
+  .nav-links {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-link { flex: 0 0 auto; white-space: nowrap; }
+  .nav-spacer { display: none; }
+}
