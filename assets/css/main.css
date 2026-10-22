@@ -1715,7 +1715,7 @@ img { max-width: 100%; display: block; }
 
 .gal-frame {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 8px;
   background: var(--ink-panel);
@@ -1759,21 +1759,37 @@ img { max-width: 100%; display: block; }
 
 .gal-dots {
   position: absolute;
-  bottom: 0.55rem;
-  left: 0;
-  right: 0;
+  top: 0.65rem;
+  right: 0.7rem;
   display: flex;
-  justify-content: center;
   gap: 0.3rem;
   pointer-events: none;
 }
 .gal-dots i { width: 5px; height: 5px; border-radius: 50%; background: rgba(255, 255, 255, 0.45); }
 .gal-dots i.on { background: #fff; }
 
-.gal-info { padding-top: 0.7rem; }
-.gal-title { font-family: var(--serif); font-size: 1.02rem; font-weight: 700; color: var(--text); }
-.gal-meta { font-family: var(--mono); font-size: 0.66rem; color: var(--text-mute); letter-spacing: 0.06em; margin-top: 0.15rem; }
-.gal-cap { font-size: 0.8rem; color: var(--text-soft); line-height: 1.4; margin-top: 0.4rem; min-height: 1.1em; }
+/* Title / date / caption appear over the photo, bottom-left, on hover */
+.gal-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2.6rem 1rem 0.9rem;
+  background: linear-gradient(to top, rgba(8, 8, 10, 0.78), rgba(8, 8, 10, 0));
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms;
+}
+.gal-frame:hover .gal-info, .gal-ghost .gal-info { opacity: 1; }
+@media (hover: none) { .gal-info { opacity: 1; } }
+
+.gal-title { font-family: var(--serif); font-size: 1.02rem; font-weight: 700; color: #f2f4fa; }
+.gal-meta { font-family: var(--mono); font-size: 0.66rem; color: #b4bccd; letter-spacing: 0.06em; margin-top: 0.15rem; }
+.gal-cap { font-size: 0.8rem; color: #dfe4f0; line-height: 1.4; margin-top: 0.35rem; }
+.gal-cap:empty { display: none; }
 
 .lightbox {
   position: fixed;

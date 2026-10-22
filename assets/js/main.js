@@ -455,14 +455,15 @@ function renderGallery() {
       <div class="gal-grid gal-ghost">
         ${[0, 1, 2].map(() => `
           <article class="gal-card">
-            <div class="gal-frame gal-frame-empty"><span>Photo</span></div>
-            <div class="gal-info">
-              <h2 class="gal-title">Conference or event name</h2>
-              <div class="gal-meta">2026.00 · City, Country</div>
+            <div class="gal-frame gal-frame-empty">
+              <span>Photo</span>
+              <div class="gal-info">
+                <h2 class="gal-title">Conference or event name</h2>
+                <div class="gal-meta">2026.00 · City, Country</div>
+              </div>
             </div>
           </article>`).join('')}
-      </div>
-      <p class="pub-empty-note">Coming soon — conference photos will be shown here.</p>`;
+      </div>`;
     return;
   }
 
@@ -480,11 +481,11 @@ function renderGallery() {
           <button class="gal-nav gal-prev" aria-label="Previous photo">‹</button>
           <button class="gal-nav gal-next" aria-label="Next photo">›</button>
           <div class="gal-dots">${ev.photos.map((_, j) => `<i class="${j ? '' : 'on'}"></i>`).join('')}</div>` : ''}
-      </div>
-      <div class="gal-info">
-        <h2 class="gal-title">${ev.title}</h2>
-        <div class="gal-meta">${[ev.date, ev.location].filter(Boolean).join(' · ')}</div>
-        <p class="gal-cap">${ev.photos[0].caption || ev.description || ''}</p>
+        <div class="gal-info">
+          <h2 class="gal-title">${ev.title}</h2>
+          <div class="gal-meta">${[ev.date, ev.location].filter(Boolean).join(' · ')}</div>
+          <p class="gal-cap">${ev.photos[0].caption || ev.description || ''}</p>
+        </div>
       </div>
     </article>`).join('')}</div>`;
 
