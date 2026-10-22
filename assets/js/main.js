@@ -386,23 +386,23 @@ function renderPapers() {
   el.innerHTML = '';
   el.closest('.proj-page-wrap').classList.add('fade-in');
 
+  // No entries yet: show the empty frame (same layout as a real entry, dimmed)
   if (!SITE.publications.length) {
     el.innerHTML = `
-      <div class="pub-filters pub-ghost-filters">${['All', 'Conference', 'Journal'].map((t, i) =>
+      <div class="pub-filters pub-ghost">${['All', 'Conference', 'Journal'].map((t, i) =>
         `<button class="tag-btn${i === 0 ? ' active' : ''}" tabindex="-1" disabled>${t}</button>`).join('')}</div>
-      <ol class="pub-list pub-ghost">
-        <li class="pub-entry">
-          <span class="pub-no">1</span>
-          <div class="pub-main">
-            <div class="pub-title">Title of your first publication will appear here</div>
+      <div class="pub-ghost">
+        <article class="pj-item pub-entry">
+          <div class="pj-media pj-media-empty"><span>Figure</span></div>
+          <div class="pj-body">
+            <div class="pj-meta"><span class="pub-no">#1</span><span class="pj-period">2026.00</span><span class="pj-chip">Conference</span></div>
+            <h3 class="pj-title">Title of your first publication will appear here</h3>
             <div class="pub-authors"><strong>${SITE.author}</strong>*, Co-author, Advisor</div>
-            <div class="pub-venue">Conference / Journal name, 2026/00</div>
-            <div class="pub-links">
-              ${['arXiv', 'Paper', 'Project', 'Code'].map(k => `<span class="pub-link">${k}</span>`).join('')}
-            </div>
+            <div class="pub-venue">Conference / Journal name</div>
+            <div class="pj-links">${['arXiv', 'Paper', 'Project', 'Code'].map(k => `<span class="pj-link">${k}</span>`).join('')}</div>
           </div>
-        </li>
-      </ol>
+        </article>
+      </div>
       <p class="pub-empty-note">Coming soon — publications will be listed here.</p>`;
     return;
   }
@@ -417,23 +417,24 @@ function renderPapers() {
   el.innerHTML = `
     ${types.length > 1 ? `<div class="pub-filters">${['All', ...types].map(t =>
       `<button class="tag-btn${t === pubTypeFilter ? ' active' : ''}" data-type="${t}">${t}</button>`).join('')}</div>` : ''}
-    <ol class="pub-list">
-      ${shown.map((p, i) => `
-        <li class="pub-entry">
-          <span class="pub-no">${all.length - all.indexOf(p)}</span>
-          ${p.image ? `<img class="pub-thumb-img" src="${p.image}" alt="${p.title}" loading="lazy">` : ''}
-          <div class="pub-main">
-            <div class="pub-title">${p.title}</div>
-            <div class="pub-authors">${authors(p.authors)}</div>
-            <div class="pub-venue">${p.venueUrl ? `<a href="${p.venueUrl}" target="_blank">${p.venue}</a>` : p.venue}${p.date ? `, ${p.date}` : ''}
-              ${p.badge ? `<span class="news-badge news-badge-award pub-badge">${p.badge}</span>` : ''}
-            </div>
-            <div class="pub-links">
-              ${Object.entries(p.links || {}).filter(([, v]) => v).map(([k, v]) => `<a href="${v}" target="_blank" class="pub-link">${k}</a>`).join('')}
-            </div>
+    ${shown.map(p => `
+      <article class="pj-item pub-entry">
+        ${p.image ? `<div class="pj-media"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>` : ''}
+        <div class="pj-body">
+          <div class="pj-meta">
+            <span class="pub-no">#${all.length - all.indexOf(p)}</span>
+            ${p.date ? `<span class="pj-period">${p.date.replace(/\//g, '.')}</span>` : ''}
+            ${p.type ? `<span class="pj-chip">${p.type}</span>` : ''}
+            ${p.badge ? `<span class="news-badge news-badge-award">${p.badge}</span>` : ''}
           </div>
-        </li>`).join('')}
-    </ol>`;
+          <h3 class="pj-title">${p.title}</h3>
+          <div class="pub-authors">${authors(p.authors)}</div>
+          <div class="pub-venue">${p.venueUrl ? `<a href="${p.venueUrl}" target="_blank">${p.venue}</a>` : p.venue}</div>
+          <div class="pj-links">
+            ${Object.entries(p.links || {}).filter(([, v]) => v).map(([k, v]) => `<a href="${v}" target="_blank" class="pj-link">${k}</a>`).join('')}
+          </div>
+        </div>
+      </article>`).join('')}`;
 
   el.querySelectorAll('.pub-filters .tag-btn').forEach(b => {
     b.onclick = () => { pubTypeFilter = b.dataset.type; renderPapers(); };
