@@ -449,8 +449,21 @@ function renderGallery() {
   el.innerHTML = '';
   el.closest('.proj-page-wrap').classList.add('fade-in');
 
+  // No events yet: show the empty frame (same layout as a real event, dimmed)
   if (!SITE.gallery.length) {
-    el.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:0.8rem">— No photos yet. Add events to <code>SITE.gallery</code> in <code>main.js</code> —</div>';
+    const ratios = ['3/2', '4/3', '3/2'];
+    el.innerHTML = `
+      <section class="gal-event gal-ghost">
+        <div class="gal-head">
+          <h2 class="gal-title">Conference or event name</h2>
+          <div class="gal-meta">2026.00 · City, Country</div>
+        </div>
+        <p class="gal-desc">A short note about the event goes here.</p>
+        <div class="gal-grid">
+          ${ratios.map(r => `<figure class="gal-item gal-item-empty" style="aspect-ratio:${r}"><span>Photo</span></figure>`).join('')}
+        </div>
+      </section>
+      <p class="pub-empty-note">Coming soon — conference photos will be shown here.</p>`;
     return;
   }
 

@@ -1937,3 +1937,19 @@ img { max-width: 100%; display: block; }
 .pub-no { font-family: var(--mono); font-size: 0.68rem; color: var(--vermillion); }
 .pub-authors { font-size: 0.82rem; color: var(--text-soft); margin-top: 0.35rem; }
 .pub-venue { font-size: 0.8rem; color: var(--text-mute); font-style: italic; margin-top: 0.15rem; }
+
+/* Gallery placeholder (shown until the first event is added) */
+.gal-ghost { opacity: 0.4; pointer-events: none; user-select: none; }
+.gal-item-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+  background: none;
+  color: var(--text-mute);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: default;
+}
