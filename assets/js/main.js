@@ -1426,7 +1426,7 @@ function applyLibThemes() {
       startOnLoad: false,
       theme: light ? 'neutral' : 'dark',
       themeVariables: light ? {
-        background: '#f1f3f6', primaryColor: '#ffffff', primaryTextColor: '#1d2330',
+        background: '#f0eeea', primaryColor: '#fbfaf8', primaryTextColor: '#1d2330',
         primaryBorderColor: '#2c5aa0', lineColor: '#8a92a1', secondaryColor: '#f7f8fa',
         tertiaryColor: '#f7f8fa', textColor: '#1d2330',
         fontFamily: "'JetBrains Mono', 'Courier New', monospace"

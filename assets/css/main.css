@@ -33,12 +33,12 @@
 
 /* ─── Light theme: clean white ─── */
 :root[data-theme="light"] {
-  --ink:         #ffffff;
-  --ink-soft:    #f7f8fa;
-  --ink-panel:   #f1f3f6;
-  --ink-card:    #e9edf2;
-  --border:      #dde2ea;
-  --border-soft: #ebeef3;
+  --ink:         #fbfaf8;
+  --ink-soft:    #f6f4f0;
+  --ink-panel:   #f0eeea;
+  --ink-card:    #e8e5df;
+  --border:      #e0ddd6;
+  --border-soft: #ebe8e2;
   --vermillion:  #2c5aa0;
   --vred:        #244b86;
   --vglow:       rgba(44,90,160,0.08);
@@ -51,7 +51,7 @@
   --text:        #1d2330;
   --text-soft:   #4a5262;
   --text-mute:   #8a92a1;
-  --nav-bg:      rgba(255,255,255,0.92);
+  --nav-bg:      rgba(251,250,248,0.92);
 }
 
 /* ═══ RESET ═══ */
