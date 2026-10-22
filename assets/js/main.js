@@ -681,17 +681,21 @@ function renderGraph() {
   if (!section || !container || !body || !window.d3 || !POSTS.length) return;
 
   // Toggle
-  toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
-  body.classList.toggle('collapsed', graphCollapsed);
+  const applyCollapsed = () => {
+    body.classList.toggle('collapsed', graphCollapsed);
+    section.classList.toggle('is-collapsed', graphCollapsed);
+    toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
+  };
+  applyCollapsed();
   toggleBtn.onclick = () => {
     graphCollapsed = !graphCollapsed;
     body.style.transition = 'height 350ms ease';
-    body.classList.toggle('collapsed', graphCollapsed);
-    toggleBtn.textContent = graphCollapsed ? '펼치기' : '접기';
-    if (!graphCollapsed) { container.innerHTML = ''; renderGraph(); }
+    applyCollapsed();
+    if (graphCollapsed) { if (renderGraph.timer) renderGraph.timer.stop(); }
+    else { container.innerHTML = ''; renderGraph(); }
   };
 
-  if (graphCollapsed) return;
+  if (graphCollapsed) { if (renderGraph.timer) renderGraph.timer.stop(); return; }
 
   // On first paint the page isn't visible yet, so the container has no width — measure on the next frame
   if (!container.clientWidth && !renderGraph.retried) {

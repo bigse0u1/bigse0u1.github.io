@@ -881,7 +881,7 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   transition: height 350ms ease;
 }
-.graph-body.collapsed { height: 0; }
+.graph-body.collapsed { height: 0 !important; }
 
 .graph-view {
   position: relative;
@@ -1956,3 +1956,7 @@ img { max-width: 100%; display: block; }
   .nav-brand { margin-right: 0.3rem; }
   .theme-toggle { margin-left: 0.15rem; width: 26px; }
 }
+
+/* Collapsed graph: leave just a clean one-line header */
+.graph-section.is-collapsed .graph-resize-handle { display: none; }
+.graph-section.is-collapsed .graph-header { border-bottom-color: transparent; }
