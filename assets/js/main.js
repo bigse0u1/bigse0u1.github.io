@@ -453,7 +453,7 @@ function renderGallery() {
   if (!SITE.gallery.length) {
     el.innerHTML = `
       <div class="gal-grid gal-ghost">
-        ${[0, 1, 2].map(() => `
+        ${[0].map(() => `
           <article class="gal-card">
             <div class="gal-frame gal-frame-empty">
               <span>Photo</span>
@@ -491,6 +491,15 @@ function renderGallery() {
 
   el.querySelectorAll('.gal-card').forEach(card => {
     const ev = SITE.gallery[+card.dataset.ev];
+
+    // Card height follows the first photo's shape (clamped so it never gets too tall or flat)
+    const probe = new Image();
+    probe.onload = () => {
+      const r = Math.min(1.8, Math.max(0.75, probe.naturalWidth / probe.naturalHeight));
+      card.querySelector('.gal-frame').style.aspectRatio = r.toFixed(3);
+    };
+    probe.src = ev.photos[0].src;
+
     const track = card.querySelector('.gal-track');
     const dots = card.querySelectorAll('.gal-dots i');
     const cap = card.querySelector('.gal-cap');
