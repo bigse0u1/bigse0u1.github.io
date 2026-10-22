@@ -451,7 +451,6 @@ function renderGallery() {
 
   // No events yet: show the empty frame (same layout as a real event, dimmed)
   if (!SITE.gallery.length) {
-    const ratios = ['3/2', '4/3', '3/2'];
     el.innerHTML = `
       <section class="gal-event gal-ghost">
         <div class="gal-head">
@@ -460,7 +459,7 @@ function renderGallery() {
         </div>
         <p class="gal-desc">A short note about the event goes here.</p>
         <div class="gal-grid">
-          ${ratios.map(r => `<figure class="gal-item gal-item-empty" style="aspect-ratio:${r}"><span>Photo</span></figure>`).join('')}
+          ${[0, 1, 2].map(() => `<figure class="gal-item gal-item-empty"><div class="gal-frame"><span>Photo</span></div></figure>`).join('')}
         </div>
       </section>
       <p class="pub-empty-note">Coming soon — conference photos will be shown here.</p>`;
@@ -477,7 +476,8 @@ function renderGallery() {
       <div class="gal-grid">
         ${ev.photos.map((ph, j) => `
           <figure class="gal-item" data-ev="${i}" data-ph="${j}">
-            <img src="${ph.src}" alt="${ph.caption || ev.title}" loading="lazy">
+            <div class="gal-frame"><img src="${ph.src}" alt="${ph.caption || ev.title}" loading="lazy"></div>
+            ${ph.caption ? `<figcaption class="gal-cap">${ph.caption}</figcaption>` : ''}
           </figure>`).join('')}
       </div>
     </section>`).join('');
