@@ -10,6 +10,10 @@ github: "https://github.com/bigse0u1/Vesalius-Ai"
 demo: ""
 ---
 
+```youtube
+https://www.youtube.com/watch?v=sg-hl-Vl0sA
+```
+
 ## 프로젝트 소개
 
 VESALIUS는 Vision-Language-Action(VLA) 기반의 수술 보조 로봇 시스템입니다.
