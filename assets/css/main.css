@@ -2021,3 +2021,14 @@ img { max-width: 100%; display: block; }
   .nav-link { flex: 0 0 auto; white-space: nowrap; }
   .nav-spacer { display: none; }
 }
+
+/* Wide screens: two items per row (Projects and Publications) */
+@media (min-width: 1100px) {
+  #proj-grid, #papers-list { max-width: none; }
+  .proj-year-section, #papers-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 3rem; align-content: start; }
+  .proj-year-section .proj-year-heading, #papers-list > .pub-filters, #papers-list > .pub-empty-note { grid-column: 1 / -1; }
+  .pj-item { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: 1.2rem; }
+  .pj-item:not(:has(.pj-media)) { grid-template-columns: 1fr; }
+  .pj-item:last-child { border-bottom: 1px solid var(--border-soft); }
+  .pj-title { font-size: 1.08rem; }
+}
