@@ -357,14 +357,19 @@ function renderProjects() {
       <div class="proj-year-heading">${year}</div>
       ${byYear.get(year).map(p => `
         <article class="pj-item" data-slug="${p.slug}">
-          ${p.image ? `<div class="pj-media"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>` : ''}
+          ${p.image ? `
+            <div class="pj-media">
+              <img src="${p.image}" alt="${p.title}" loading="lazy">
+              ${p.type ? `<span class="pj-over pj-over-kind">${p.type}</span>` : ''}
+              <span class="pj-over pj-over-period">${period(p)}</span>
+            </div>` : ''}
           <div class="pj-body">
             <div class="pj-meta">
-              <span class="pj-period">${period(p)}</span>
+              ${p.image ? '' : `<span class="pj-period">${period(p)}</span>`}
               ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
             </div>
-            ${p.type ? `<div class="pj-kind">${p.type}</div>` : ''}
+            ${p.type && !p.image ? `<div class="pj-kind">${p.type}</div>` : ''}
             <h3 class="pj-title">${p.title}</h3>
             ${p.org ? `<div class="pj-org">${p.org}</div>` : ''}
             ${p.description ? `<p class="pj-desc">${p.description}</p>` : ''}
