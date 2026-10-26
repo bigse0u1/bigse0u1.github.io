@@ -364,8 +364,7 @@ function renderProjects() {
               ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
             </div>
-            ${p.type ? `<div class="pj-kind">${p.type}</div>` : ''}
-            <h3 class="pj-title">${p.title}</h3>
+            <h3 class="pj-title">${p.title}${p.type ? `<span class="pj-kind-inline">${p.type}</span>` : ''}</h3>
             ${p.org ? `<div class="pj-org">${p.org}</div>` : ''}
             ${p.description ? `<p class="pj-desc">${p.description}</p>` : ''}
             ${p.stack ? `<div class="pj-stack">${p.stack}</div>` : ''}

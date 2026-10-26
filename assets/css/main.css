@@ -2043,8 +2043,8 @@ img { max-width: 100%; display: block; }
   .pj-title { font-size: 1.08rem; }
 }
 
-/* Photo starts at the type label line, below the date row */
-.pj-item .pj-media { margin-top: 1.9rem; }
+/* Photo starts at the title line, below the date row */
+.pj-item .pj-media { margin-top: 1.6rem; }
 @media (max-width: 820px) { .pj-item .pj-media { margin-top: 0; } }
 
 .pj-meta:empty { display: none; }
@@ -2058,3 +2058,16 @@ img { max-width: 100%; display: block; }
 }
 .pj-item:hover .pj-desc { display: block; -webkit-line-clamp: unset; }
 @media (hover: none) { .pj-desc { display: block; -webkit-line-clamp: unset; } }
+
+/* Project type sits small right after the title */
+.pj-kind-inline {
+  margin-left: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--vermillion);
+  vertical-align: middle;
+  white-space: nowrap;
+}
