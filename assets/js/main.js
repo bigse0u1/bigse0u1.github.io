@@ -363,8 +363,8 @@ function renderProjects() {
               <span class="pj-period">${period(p)}</span>
               ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
-              ${p.type ? `<span class="pj-chip">${p.type}</span>` : ''}
             </div>
+            ${p.type ? `<div class="pj-kind">${p.type}</div>` : ''}
             <h3 class="pj-title">${p.title}</h3>
             ${p.org ? `<div class="pj-org">${p.org}</div>` : ''}
             ${p.description ? `<p class="pj-desc">${p.description}</p>` : ''}
