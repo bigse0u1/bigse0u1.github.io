@@ -2087,6 +2087,12 @@ img { max-width: 100%; display: block; }
 a.pj-partner { transition: color 150ms; }
 a.pj-partner:hover { color: var(--partner-color, var(--vermillion)); }
 
-/* Organizer reads as a label: brighter and heavier; the summary below stays quieter */
-.pj-org { font-size: 0.78rem; font-weight: 500; color: var(--text); letter-spacing: 0.01em; margin-top: 0.3rem; }
-.pj-org + .pj-desc { margin-top: 0.4rem; color: var(--text-mute); }
+/* Organizer: small like the partner name, colour halfway between summary and partner */
+.pj-org {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--text-soft), var(--text-mute));
+  margin-top: 0.3rem;
+}
