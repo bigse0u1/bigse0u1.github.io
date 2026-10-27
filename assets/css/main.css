@@ -2071,3 +2071,7 @@ img { max-width: 100%; display: block; }
   vertical-align: middle;
   white-space: nowrap;
 }
+
+/* Organizer line and summary sit close together */
+.pj-org { line-height: 1.4; }
+.pj-org + .pj-desc { margin-top: 0.3rem; }
