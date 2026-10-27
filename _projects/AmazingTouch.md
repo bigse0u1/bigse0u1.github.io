@@ -10,4 +10,4 @@ tags: [Robotics, Tactile Sensing, Robot Hand]
 github: ""
 demo: ""
 ---
-작성중
+진행 중인 프로젝트입니다. 자세한 내용은 추후 업데이트할 예정입니다.
