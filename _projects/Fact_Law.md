@@ -1,7 +1,8 @@
 ---
 title: "Fact_Law"
 date: 2026-09-01
-description: "AI Bootcamp Innovation Challenger 2026 · Upstage와 함께하는 공공 법령 Q&A AI 에이전트 프로젝트"
+org: "AI Bootcamp Innovation Challenger 2026"
+description: "A public-law Q&A AI agent project in collaboration with Upstage."
 image: "assets/img/projects/Fact_Law.png"
 stack: "Upstage AI Studio, Python, LLM"
 status: "ongoing"
