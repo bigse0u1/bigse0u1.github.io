@@ -7,7 +7,7 @@ partner_url: "https://www.upstage.ai"
 partner_color: "#8b6cff"
 description: "A public-law Q&A AI agent project in collaboration with Upstage."
 image: "assets/img/projects/Fact_Law.png"
-stack: "Upstage AI Studio, Python, LLM"
+stack: "Upstage AI Studio, Python, LLM, RAG"
 status: "ongoing"
 type: "Competition · Team Project"
 tags: [AI Agent, Legal AI, LLM, Upstage, Public Sector]

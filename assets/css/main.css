@@ -2086,3 +2086,7 @@ img { max-width: 100%; display: block; }
 /* Partner link: turns the company's colour on hover */
 a.pj-partner { transition: color 150ms; }
 a.pj-partner:hover { color: var(--partner-color, var(--vermillion)); }
+
+/* Organizer reads as a label: brighter and heavier; the summary below stays quieter */
+.pj-org { font-size: 0.78rem; font-weight: 500; color: var(--text); letter-spacing: 0.01em; margin-top: 0.3rem; }
+.pj-org + .pj-desc { margin-top: 0.4rem; color: var(--text-mute); }
