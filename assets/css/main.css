@@ -2104,3 +2104,6 @@ a.pj-partner:hover { color: var(--partner-color, var(--vermillion)); }
 .pj-partner { display: inline-flex; align-items: center; gap: 0.4rem; }
 .pj-partner img { height: 1.5rem; margin: -0.4rem -0.2rem -0.4rem 0; width: auto; display: block; filter: grayscale(1); opacity: 0.5; transition: filter 150ms, opacity 150ms; }
 a.pj-partner:hover img { filter: none; opacity: 1; }
+
+/* "with" keeps its colour on hover; only the company name / logo changes */
+.pj-with { color: var(--text-mute); }
