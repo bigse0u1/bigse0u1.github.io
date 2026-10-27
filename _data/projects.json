@@ -69,6 +69,29 @@
     "path": "_projects/KTM-LLM.md"
   },
   {
+    "slug": "Fact_Law",
+    "title": "Fact_Law",
+    "date": "2026-09-01",
+    "description": "AI Bootcamp Innovation Challenger 2026 · Upstage와 함께하는 공공 법령 Q&A AI 에이전트 프로젝트",
+    "image": "assets/img/projects/Fact_Law.png",
+    "stack": "Upstage AI Studio, Python, LLM",
+    "status": "ongoing",
+    "end": "",
+    "role": "",
+    "type": "Competition · Team Project",
+    "org": "",
+    "github": "",
+    "demo": "",
+    "tags": [
+      "AI Agent",
+      "Legal AI",
+      "LLM",
+      "Upstage",
+      "Public Sector"
+    ],
+    "path": "_projects/Fact_Law.md"
+  },
+  {
     "slug": "AmazingTouch",
     "title": "AmazingTouch",
     "date": "2026-09-01",
