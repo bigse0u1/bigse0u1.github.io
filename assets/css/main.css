@@ -20,6 +20,11 @@
   --gold-rgb:    196,146,60;
   --sage:        #86ab95;
   --sage-rgb:    134,171,149;
+  --k-personal:    #86ab95;
+  --k-course:      #6f9be0;
+  --k-competition: #d0a252;
+  --k-hackathon:   #b293e8;
+  --k-other:       #8a92a1;
   --text:        #e4e4ee;
   --text-soft:   #9898aa;
   --text-mute:   #5a5a6a;
@@ -48,6 +53,11 @@
   --gold-rgb:    148,105,28;
   --sage:        #4f7a5f;
   --sage-rgb:    79,122,95;
+  --k-personal:    #4f7a5f;
+  --k-course:      #2c5aa0;
+  --k-competition: #94691c;
+  --k-hackathon:   #7a4fc4;
+  --k-other:       #8a92a1;
   --text:        #1d2330;
   --text-soft:   #4a5262;
   --text-mute:   #8a92a1;
@@ -2089,3 +2099,15 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 
 /* "with" keeps its colour on hover; only the company name / logo changes */
 .pj-with { color: var(--text-mute); }
+
+/* Project categories: org line and filter dots take the category colour */
+.k-personal    { --kind: var(--k-personal); }
+.k-course      { --kind: var(--k-course); }
+.k-competition { --kind: var(--k-competition); }
+.k-hackathon   { --kind: var(--k-hackathon); }
+.k-other       { --kind: var(--k-other); }
+
+.pj-org > span:first-child { color: color-mix(in srgb, var(--kind, var(--text-mute)) 80%, var(--text-soft)); }
+
+.kind-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 0.45em; background: var(--kind, var(--text-mute)); vertical-align: middle; position: relative; top: -1px; }
+.pj-filters { margin-bottom: 1.2rem; }

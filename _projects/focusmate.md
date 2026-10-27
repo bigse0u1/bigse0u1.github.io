@@ -5,6 +5,7 @@ description: "A Real-Time User Attention Evaluation Model Using Integrated Visua
 image: "assets/img/projects/focusmate.png"
 stack: "TypeScript · MediaPipe · HTML · CSS"
 status: "done"
+category: "course"
 tags: [Computer Vision, TypeScript, MediaPipe, Web]
 github: "https://github.com/bigse0u1/FOCUS_MATE"
 demo: "https://yonsei-focusmate.netlify.app/"

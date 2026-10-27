@@ -11,6 +11,7 @@ description: "A ROS2-based multimodal data collection framework integrating huma
 image: "assets/img/projects/RefindHand.png"
 stack: "ROS2, Python, Tactile Sensing"
 status: "ongoing"
+category: "course"
 tags: [Robotics, ROS2, Tactile Sensing, Imitation Learning, Multimodal Dataset]
 github: ""
 demo: ""

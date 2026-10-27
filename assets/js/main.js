@@ -322,6 +322,15 @@ function renderHome() {
 /* ═══════════════════════════════════════════════
    PROJECTS
 ═══════════════════════════════════════════════ */
+// Project categories: label + colour (colours live in CSS as --k-<key>)
+const PROJECT_KINDS = {
+  personal:    'Personal',
+  course:      'Course',
+  competition: 'Competition',
+  hackathon:   'Hackathon',
+};
+let projKindFilter = 'All';
+
 function renderProjects() {
   const el = document.getElementById('proj-grid');
   el.innerHTML = '';
@@ -339,8 +348,19 @@ function renderProjects() {
     return p.status === 'ongoing' ? `${start} – Present` : start;
   };
 
+  const kindKey = p => PROJECT_KINDS[p.category] ? p.category : (p.category ? 'other' : '');
+  const kindLabel = p => PROJECT_KINDS[p.category] || p.category || '';
+
+  // Filter bar: only the categories that are actually in use
+  const kinds = [...new Set(PROJECTS.map(kindKey).filter(Boolean))]
+    .sort((a, b) => Object.keys(PROJECT_KINDS).indexOf(a) - Object.keys(PROJECT_KINDS).indexOf(b));
+  if (projKindFilter !== 'All' && !kinds.includes(projKindFilter)) projKindFilter = 'All';
+  const filters = kinds.length > 1 ? `<div class="pub-filters pj-filters">${['All', ...kinds].map(k =>
+    `<button class="tag-btn${k === projKindFilter ? ' active' : ''}" data-kind="${k}">${k === 'All' ? 'All' : `<i class="kind-dot k-${k}"></i>${PROJECT_KINDS[k] || 'Other'}`}</button>`).join('')}</div>` : '';
+  const shown = PROJECTS.filter(p => projKindFilter === 'All' || kindKey(p) === projKindFilter);
+
   // Newest first; ongoing projects lead within the same year
-  const sorted = [...PROJECTS].sort((a, b) => {
+  const sorted = [...shown].sort((a, b) => {
     const ao = a.status === 'ongoing' ? 0 : 1, bo = b.status === 'ongoing' ? 0 : 1;
     return ao - bo || (b.date || '').localeCompare(a.date || '');
   });
@@ -352,11 +372,11 @@ function renderProjects() {
     byYear.get(year).push(p);
   });
 
-  el.innerHTML = [...byYear.keys()].sort((a, b) => b.localeCompare(a)).map(year => `
+  el.innerHTML = filters + [...byYear.keys()].sort((a, b) => b.localeCompare(a)).map(year => `
     <section class="proj-year-section">
       <div class="proj-year-heading">${year}</div>
       ${byYear.get(year).map(p => `
-        <article class="pj-item" data-slug="${p.slug}">
+        <article class="pj-item${kindKey(p) ? ` k-${kindKey(p)}` : ''}" data-slug="${p.slug}">
           ${p.image ? `<div class="pj-media"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>` : ''}
           <div class="pj-body">
             <div class="pj-meta">
@@ -365,7 +385,7 @@ function renderProjects() {
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
             </div>
             <h3 class="pj-title">${p.title}</h3>
-            ${p.org || p.partner ? `<div class="pj-org"><span>${p.org || ''}</span>${p.partner ? (() => {
+            ${p.org || kindLabel(p) || p.partner ? `<div class="pj-org"><span>${p.org || kindLabel(p)}</span>${p.partner ? (() => {
               const inner = `<span class="pj-with">with</span>${p.partner_logo ? `<img src="${p.partner_logo}" alt="${p.partner}"${p.partner_logo_invert ? ' class="pj-logo-inv"' : ''}${p.partner_logo_height ? ` style="height:${p.partner_logo_height};margin:0"` : ''}>` : `<span>${p.partner}</span>`}`;
               const color = p.partner_color ? ` style="--partner-color:${p.partner_color}"` : '';
               return p.partner_url
@@ -382,6 +402,10 @@ function renderProjects() {
           </div>
         </article>`).join('')}
     </section>`).join('');
+
+  el.querySelectorAll('.pj-filters .tag-btn').forEach(b => {
+    b.onclick = () => { projKindFilter = b.dataset.kind; renderProjects(); };
+  });
 
   el.querySelectorAll('.pj-item').forEach(card => {
     card.onclick = () => navigate('projects', { type: 'project', slug: card.dataset.slug });

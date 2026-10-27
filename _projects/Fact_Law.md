@@ -10,6 +10,7 @@ description: "An AI-powered legal Q&A service using Upstage Solar LLM and the Na
 image: "assets/img/projects/Fact_Law.png"
 stack: "Upstage AI Studio, Python, LLM, RAG"
 status: "ongoing"
+category: "competition"
 tags: [AI Agent, Legal AI, LLM, Upstage, Public Sector]
 github: ""
 demo: ""

@@ -5,6 +5,7 @@ description: "Tactile sensing project for Amazing Hand using fingertip pressure 
 image: "assets/img/projects/AmazingTouch.png"
 stack: "ROS2, Python" 
 status: "ongoing"
+category: "personal"
 tags: [Robotics, Tactile Sensing, Robot Hand]
 github: ""
 demo: ""
