@@ -2022,16 +2022,6 @@ img { max-width: 100%; display: block; }
   .nav-spacer { display: none; }
 }
 
-/* What the project is for (Hackathon, Capstone Design, …) — small accent label above the title */
-.pj-kind {
-  font-family: var(--mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--vermillion);
-  margin-bottom: 0.2rem;
-}
-
 /* Wide screens: two items per row (Projects and Publications) */
 @media (min-width: 1100px) {
   #proj-grid, #papers-list { max-width: none; }
@@ -2059,18 +2049,6 @@ img { max-width: 100%; display: block; }
 .pj-item:hover .pj-desc { display: block; -webkit-line-clamp: unset; }
 @media (hover: none) { .pj-desc { display: block; -webkit-line-clamp: unset; } }
 
-/* Project type sits small right after the title */
-.pj-kind-inline {
-  margin-left: 0.6rem;
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--vermillion);
-  vertical-align: middle;
-  white-space: nowrap;
-}
 
 /* Organizer line and summary sit close together */
 .pj-org { line-height: 1.4; }
@@ -2080,7 +2058,7 @@ img { max-width: 100%; display: block; }
 .pj-more:hover { border-color: transparent; background: none; color: var(--vermillion); }
 
 /* Partner company, right end of the org line */
-.pj-org { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.pj-org { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .pj-partner { margin-left: auto; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em; color: var(--text-mute); white-space: nowrap; }
 
 /* Partner link: turns the company's colour on hover */
@@ -2104,9 +2082,6 @@ a.pj-partner:hover { color: var(--partner-color, var(--vermillion)); }
 .pj-partner { display: inline-flex; align-items: center; gap: 0.4rem; }
 .pj-partner img { height: 1.5rem; margin: -0.4rem -0.2rem -0.4rem 0; width: auto; display: block; filter: grayscale(1); opacity: 0.5; transition: filter 150ms, opacity 150ms; }
 a.pj-partner:hover img { filter: none; opacity: 1; }
-
-/* "with" keeps its colour on hover; only the company name / logo changes */
-.pj-with { color: var(--text-mute); }
 
 /* Dark logos (black wordmark): flip to white on the dark theme, colours return on hover */
 :root:not([data-theme="light"]) .pj-partner img.pj-logo-inv { filter: invert(1) grayscale(1); }

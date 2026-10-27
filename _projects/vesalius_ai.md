@@ -5,7 +5,6 @@ description: "A Vision-Language-Action Based Surgical Assistant Robot for Contex
 image: "assets/img/projects/Vesalius_ai.png"
 stack: "Robotics · VLA · Python · ROS 2 · VLA · Computer Vision"
 status: "ongoing"
-type: "Competition"
 tags: [Robotics, VLA, Medical Robot, Computer Vision, ROS 2]
 github: "https://github.com/bigse0u1/Vesalius-Ai"
 demo: ""

@@ -5,7 +5,6 @@ description: "Based on KIOM terminology and prescription data, we constructed a 
 image: "assets/img/projects/KTM-LLM.png"
 stack: "Python · RAG · GraphRAG"
 status: "done"
-type: "Course Project · Team"
 tags: [Python, LLM, RAG, GraphRAG, Korean Medicine, Medical AI]
 github: ""
 demo: ""

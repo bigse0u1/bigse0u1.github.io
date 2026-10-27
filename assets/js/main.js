@@ -364,9 +364,9 @@ function renderProjects() {
               ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
             </div>
-            <h3 class="pj-title">${p.title}${p.type ? `<span class="pj-kind-inline">${p.type}</span>` : ''}</h3>
+            <h3 class="pj-title">${p.title}</h3>
             ${p.org || p.partner ? `<div class="pj-org"><span>${p.org || ''}</span>${p.partner ? (() => {
-              const inner = `<span class="pj-with">with</span>${p.partner_logo ? `<img src="${p.partner_logo}" alt="${p.partner}"${p.partner_logo_invert ? ' class="pj-logo-inv"' : ''}${p.partner_logo_height ? ` style="height:${p.partner_logo_height};margin:0"` : ''}>` : `<span>${p.partner}</span>`}`;
+              const inner = `${p.partner_logo ? `<img src="${p.partner_logo}" alt="${p.partner}"${p.partner_logo_invert ? ' class="pj-logo-inv"' : ''}${p.partner_logo_height ? ` style="height:${p.partner_logo_height};margin:0"` : ''}>` : `<span>${p.partner}</span>`}`;
               const color = p.partner_color ? ` style="--partner-color:${p.partner_color}"` : '';
               return p.partner_url
                 ? `<a class="pj-partner" href="${p.partner_url}" target="_blank" rel="noopener"${color}>${inner}</a>`
