@@ -3,6 +3,8 @@ title: "Fact_Law"
 date: 2026-09-01
 org: "AI Bootcamp Innovation Challenger 2026"
 partner: "Upstage"
+partner_url: "https://www.upstage.ai"
+partner_color: "#8b6cff"
 description: "A public-law Q&A AI agent project in collaboration with Upstage."
 image: "assets/img/projects/Fact_Law.png"
 stack: "Upstage AI Studio, Python, LLM"

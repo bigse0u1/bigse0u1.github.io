@@ -2082,3 +2082,7 @@ img { max-width: 100%; display: block; }
 /* Partner company, right end of the org line */
 .pj-org { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
 .pj-partner { margin-left: auto; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em; color: var(--text-mute); white-space: nowrap; }
+
+/* Partner link: turns the company's colour on hover */
+a.pj-partner { transition: color 150ms; }
+a.pj-partner:hover { color: var(--partner-color, var(--vermillion)); }
