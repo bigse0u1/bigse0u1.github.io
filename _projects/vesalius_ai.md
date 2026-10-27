@@ -1,6 +1,7 @@
 ---
 title: "Vesalius Ai"
 date: 2026-06-05
+org: "2026 Y-MAS Project Competition"
 description: "A Vision-Language-Action Based Surgical Assistant Robot for Context-Aware Surgical Support"
 image: "assets/img/projects/Vesalius_ai.png"
 stack: "Robotics · VLA · Python · ROS 2 · VLA · Computer Vision"
