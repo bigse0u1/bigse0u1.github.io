@@ -4,7 +4,6 @@ date: 2025-09-01
 org: "ICONVERGENCE CAPSTONE DESIGN"
 description: "A Real-Time User Attention Evaluation Model Using Integrated Visual Biosignals"
 image: "assets/img/projects/focusmate.png"
-stack: "TypeScript · MediaPipe · HTML · CSS"
 status: "done"
 category: "course"
 tags: [Computer Vision, TypeScript, MediaPipe, Web]

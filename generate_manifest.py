@@ -116,7 +116,6 @@ def process_projects():
             'date': fm.get('date', ''),
             'description': fm.get('description', excerpt(content, 120)),
             'image': fm.get('image', ''),
-            'stack': fm.get('stack', ''),
             'status': fm.get('status', ''),
             'end': fm.get('end', ''),
             'role': fm.get('role', ''),

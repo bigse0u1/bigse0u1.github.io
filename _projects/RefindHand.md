@@ -9,10 +9,9 @@ partner_logo_height: "1rem"
 partner_color: "#FF3D00"
 description: "A ROS2-based multimodal data collection framework integrating human demonstrations, robotic hand control, tactile sensing, and RGB-D vision for dexterous manipulation learning."
 image: "assets/img/projects/RefindHand.png"
-stack: "ROS2, Python, Tactile Sensing"
 status: "ongoing"
 category: "course"
-tags: [Robotics, ROS2, Tactile Sensing, Imitation Learning, Multimodal Dataset]
+tags: [Robotics, ROS2, Tactile Sensing, Multimodal Dataset]
 github: ""
 demo: ""
 ---

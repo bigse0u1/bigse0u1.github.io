@@ -4,7 +4,6 @@ date: 2026-05-15
 org: "INTRODUCTION TO MACHINE LEARNING"
 description: "Based on KIOM terminology and prescription data, we constructed a Korean Medicine knowledge graph and analyzed changes in question-answering performance across Korean and global LLMs."
 image: "assets/img/projects/KTM-LLM.png"
-stack: "Python · RAG · GraphRAG"
 status: "done"
 category: "course"
 tags: [Python, LLM, RAG, GraphRAG, Korean Medicine, Medical AI]

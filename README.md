@@ -79,7 +79,6 @@ type: "Research Project"    # 선택
 org: "기관 / 대회 이름"       # 선택
 description: "한 줄 설명"
 image: assets/img/projects/xxx.png   # 선택
-stack: "Python · RAG"
 github: https://github.com/...       # 선택
 demo: https://...                    # 선택
 tags: [Python, RAG]

@@ -8,7 +8,6 @@ partner_logo: "assets/img/logo/upstage.svg"
 partner_color: "#8b6cff"
 description: "An AI-powered legal Q&A service using Upstage Solar LLM and the National Law Information Open API to provide law-based answers"
 image: "assets/img/projects/Fact_Law.png"
-stack: "Upstage AI Studio, Python, LLM, RAG"
 status: "ongoing"
 category: "competition"
 tags: [AI Agent, Legal AI, LLM, Upstage, Public Sector]

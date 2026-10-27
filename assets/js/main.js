@@ -393,7 +393,7 @@ function renderProjects() {
                 : `<span class="pj-partner"${color}>${inner}</span>`;
             })() : ''}</div>` : ''}
             ${p.description ? `<p class="pj-desc">${p.description}</p>` : ''}
-            ${p.stack ? `<div class="pj-stack">${p.stack}</div>` : ''}
+            ${(p.tags || []).length ? `<div class="pj-stack">${p.tags.join(' · ')}</div>` : ''}
             <div class="pj-links">
               ${p.github ? `<a href="${p.github}" target="_blank" class="pj-link">GitHub</a>` : ''}
               ${p.demo ? `<a href="${p.demo}" target="_blank" class="pj-link">Demo</a>` : ''}
@@ -1148,9 +1148,6 @@ async function renderDetail(detail) {
     ? (item.categories||[]).join(' · ')
     : 'Project';
 
-  const metaExtra = detail.type === 'project' && item.stack
-    ? `<span style="font-family:var(--mono);font-size:0.68rem;color:var(--text-mute)">${item.stack}</span>` : '';
-
   const links = detail.type === 'project'
     ? `<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.8rem">
         ${item.github ? `<a href="${item.github}" target="_blank" class="small-link">⌥ GitHub</a>` : ''}
@@ -1192,7 +1189,6 @@ async function renderDetail(detail) {
           <h1 class="detail-title">${item.title}</h1>
           <div class="detail-meta">
             <span class="detail-date">${item.date || ''}</span>
-            ${metaExtra}
           </div>
           ${links}
           ${tagsHtml}
