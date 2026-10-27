@@ -2087,12 +2087,15 @@ img { max-width: 100%; display: block; }
 a.pj-partner { transition: color 150ms; }
 a.pj-partner:hover { color: var(--partner-color, var(--vermillion)); }
 
-/* Organizer: small like the partner name, colour halfway between summary and partner */
+/* Organizer: small, always on one line; the partner name drops below only if there is no room */
 .pj-org {
-  font-family: var(--mono);
-  font-size: 0.66rem;
+  flex-wrap: wrap;
+  gap: 0.1rem 1rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
   font-weight: 400;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: color-mix(in srgb, var(--text-soft), var(--text-mute));
   margin-top: 0.3rem;
 }
+.pj-org > span:first-child { white-space: nowrap; }
