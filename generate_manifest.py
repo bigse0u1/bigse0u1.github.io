@@ -125,6 +125,8 @@ def process_projects():
             'partner': fm.get('partner', ''),
             'partner_url': fm.get('partner_url', ''),
             'partner_logo': fm.get('partner_logo', ''),
+            'partner_logo_height': fm.get('partner_logo_height', ''),
+            'partner_logo_invert': str(fm.get('partner_logo_invert', '')).lower() in ('true', 'yes', '1'),
             'partner_color': fm.get('partner_color', ''),
             'github': fm.get('github', ''),
             'demo': fm.get('demo', ''),
