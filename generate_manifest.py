@@ -124,6 +124,7 @@ def process_projects():
             'org': fm.get('org', ''),
             'partner': fm.get('partner', ''),
             'partner_url': fm.get('partner_url', ''),
+            'partner_logo': fm.get('partner_logo', ''),
             'partner_color': fm.get('partner_color', ''),
             'github': fm.get('github', ''),
             'demo': fm.get('demo', ''),
