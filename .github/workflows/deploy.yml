@@ -3,9 +3,16 @@ name: Generate Manifests & Deploy
 on:
   push:
     branches: [main, master]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -21,10 +28,21 @@ jobs:
       - name: Generate posts.json and projects.json
         run: python generate_manifest.py
 
-      - name: Commit manifest files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add _data/posts.json _data/projects.json
-          git diff --staged --quiet || git commit -m "chore: update manifests [skip ci]"
-          git push
+      - name: Set up Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

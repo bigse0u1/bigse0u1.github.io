@@ -27,8 +27,8 @@ Live: https://bigse0u1.github.io
 ├── _posts/                 ← 글 (YYYY-MM-DD-slug.md)
 ├── _projects/              ← 프로젝트 (slug.md)
 ├── _data/
-│   ├── posts.json          ← 자동 생성 (직접 수정 X)
-│   └── projects.json       ← 자동 생성 (직접 수정 X)
+│   ├── posts.json          ← 배포 때 자동 생성 (커밋 안 됨)
+│   └── projects.json       ← 배포 때 자동 생성 (커밋 안 됨)
 ├── generate_manifest.py    ← _posts / _projects → _data/*.json
 └── .github/workflows/
     └── deploy.yml          ← push 시 manifest 자동 재생성
@@ -115,9 +115,8 @@ python3 -m http.server 8000      # http://localhost:8000
 
 ## 배포
 
-`main`에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 `python generate_manifest.py`를 실행하고, 바뀐 `_data/*.json`만 `[skip ci]` 커밋으로 올립니다.
+`main`에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 `python generate_manifest.py`로 `_data/*.json`을 만들고 그대로 GitHub Pages에 배포합니다. JSON은 저장소에 커밋되지 않습니다. (저장소 Settings → Pages → Source: **GitHub Actions**)
 
-> 서버가 만든 커밋이 있을 수 있으니, 작업을 시작하기 전에 `git pull`을 먼저 하세요.
 
 ## 사용한 라이브러리 (CDN)
 
