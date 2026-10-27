@@ -365,7 +365,7 @@ function renderProjects() {
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
             </div>
             <h3 class="pj-title">${p.title}${p.type ? `<span class="pj-kind-inline">${p.type}</span>` : ''}</h3>
-            ${p.org ? `<div class="pj-org">${p.org}</div>` : ''}
+            ${p.org || p.partner ? `<div class="pj-org"><span>${p.org || ''}</span>${p.partner ? `<span class="pj-partner">with ${p.partner}</span>` : ''}</div>` : ''}
             ${p.description ? `<p class="pj-desc">${p.description}</p>` : ''}
             ${p.stack ? `<div class="pj-stack">${p.stack}</div>` : ''}
             <div class="pj-links">

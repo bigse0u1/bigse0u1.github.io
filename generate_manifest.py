@@ -122,6 +122,7 @@ def process_projects():
             'role': fm.get('role', ''),
             'type': fm.get('type', ''),
             'org': fm.get('org', ''),
+            'partner': fm.get('partner', ''),
             'github': fm.get('github', ''),
             'demo': fm.get('demo', ''),
             'tags': tags,

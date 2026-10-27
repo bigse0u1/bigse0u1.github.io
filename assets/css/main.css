@@ -2075,3 +2075,10 @@ img { max-width: 100%; display: block; }
 /* Organizer line and summary sit close together */
 .pj-org { line-height: 1.4; }
 .pj-org + .pj-desc { margin-top: 0.3rem; }
+
+/* "Details →" is a plain text link: no pill on hover, so the text never spills out of a border */
+.pj-more:hover { border-color: transparent; background: none; color: var(--vermillion); }
+
+/* Partner company, right end of the org line */
+.pj-org { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.pj-partner { margin-left: auto; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em; color: var(--text-mute); white-space: nowrap; }
