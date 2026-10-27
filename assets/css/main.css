@@ -2086,3 +2086,6 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 /* Dark logos (black wordmark): flip to white on the dark theme, colours return on hover */
 :root:not([data-theme="light"]) .pj-partner img.pj-logo-inv { filter: invert(1) grayscale(1); }
 :root:not([data-theme="light"]) a.pj-partner:hover img.pj-logo-inv { filter: invert(1) hue-rotate(180deg); }
+
+/* "with" keeps its colour on hover; only the company name / logo changes */
+.pj-with { color: var(--text-mute); }

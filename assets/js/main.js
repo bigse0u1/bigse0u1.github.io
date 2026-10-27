@@ -366,7 +366,7 @@ function renderProjects() {
             </div>
             <h3 class="pj-title">${p.title}</h3>
             ${p.org || p.partner ? `<div class="pj-org"><span>${p.org || ''}</span>${p.partner ? (() => {
-              const inner = `${p.partner_logo ? `<img src="${p.partner_logo}" alt="${p.partner}"${p.partner_logo_invert ? ' class="pj-logo-inv"' : ''}${p.partner_logo_height ? ` style="height:${p.partner_logo_height};margin:0"` : ''}>` : `<span>${p.partner}</span>`}`;
+              const inner = `<span class="pj-with">with</span>${p.partner_logo ? `<img src="${p.partner_logo}" alt="${p.partner}"${p.partner_logo_invert ? ' class="pj-logo-inv"' : ''}${p.partner_logo_height ? ` style="height:${p.partner_logo_height};margin:0"` : ''}>` : `<span>${p.partner}</span>`}`;
               const color = p.partner_color ? ` style="--partner-color:${p.partner_color}"` : '';
               return p.partner_url
                 ? `<a class="pj-partner" href="${p.partner_url}" target="_blank" rel="noopener"${color}>${inner}</a>`

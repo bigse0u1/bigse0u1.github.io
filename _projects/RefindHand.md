@@ -1,10 +1,11 @@
 ---
 title: "RefindHand"
 date: 2026-09-01
-org: ""
+org: "AI INDUSTRY COLLABORATION PROJECT"
 partner: "Refind"
 partner_url: "https://products.refind.kr/"
 partner_logo: "assets/img/logo/refind.svg"
+partner_logo_height: "0.8rem"
 partner_color: "#FF3D00"
 description: "A ROS2-based multimodal data collection framework integrating human demonstrations, robotic hand control, tactile sensing, and RGB-D vision for dexterous manipulation learning."
 image: "assets/img/projects/RefindHand.png"
