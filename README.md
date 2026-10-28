@@ -94,7 +94,7 @@ tags: [Python, RAG]
 - `publications` — 논문. 비어 있으면 Publications 탭에 빈 틀이 표시됩니다.
   ```js
   { title, authors: 'Taekyeong Lee*, …', venue, venueUrl, date: '2026/06',
-    type: 'International Conference', badge: 'Spotlight', image: '', links: { arXiv, Paper, Project, Code } }
+    type: 'Intl. Conference', badge: 'Spotlight', image: '', links: { arXiv, Paper, Project, Code } }
   ```
 - `gallery` — 행사별 사진. 비어 있으면 Gallery 탭에 빈 틀이 표시됩니다.
   ```js
