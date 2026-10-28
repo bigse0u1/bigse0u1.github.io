@@ -47,7 +47,7 @@ const SITE = {
   ],
   publications: [
     // { title: '', authors: 'Taekyeong Lee*, Co Author', venue: 'CVPR Findings', venueUrl: '', date: '2026/06',
-    //   type: 'Conference',            // Conference | Journal | Preprint …  (종류가 2개 이상이면 필터가 생김)
+    //   type: 'International Conference',  // International Journal | International Conference | Domestic Journal | Domestic Conference | Preprint  (종류가 2개 이상이면 필터가 생김)
     //   badge: 'Spotlight',            // 선택
     //   image: '',                     // 선택 (썸네일)
     //   links: { arXiv: '', Paper: '', Project: '', Code: '' } }
@@ -426,13 +426,13 @@ function renderPapers() {
   // No entries yet: show the empty frame (same layout as a real entry, dimmed)
   if (!SITE.publications.length) {
     el.innerHTML = `
-      <div class="pub-filters pub-ghost">${['All', 'Conference', 'Journal'].map((t, i) =>
+      <div class="pub-filters pub-ghost">${['All', 'International Journal', 'International Conference', 'Domestic Journal', 'Domestic Conference'].map((t, i) =>
         `<button class="tag-btn${i === 0 ? ' active' : ''}" tabindex="-1" disabled>${t}</button>`).join('')}</div>
       <div class="pub-ghost">
         <article class="pj-item pub-entry">
           <div class="pj-media pj-media-empty"><span>Figure</span></div>
           <div class="pj-body">
-            <div class="pj-meta"><span class="pub-no">#1</span><span class="pj-period">2026.00</span><span class="pj-chip">Conference</span></div>
+            <div class="pj-meta"><span class="pub-no">#1</span><span class="pj-period">2026.00</span><span class="pj-chip">International Conference</span></div>
             <h3 class="pj-title">Title of your first publication will appear here</h3>
             <div class="pub-authors"><strong>${SITE.author}</strong>*, Co-author, Advisor</div>
             <div class="pub-venue">Conference / Journal name</div>
@@ -445,7 +445,9 @@ function renderPapers() {
   }
 
   const all = [...SITE.publications].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-  const types = [...new Set(all.map(p => p.type).filter(Boolean))];
+  const TYPE_ORDER = ['International Journal', 'International Conference', 'Domestic Journal', 'Domestic Conference', 'Preprint'];
+  const rank = t => TYPE_ORDER.includes(t) ? TYPE_ORDER.indexOf(t) : TYPE_ORDER.length;
+  const types = [...new Set(all.map(p => p.type).filter(Boolean))].sort((a, b) => rank(a) - rank(b));
   if (!types.includes(pubTypeFilter)) pubTypeFilter = 'All';
   const shown = all.filter(p => pubTypeFilter === 'All' || p.type === pubTypeFilter);
   const me = SITE.author;
