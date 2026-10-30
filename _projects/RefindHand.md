@@ -12,7 +12,7 @@ image: "assets/img/projects/RefindHand.png"
 status: "ongoing"
 category: "course"
 tags: [Robotics, ROS2, Tactile Sensing, Multimodal Dataset]
-github: ""
+github: "https://github.com/RefindHand/TactileData_Collection_Pipeline"
 demo: ""
 ---
 진행 중인 프로젝트입니다. 자세한 내용은 추후 업데이트할 예정입니다.
