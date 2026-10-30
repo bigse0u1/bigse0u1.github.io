@@ -331,6 +331,17 @@ const PROJECT_KINDS = {
 };
 let projKindFilter = 'All';
 
+// "→ Paper" marker for projects that grew into a paper. `paper:` is a URL (link),
+// a short note such as "Under review", or just true.
+function paperChip(p) {
+  const v = String(p.paper || '').trim();
+  if (!v || /^(false|no|0)$/i.test(v)) return '';
+  const arrow = '<span class="pj-arrow">→</span>';
+  if (/^https?:\/\//i.test(v)) return `${arrow}<a class="proj-status proj-status-paper" href="${v}" target="_blank" rel="noopener">Paper ↗</a>`;
+  const note = /^(true|yes|1)$/i.test(v) ? '' : ` · ${v}`;
+  return `${arrow}<span class="proj-status proj-status-paper">Paper${note}</span>`;
+}
+
 function renderProjects() {
   const el = document.getElementById('proj-grid');
   el.innerHTML = '';
@@ -382,6 +393,7 @@ function renderProjects() {
             <div class="pj-meta">
               <span class="pj-period">${period(p)}</span>
               ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
+              ${paperChip(p)}
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
             </div>
             <h3 class="pj-title">${p.title}</h3>

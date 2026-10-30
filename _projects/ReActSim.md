@@ -9,6 +9,7 @@ partner_color: ""
 description: "A physics-grounded embodied AI agent that simulates future actions, detects failures, and autonomously replans robotic manipulation tasks using Meta AI models."
 image: "assets/img/projects/ReActSim.png"
 status: "ongoing"
+paper: "In preparation"
 category: "hackathon"
 tags: [Embodied AI, AI Agent, Robotics, Simulation]
 github: "https://github.com/bigse0u1/ReActSim"
