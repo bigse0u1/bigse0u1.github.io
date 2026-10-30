@@ -332,14 +332,18 @@ const PROJECT_KINDS = {
 let projKindFilter = 'All';
 
 // "→ Paper" marker for projects that grew into a paper. `paper:` is a URL (link),
-// a short note such as "Under review", or just true.
+// a short note such as "Under review", or just true. Faded until the paper is
+// accepted / published (or has a link); then it lights up in colour.
 function paperChip(p) {
   const v = String(p.paper || '').trim();
   if (!v || /^(false|no|0)$/i.test(v)) return '';
   const arrow = '<span class="pj-arrow">→</span>';
-  if (/^https?:\/\//i.test(v)) return `${arrow}<a class="proj-status proj-status-paper" href="${v}" target="_blank" rel="noopener">Paper ↗</a>`;
+  const isUrl = /^https?:\/\//i.test(v);
+  const done = isUrl || /accept|publish|appear|출판|게재|채택/i.test(v);
+  const cls = `proj-status proj-status-paper${done ? '' : ' is-pending'}`;
+  if (isUrl) return `${arrow}<a class="${cls}" href="${v}" target="_blank" rel="noopener">Paper ↗</a>`;
   const note = /^(true|yes|1)$/i.test(v) ? '' : ` · ${v}`;
-  return `${arrow}<span class="proj-status proj-status-paper">Paper${note}</span>`;
+  return `${arrow}<span class="${cls}">Paper${note}</span>`;
 }
 
 function renderProjects() {

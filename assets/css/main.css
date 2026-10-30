@@ -2116,3 +2116,6 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .pj-arrow { font-family: var(--mono); font-size: 0.7rem; color: var(--text-mute); margin: 0 -0.15rem; }
 .proj-status-paper { color: rgb(var(--gold-rgb)); border: 1px solid rgba(var(--gold-rgb), 0.5); background: rgba(var(--gold-rgb), 0.08); }
 a.proj-status-paper:hover { background: rgba(var(--gold-rgb), 0.18); }
+
+/* Paper not accepted yet: faded with a dashed outline; lights up once accepted */
+.proj-status-paper.is-pending { opacity: 0.5; border-style: dashed; background: none; }
