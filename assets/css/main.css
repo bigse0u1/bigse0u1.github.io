@@ -2112,10 +2112,12 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .kind-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 0.45em; background: var(--kind, var(--text-mute)); vertical-align: middle; position: relative; top: -1px; }
 .pj-filters { margin-bottom: 1.2rem; }
 
-/* Project that led to a paper: "In Progress → Paper" */
+/* Project that led to a paper: "In Progress → Paper" (deeper blue than the status chip) */
+:root { --paper-rgb: 74,120,235; --paper-text: #b9cdff; }
+:root[data-theme="light"] { --paper-rgb: 28,64,160; --paper-text: #1c40a0; }
 .pj-arrow { font-family: var(--mono); font-size: 0.7rem; color: var(--text-mute); margin: 0 -0.15rem; }
-.proj-status-paper { color: rgb(var(--gold-rgb)); border: 1px solid rgba(var(--gold-rgb), 0.5); background: rgba(var(--gold-rgb), 0.08); }
-a.proj-status-paper:hover { background: rgba(var(--gold-rgb), 0.18); }
+.proj-status-paper { color: var(--paper-text); border: 1px solid rgba(var(--paper-rgb), 0.85); background: rgba(var(--paper-rgb), 0.28); }
+a.proj-status-paper:hover { background: rgba(var(--paper-rgb), 0.42); }
 
 /* Paper not accepted yet: faded with a dashed outline; lights up once accepted */
 .proj-status-paper.is-pending { opacity: 0.5; border-style: dashed; background: none; }
