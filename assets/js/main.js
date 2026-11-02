@@ -11,7 +11,7 @@ const SITE = {
   linkedin: 'https://www.linkedin.com/in/taekyeong-lee-70269b364/',
   scholar: '',
   cv: '',   // 예: 'assets/cv/Taekyeong_Lee_CV.pdf' — 비워두면 아이콘이 흐리게 비활성
-  intro: 'Hi, I\'m Taekyeong Lee.<br>Undergraduate Student in Dept of Software, Yonsei University (Mirae).<br>I\'m passionate about Robotics and VLA — teaching machines to see, think, and move.<br><br>My research interests lie in Physical AI, Vision-Language-Action (VLA) models, World Action Models (WAMs), and dexterous robotic manipulation. I aim to develop intelligent robotic systems that integrate visual, tactile, and language information to understand physical dynamics, predict action outcomes, and interact with the physical world.',
+  intro: 'Hi, I\'m Taekyeong Lee.<br>Undergraduate Student in Dept of Software, Yonsei University (Mirae).<br><br>My research interests lie in Physical AI, Vision-Language-Action (VLA) models, World Action Models (WAMs), and dexterous robotic manipulation. I aim to develop intelligent robotic systems that integrate visual, tactile, and language information to understand physical dynamics, predict action outcomes, and interact with the physical world.',
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
     { period: '2021.03 –\n2025.02', school: 'Changwon National University', degree: 'Dept. of Electrical, Electronic and Control Engineering (Robotics Control and Instrumentation)', logo: 'assets/img/logo/Changwon.svg' }
