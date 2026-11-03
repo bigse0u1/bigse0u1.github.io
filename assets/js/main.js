@@ -342,11 +342,9 @@ function paperChip(p) {
   const done = isUrl || /accept|publish|appear|출판|게재|채택/i.test(v);
   const cls = `proj-status proj-status-paper${done ? '' : ' is-pending'}`;
   if (isUrl) return `${arrow}<a class="${cls}" href="${v}" target="_blank" rel="noopener">Paper ↗</a>`;
-  // Long notes are shortened on the chip; the full text stays in the tooltip
-  const SHORT = { 'in preparation': 'In prep.', 'under review': 'In review' };
+  // The chip only says "Paper"; the status note lives in the tooltip
   const plain = /^(true|yes|1)$/i.test(v);
-  const note = plain ? '' : ` · ${SHORT[v.toLowerCase()] || v}`;
-  return `${arrow}<span class="${cls}"${plain ? '' : ` title="${v}"`}>Paper${note}</span>`;
+  return `${arrow}<span class="${cls}"${plain ? '' : ` title="${v}"`}>Paper</span>`;
 }
 
 function renderProjects() {
