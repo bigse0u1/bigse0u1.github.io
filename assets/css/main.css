@@ -2119,5 +2119,5 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .proj-status-paper { color: var(--paper-text); border: 1px solid rgba(var(--paper-rgb), 0.85); background: rgba(var(--paper-rgb), 0.28); }
 a.proj-status-paper:hover { background: rgba(var(--paper-rgb), 0.42); }
 
-/* Paper not accepted yet: faded with a dashed outline; lights up once accepted */
-.proj-status-paper.is-pending { opacity: 0.5; border-style: dashed; background: none; }
+/* Paper not accepted yet: faded; lights up once accepted */
+.proj-status-paper.is-pending { opacity: 0.5; background: none; }
