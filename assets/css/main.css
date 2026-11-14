@@ -2121,3 +2121,21 @@ a.proj-status-paper:hover { background: rgba(var(--paper-rgb), 0.42); }
 
 /* Paper not accepted yet: faded; lights up once accepted */
 .proj-status-paper.is-pending { opacity: 0.5; background: none; }
+
+/* News: only the latest 5 show; "More" (top right of the section) reveals the rest */
+.news-extra { display: none; }
+.news-timeline.expanded .news-extra { display: flex; }
+.news-more {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: var(--text-mute);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.12rem 0.7rem;
+  cursor: pointer;
+  transition: color 150ms, border-color 150ms;
+}
+.news-more:hover { color: var(--vermillion); border-color: var(--vermillion); }

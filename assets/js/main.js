@@ -127,6 +127,14 @@ function revealActiveTab() {
   if (a) a.scrollIntoView({ inline: 'center', block: 'nearest' });
 }
 
+// Inline handler on purpose: renderHome keeps appending with innerHTML +=, which drops listeners
+function toggleNews() {
+  const open = document.getElementById('news-timeline').classList.toggle('expanded');
+  const btn = document.getElementById('news-more');
+  btn.textContent = open ? 'Less ↑' : 'More ↓';
+  btn.setAttribute('aria-expanded', String(open));
+}
+
 function updateHash() {
   let hash = '';
   if (state.detail) {
@@ -235,8 +243,9 @@ function renderHome() {
 
   // 2. News — SITE.news에 항목이 있을 때만 표시
   if (SITE.news.length) {
-    const newsHtml = SITE.news.map(n => `
-      <div class="news-item">
+    const NEWS_SHOWN = 5;
+    const newsHtml = SITE.news.map((n, i) => `
+      <div class="news-item${i >= NEWS_SHOWN ? ' news-extra' : ''}">
         <div class="news-date">${n.date}</div>
         <div class="news-content">
           <div class="news-text">${n.text}</div>
@@ -248,10 +257,13 @@ function renderHome() {
         </div>
       </div>`).join('');
 
+    // Latest 5 only; "More" in the header reveals the rest
+    const more = SITE.news.length > NEWS_SHOWN
+      ? `<button class="news-more" id="news-more" aria-expanded="false" onclick="toggleNews()">More ↓</button>` : '';
     el.innerHTML += `
       <div class="section">
-        <div class="section-head"><span class="section-title">News</span></div>
-        <div class="news-timeline">${newsHtml}</div>
+        <div class="section-head"><span class="section-title">News</span>${more}</div>
+        <div class="news-timeline" id="news-timeline">${newsHtml}</div>
       </div>`;
   }
 
