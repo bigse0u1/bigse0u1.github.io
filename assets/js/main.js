@@ -51,12 +51,12 @@ const SITE = {
   publications: [
     { title: '물리 시뮬레이션 기반 사전 검증을 통한 LLM 로봇 에이전트의 실패 복구', authors: 'Taekyeong Lee*', venue: 'KAICTS 2026 Fall', date: '2026/11',
       type: 'Dom. Conference', badge: 'Accepted', image: 'assets/img/publications/IMAGINATION.png',
-      links: { Code: 'https://github.com/bigse0u1/ReActSim' } },
+      links: { Paper: '', Project: '', Code: 'https://github.com/bigse0u1/ReActSim' } },
     // { title: '', authors: 'Taekyeong Lee*, Co Author', venue: 'CVPR Findings', venueUrl: '', date: '2026/06',
     //   type: 'Intl. Conference',  // Intl. Journal | Intl. Conference | Dom. Journal | Dom. Conference | Preprint  (종류가 2개 이상이면 필터가 생김)
     //   badge: 'Spotlight',            // 선택
     //   image: '',                     // 선택 (썸네일)
-    //   links: { arXiv: '', Paper: '', Project: '', Code: '' } }
+    //   links: { arXiv: '', Paper: '', Project: '', Code: '' } }   // 빈 값('')이면 흐린 버튼으로 미리 보임, 주소를 채우면 활성화
   ],
 };
 
@@ -463,17 +463,21 @@ function renderPapers() {
   }
 
   const all = [...SITE.publications].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  // The four main categories always show as filter buttons (even before a paper exists in them);
+  // any other type that is actually used (e.g. Preprint) is added after them.
   const TYPE_ORDER = ['Intl. Journal', 'Intl. Conference', 'Dom. Journal', 'Dom. Conference', 'Preprint'];
+  const ALWAYS = TYPE_ORDER.slice(0, 4);
   const rank = t => TYPE_ORDER.includes(t) ? TYPE_ORDER.indexOf(t) : TYPE_ORDER.length;
-  const types = [...new Set(all.map(p => p.type).filter(Boolean))].sort((a, b) => rank(a) - rank(b));
+  const types = [...new Set([...ALWAYS, ...all.map(p => p.type).filter(Boolean)])].sort((a, b) => rank(a) - rank(b));
   if (!types.includes(pubTypeFilter)) pubTypeFilter = 'All';
   const shown = all.filter(p => pubTypeFilter === 'All' || p.type === pubTypeFilter);
   const me = SITE.author;
   const authors = a => (a || '').split(me).join(`<strong>${me}</strong>`);
 
   el.innerHTML = `
-    ${types.length > 1 ? `<div class="pub-filters">${['All', ...types].map(t =>
-      `<button class="tag-btn${t === pubTypeFilter ? ' active' : ''}" data-type="${t}">${t}</button>`).join('')}</div>` : ''}
+    <div class="pub-filters">${['All', ...types].map(t =>
+      `<button class="tag-btn${t === pubTypeFilter ? ' active' : ''}" data-type="${t}">${t}</button>`).join('')}</div>
+    ${shown.length ? '' : '<p class="pub-empty-note">No publications in this category yet.</p>'}
     ${shown.map(p => `
       <article class="pj-item pub-entry">
         ${p.image ? `<div class="pj-media"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>` : ''}
@@ -488,7 +492,7 @@ function renderPapers() {
           <div class="pub-authors">${authors(p.authors)}</div>
           <div class="pub-venue">${p.venueUrl ? `<a href="${p.venueUrl}" target="_blank">${p.venue}</a>` : p.venue}</div>
           <div class="pj-links">
-            ${Object.entries(p.links || {}).filter(([, v]) => v).map(([k, v]) => `<a href="${v}" target="_blank" class="pj-link">${k}</a>`).join('')}
+            ${Object.entries(p.links || {}).map(([k, v]) => v ? `<a href="${v}" target="_blank" class="pj-link">${k}</a>` : `<span class="pj-link pj-link-off" title="Coming soon">${k}</span>`).join('')}
           </div>
         </div>
       </article>`).join('')}`;

@@ -2130,3 +2130,7 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
   transition: color 150ms, border-color 150ms;
 }
 .news-more:hover { color: var(--vermillion); border-color: var(--vermillion); }
+
+/* Placeholder button (no link yet): dimmed, not clickable */
+.pj-link-off { opacity: 0.35; cursor: default; }
+.pj-link-off:hover { color: var(--text-soft); border-color: var(--border); background: none; }
