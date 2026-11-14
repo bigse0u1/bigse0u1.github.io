@@ -20,6 +20,8 @@ const SITE = {
   // badgeType: award(초록) | scholarship(보라) | talk(파랑) | publication(금색) | note(회색, 기본값)
   // proof: 증빙 이미지/PDF 있으면 경로 적기 (선택)
   news: [
+    { date: '2026.11', text: 'Won <strong>2nd Place</strong> in the Exhibition Track of the Medical Physical AI Solution Competition!', org: '2026 Y-MAS Project Competition', badge: 'Award', badgeType: 'award' },
+    { date: '2026.11', text: 'Our paper on <strong>physics-simulation-based pre-verification for LLM robot agent failure recovery</strong> was accepted!', org: 'KAICTS 2026 Fall', badge: 'Publication', badgeType: 'publication' },
     { date: '2026.08', text: 'Received the <strong>Academic Excellence Scholarship</strong>!', org: 'Yonsei University', badge: 'Scholarship', badgeType: 'scholarship' },
     { date: '2026.01', text: 'Won the <strong>Excellence Award</strong> at the HIRA DATATHON!', org: 'Health Insurance Review & Assessment Service', badge: 'Award', badgeType: 'award', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
     // 예시: { date: '2026.03', text: 'Our paper <strong>XXX</strong> was accepted!', org: 'CVPR 2026', badge: 'Publication', badgeType: 'publication' }
@@ -27,6 +29,7 @@ const SITE = {
   ],
   // Honors & Awards: 수상 목록
   awards: [
+    { date: '2026.11.14', title: 'Y-MAS Project Competition (Medical Physical AI Solution) — 2nd Place, Exhibition Track', organizer: '2026 Y-MAS Project' },
     { date: '2026.08.21', title: 'Academic Excellence Scholarship', organizer: 'Yonsei University' },
     { date: '2026.01.30', title: 'HIRA DATATHON — Excellence Award', organizer: 'HIRA (Health Insurance Review & Assessment Service)', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
   ],
