@@ -50,8 +50,8 @@ const SITE = {
   ],
   publications: [
     { title: '물리 시뮬레이션 기반 사전 검증을 통한 LLM 로봇 에이전트의 실패 복구', authors: 'Taekyeong Lee*', venue: 'KAICTS 2026 Fall', date: '2026/11',
-      type: 'Dom. Conference', badge: 'Accepted', image: 'assets/img/publications/IMAGINATION.png',
-      links: { Paper: '', Project: '', Code: 'https://github.com/bigse0u1/ReActSim' } },
+      type: 'Dom. Conference', image: 'assets/img/publications/IMAGINATION.png',
+      links: { Code: 'https://github.com/bigse0u1/ReActSim' } },
     // { title: '', authors: 'Taekyeong Lee*, Co Author', venue: 'CVPR Findings', venueUrl: '', date: '2026/06',
     //   type: 'Intl. Conference',  // Intl. Journal | Intl. Conference | Dom. Journal | Dom. Conference | Preprint  (종류가 2개 이상이면 필터가 생김)
     //   badge: 'Spotlight',            // 선택
