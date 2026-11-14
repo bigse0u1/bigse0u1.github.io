@@ -346,22 +346,6 @@ const PROJECT_KINDS = {
 };
 let projKindFilter = 'All';
 
-// "→ Paper" marker for projects that grew into a paper. `paper:` is a URL (link),
-// a short note such as "Under review", or just true. Faded until the paper is
-// accepted / published (or has a link); then it lights up in colour.
-function paperChip(p) {
-  const v = String(p.paper || '').trim();
-  if (!v || /^(false|no|0)$/i.test(v)) return '';
-  const arrow = '<span class="pj-arrow">→</span>';
-  const isUrl = /^https?:\/\//i.test(v);
-  const done = isUrl || /accept|publish|appear|출판|게재|채택/i.test(v);
-  const cls = `proj-status proj-status-paper${done ? '' : ' is-pending'}`;
-  if (isUrl) return `${arrow}<a class="${cls}" href="${v}" target="_blank" rel="noopener">Paper ↗</a>`;
-  // The chip only says "Paper"; the status note lives in the tooltip
-  const plain = /^(true|yes|1)$/i.test(v);
-  return `${arrow}<span class="${cls}"${plain ? '' : ` title="${v}"`}>Paper</span>`;
-}
-
 function renderProjects() {
   const el = document.getElementById('proj-grid');
   el.innerHTML = '';
@@ -413,7 +397,6 @@ function renderProjects() {
             <div class="pj-meta">
               <span class="pj-period">${period(p)}</span>
               ${p.status === 'ongoing' ? '<span class="proj-status proj-status-ongoing">In Progress</span>' : p.status === 'done' ? '<span class="proj-status proj-status-done">Done</span>' : ''}
-              ${paperChip(p)}
               ${p.role ? `<span class="pj-chip">${p.role}</span>` : ''}
             </div>
             <h3 class="pj-title">${p.title}</h3>
