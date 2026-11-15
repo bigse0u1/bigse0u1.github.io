@@ -2135,8 +2135,12 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .pj-link-off { opacity: 0.35; cursor: default; }
 .pj-link-off:hover { color: var(--text-soft); border-color: var(--border); background: none; }
 
-/* Large screens: push the News badges (Award / Publication / Scholarship) out to the right edge */
-@media (min-width: 1440px) {
-  .news-content { flex: 1 1 auto; }
-  .news-side { margin-left: auto; justify-content: flex-end; min-width: 8rem; }
+/* Desktop and tablet widths: News badges (Award / Publication / Scholarship) sit at the right edge,
+   and the text gets all the room in between so one-line news stays on one line */
+@media (min-width: 821px) {
+  .news-content { flex: 1 1 auto; min-width: 0; }
+  .news-side { margin-left: auto; justify-content: flex-end; }
 }
+
+/* About text and News share one right edge, so the News badges line up with where the About text ends */
+.about-text, .news-timeline { max-width: 54rem; }
