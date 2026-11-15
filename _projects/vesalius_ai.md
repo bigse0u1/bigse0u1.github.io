@@ -4,7 +4,7 @@ date: 2026-06-05
 org: "2026 Y-MAS Project Competition"
 description: "A Vision-Language-Action Based Surgical Assistant Robot for Context-Aware Surgical Support"
 image: "assets/img/projects/Vesalius_ai.png"
-status: "ongoing"
+status: "done"
 category: "competition"
 tags: [Robotics, VLA, Medical Robot, ROS 2]
 github: "https://github.com/bigse0u1/Vesalius-Ai"
