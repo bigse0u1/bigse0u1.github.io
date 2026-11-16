@@ -446,7 +446,8 @@ function renderPapers() {
     el.innerHTML = `
       <div class="pub-filters pub-ghost">${['All', 'Intl. Journal', 'Intl. Conference', 'Dom. Journal', 'Dom. Conference'].map((t, i) =>
         `<button class="tag-btn${i === 0 ? ' active' : ''}" tabindex="-1" disabled>${t}</button>`).join('')}</div>
-      <div class="pub-ghost">
+      <section class="proj-year-section pub-ghost">
+        <div class="proj-year-heading">${new Date().getFullYear()}</div>
         <article class="pj-item pub-entry">
           <div class="pj-media pj-media-empty"><span>Figure</span></div>
           <div class="pj-body">
@@ -457,7 +458,7 @@ function renderPapers() {
             <div class="pj-links">${['arXiv', 'Paper', 'Project', 'Code'].map(k => `<span class="pj-link">${k}</span>`).join('')}</div>
           </div>
         </article>
-      </div>
+      </section>
       <p class="pub-empty-note">Coming soon — publications will be listed here.</p>`;
     return;
   }
@@ -471,6 +472,13 @@ function renderPapers() {
   const types = [...new Set([...ALWAYS, ...all.map(p => p.type).filter(Boolean)])].sort((a, b) => rank(a) - rank(b));
   if (!types.includes(pubTypeFilter)) pubTypeFilter = 'All';
   const shown = all.filter(p => pubTypeFilter === 'All' || p.type === pubTypeFilter);
+  // Group by year (newest first), like Projects; the #n numbering stays global
+  const byYear = new Map();
+  shown.forEach(p => {
+    const year = (p.date || '').slice(0, 4) || 'Unknown';
+    if (!byYear.has(year)) byYear.set(year, []);
+    byYear.get(year).push(p);
+  });
   const me = SITE.author;
   const authors = a => (a || '').split(me).join(`<strong>${me}</strong>`);
 
@@ -478,7 +486,10 @@ function renderPapers() {
     <div class="pub-filters">${['All', ...types].map(t =>
       `<button class="tag-btn${t === pubTypeFilter ? ' active' : ''}" data-type="${t}">${t}</button>`).join('')}</div>
     ${shown.length ? '' : '<p class="pub-empty-note">No publications in this category yet.</p>'}
-    ${shown.map(p => `
+    ${[...byYear.keys()].map(year => `
+      <section class="proj-year-section">
+        <div class="proj-year-heading">${year}</div>
+        ${byYear.get(year).map(p => `
       <article class="pj-item pub-entry">
         ${p.image ? `<div class="pj-media"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>` : ''}
         <div class="pj-body">
@@ -495,7 +506,8 @@ function renderPapers() {
             ${Object.entries(p.links || {}).map(([k, v]) => v ? `<a href="${v}" target="_blank" class="pj-link">${k}</a>` : `<span class="pj-link pj-link-off" title="Coming soon">${k}</span>`).join('')}
           </div>
         </div>
-      </article>`).join('')}`;
+      </article>`).join('')}
+      </section>`).join('')}`;
 
   el.querySelectorAll('.pub-filters .tag-btn').forEach(b => {
     b.onclick = () => { pubTypeFilter = b.dataset.type; renderPapers(); };
