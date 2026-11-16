@@ -29,7 +29,7 @@ const SITE = {
   ],
   // Honors & Awards: 수상 목록
   awards: [
-    { date: '2026.11.14', title: 'Y-MAS Project Competition (Medical Physical AI Solution) — 2nd Place, Exhibition Track', organizer: '2026 Y-MAS Project' },
+    { date: '2026.11.14', title: 'Y-MAS Project Competition (Medical Physical AI Solution) — 2nd Place, Exhibition Track', organizer: '2026 Y-MAS Project', proof: 'assets/img/AWARDS/Y-MAS.png' },
     { date: '2026.08.21', title: 'Academic Excellence Scholarship', organizer: 'Yonsei University' },
     { date: '2026.01.30', title: 'HIRA DATATHON — Excellence Award', organizer: 'HIRA (Health Insurance Review & Assessment Service)', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
   ],
