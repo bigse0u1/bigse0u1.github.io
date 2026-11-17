@@ -43,5 +43,3 @@ VESALIUS는 Vision-Language-Action(VLA) 기반의 수술 보조 로봇 시스템
 7. 실시간 수술 보조 로봇 시스템 통합
 
 ---
-
-### Day 01
