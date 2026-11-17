@@ -1,5 +1,5 @@
 ---
-title: "KTM-LLM"
+title: "MERIDIAN"
 date: 2026-05-15
 org: "INTRODUCTION TO MACHINE LEARNING"
 description: "Based on KIOM terminology and prescription data, we constructed a Korean Medicine knowledge graph and analyzed changes in question-answering performance across Korean and global LLMs."
