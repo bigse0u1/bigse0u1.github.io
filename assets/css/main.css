@@ -1858,7 +1858,7 @@ img { max-width: 100%; display: block; }
 
 .pj-media {
   align-self: start;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 3px;
@@ -1907,7 +1907,7 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 820px) {
   .pj-item { grid-template-columns: 1fr; gap: 0.9rem; padding: 1.2rem 0; }
-  .pj-media { aspect-ratio: 2.2 / 1; }
+  .pj-media { aspect-ratio: 16 / 9; }
   .pj-title { font-size: 1.05rem; }
 }
 
