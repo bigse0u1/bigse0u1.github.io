@@ -14,12 +14,6 @@ tags: [Embodied AI, AI Agent, Robotics, Simulation]
 github: "https://github.com/bigse0u1/ReActSim"
 demo: ""
 ---
-# ReActSim: A Robot That Imagines Before It Acts
-
-**Meta Global AI Developer Hackathon 2026 | Physical AI · Robotics · Vision-Language-Action**
-
-**GitHub:** [bigse0u1/ReActSim](https://github.com/bigse0u1/ReActSim)
-
 ## Overview
 
 ReActSim은 로봇이 행동하기 전에 물리 시뮬레이션으로 행동 결과를 미리 검증하고, 실행 중 문제가 발생하면 원인을 분석하여 새로운 행동을 계획하는 **Closed-loop Robot Agent** 프로젝트입니다.
@@ -77,5 +71,3 @@ ManiSkill 3 환경에서 물체를 집어 목표 위치에 배치하는 작업�
 ReActSim은 로봇이 단순히 명령을 실행하는 것을 넘어, **행동 결과를 예측하고 실패 원인을 이해하며 스스로 복구하는 Physical AI 시스템**을 목표로 합니다.
 
 현재는 시뮬레이션 환경에서 검증되었으며, 향후 실제 로봇 환경으로 확장하기 위한 기반을 제공합니다.
-
-**Repository:** https://github.com/bigse0u1/ReActSim
