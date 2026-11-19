@@ -11,7 +11,6 @@ Live: https://bigse0u1.github.io
 | Publications | 논문 목록 (번호·썸네일·저자·학회·링크, 종류별 필터) | `SITE.publications` |
 | Projects | 연도별 프로젝트 목록 + 상세 페이지 | `_projects/*.md` |
 | Study | 공부/리뷰 글, 카테고리 사이드바, 태그 중심 그래프, 검색 | `_posts/*.md` |
-| Gallery | 학회·행사 사진 (클릭하면 확대, 키보드로 넘기기) | `SITE.gallery` |
 
 그 외: 다크 / 화이트 테마 토글, 모바일 대응, 큰 화면(1800px↑)에서는 UI가 함께 커집니다.
 
@@ -23,7 +22,7 @@ Live: https://bigse0u1.github.io
 ├── assets/
 │   ├── css/main.css        ← 모든 스타일
 │   ├── js/main.js          ← 사이트 로직 + SITE 설정 (맨 위)
-│   └── img/                ← 이미지 (post/, projects/, gallery/, AWARDS/ …)
+│   └── img/                ← 이미지 (post/, projects/, AWARDS/ …)
 ├── _posts/                 ← 글 (YYYY-MM-DD-slug.md)
 ├── _projects/              ← 프로젝트 (slug.md)
 ├── _data/
@@ -96,12 +95,7 @@ tags: [Python, RAG]
   { title, authors: 'Taekyeong Lee*, …', venue, venueUrl, date: '2026/06',
     type: 'Intl. Conference', badge: 'Spotlight', image: '', links: { arXiv, Paper, Project, Code } }
   ```
-- `gallery` — 행사별 사진. 비어 있으면 Gallery 탭에 빈 틀이 표시됩니다.
-  ```js
-  { title: 'CVPR 2026', date: '2026.06', location: 'Denver, USA',
-    photos: [ { src: 'assets/img/gallery/xxx.jpg', caption: '…' } ] }
-  ```
-- `cv`, `scholar`, `github`, `linkedin`, `email` — 프로필 아이콘 링크 (값이 없으면 흐리게 비활성)
+- `scholar`, `github`, `linkedin`, `email` — 프로필 아이콘 링크 (값이 없으면 흐리게 비활성)
 
 ## 로컬에서 확인
 

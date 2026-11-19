@@ -10,7 +10,6 @@ const SITE = {
   github: 'bigse0u1',
   linkedin: 'https://www.linkedin.com/in/taekyeong-lee-70269b364/',
   scholar: '',
-  cv: '',   // 예: 'assets/cv/Taekyeong_Lee_CV.pdf' — 비워두면 아이콘이 흐리게 비활성
   intro: 'Hi, I\'m Taekyeong Lee.<br>Undergraduate Student in Dept of Software, Yonsei University (Mirae).<br><br>My research interests lie in Physical AI, Vision-Language-Action (VLA) models, World Action Models (WAM), and dexterous robotic manipulation. I aim to develop intelligent robotic systems that integrate visual, tactile, and language information to understand physical dynamics, predict action outcomes, and interact with the physical world.',
   education: [
     { period: '2025.03 ~', school: 'Yonsei University (Mirae)', degree: 'B.S. Department of Software', logo: 'assets/img/logo/yonsei.svg' },
@@ -43,10 +42,6 @@ const SITE = {
       topics: ['VLA', 'Robotics'],
       advisor: 'Prof. Dong-Hee Shin'
     }
-  ],
-  // Gallery: 학회/행사별 사진. 사진 파일은 assets/img/gallery/ 에 넣기
-  gallery: [
-    // { title: 'CVPR 2026', date: '2026.06', location: 'Denver, USA', description: '', photos: [ { src: 'assets/img/gallery/cvpr2026-01.jpg', caption: 'Poster session' } ] }
   ],
   publications: [
     { title: '물리 시뮬레이션 기반 사전 검증을 통한 LLM 로봇 에이전트의 실패 복구', authors: 'Taekyeong Lee*', venue: 'KAICTS 2026 Fall', date: '2026/11',
@@ -90,7 +85,7 @@ const md = (text) => {
    STATE
 ═══════════════════════════════════════════════ */
 let state = {
-  page: 'home',       // home | papers | projects | study | gallery
+  page: 'home',       // home | papers | projects | study
   detail: null,       // null | { type: 'post'|'project', slug }
   catFilter: '',
   tagFilter: '',
@@ -146,7 +141,6 @@ function updateHash() {
     switch (state.page) {
       case 'projects': hash = '#projects'; break;
       case 'papers': hash = '#publications'; break;
-      case 'gallery': hash = '#gallery'; break;
       case 'study':
         hash = '#study';
         if (state.catFilter) hash += '/' + encodeURIComponent(state.catFilter);
@@ -170,8 +164,6 @@ function routeFromHash() {
     state.page = 'projects';
   } else if (hash === '#publications' || hash === '#papers') {
     state.page = 'papers';
-  } else if (hash === '#gallery') {
-    state.page = 'gallery';
   } else if (hash.startsWith('#study')) {
     state.page = 'study';
     const rest = hash.slice(6);
@@ -224,7 +216,6 @@ function render() {
     case 'home':     renderHome();     document.getElementById('page-home').classList.add('active');     break;
     case 'projects': renderProjects(); document.getElementById('page-projects').classList.add('active'); break;
     case 'papers':   renderPapers();   document.getElementById('page-papers').classList.add('active');   break;
-    case 'gallery':  renderGallery();  document.getElementById('page-gallery').classList.add('active');  break;
     case 'study':    renderStudy();    document.getElementById('page-study').classList.add('active');    break;
   }
 }
@@ -513,135 +504,6 @@ function renderPapers() {
     b.onclick = () => { pubTypeFilter = b.dataset.type; renderPapers(); };
   });
 }
-
-/* ═══════════════════════════════════════════════
-   GALLERY
-═══════════════════════════════════════════════ */
-function renderGallery() {
-  const el = document.getElementById('gallery-list');
-  el.innerHTML = '';
-  el.closest('.proj-page-wrap').classList.add('fade-in');
-
-  // No events yet: show empty cards (same layout as a real event, dimmed)
-  if (!SITE.gallery.length) {
-    el.innerHTML = `
-      <div class="gal-grid gal-ghost">
-        ${[0].map(() => `
-          <article class="gal-card">
-            <div class="gal-frame gal-frame-empty">
-              <span>Photo</span>
-              <div class="gal-info">
-                <h2 class="gal-title">Conference or event name</h2>
-                <div class="gal-meta">2026.00 · City, Country</div>
-              </div>
-            </div>
-          </article>`).join('')}
-      </div>`;
-    return;
-  }
-
-  // One card per event; photos slide sideways inside the card
-  el.innerHTML = `<div class="gal-grid">${SITE.gallery.map((ev, i) => `
-    <article class="gal-card" data-ev="${i}">
-      <div class="gal-frame">
-        <div class="gal-track">
-          ${ev.photos.map((ph, j) => `
-            <figure class="gal-slide" data-ph="${j}">
-              <img src="${ph.src}" alt="${ph.caption || ev.title}" loading="lazy">
-            </figure>`).join('')}
-        </div>
-        ${ev.photos.length > 1 ? `
-          <button class="gal-nav gal-prev" aria-label="Previous photo">‹</button>
-          <button class="gal-nav gal-next" aria-label="Next photo">›</button>
-          <div class="gal-dots">${ev.photos.map((_, j) => `<i class="${j ? '' : 'on'}"></i>`).join('')}</div>` : ''}
-        <div class="gal-info">
-          <h2 class="gal-title">${ev.title}</h2>
-          <div class="gal-meta">${[ev.date, ev.location].filter(Boolean).join(' · ')}</div>
-          <p class="gal-cap">${ev.photos[0].caption || ev.description || ''}</p>
-        </div>
-      </div>
-    </article>`).join('')}</div>`;
-
-  el.querySelectorAll('.gal-card').forEach(card => {
-    const ev = SITE.gallery[+card.dataset.ev];
-
-    // Card height follows the first photo's shape (clamped so it never gets too tall or flat)
-    const probe = new Image();
-    probe.onload = () => {
-      const r = Math.min(1.8, Math.max(0.75, probe.naturalWidth / probe.naturalHeight));
-      card.querySelector('.gal-frame').style.aspectRatio = r.toFixed(3);
-    };
-    probe.src = ev.photos[0].src;
-
-    const track = card.querySelector('.gal-track');
-    const dots = card.querySelectorAll('.gal-dots i');
-    const cap = card.querySelector('.gal-cap');
-    const index = () => Math.round(track.scrollLeft / track.clientWidth);
-
-    track.addEventListener('scroll', () => {
-      const k = index();
-      dots.forEach((d, j) => d.classList.toggle('on', j === k));
-      cap.textContent = ev.photos[k].caption || ev.description || '';
-    }, { passive: true });
-
-    const step = d => track.scrollTo({ left: (index() + d) * track.clientWidth, behavior: 'smooth' });
-    const prev = card.querySelector('.gal-prev');
-    const next = card.querySelector('.gal-next');
-    if (prev) prev.onclick = e => { e.stopPropagation(); step(-1); };
-    if (next) next.onclick = e => { e.stopPropagation(); step(1); };
-
-    track.addEventListener('click', () => openLightbox(+card.dataset.ev, index()));
-  });
-}
-
-const lightbox = { ev: 0, ph: 0, open: false };
-
-function showLightbox() {
-  const ev = SITE.gallery[lightbox.ev];
-  const photo = ev.photos[lightbox.ph];
-  const box = document.getElementById('lightbox');
-  box.querySelector('.lb-img').src = photo.src;
-  box.querySelector('.lb-cap').textContent =
-    `${photo.caption ? photo.caption + ' — ' : ''}${ev.title}  (${lightbox.ph + 1} / ${ev.photos.length})`;
-}
-
-function openLightbox(ev, ph) {
-  lightbox.ev = ev; lightbox.ph = ph; lightbox.open = true;
-  const box = document.getElementById('lightbox');
-  box.classList.add('open');
-  box.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  showLightbox();
-}
-
-function closeLightbox() {
-  lightbox.open = false;
-  const box = document.getElementById('lightbox');
-  box.classList.remove('open');
-  box.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-}
-
-function stepLightbox(d) {
-  const n = SITE.gallery[lightbox.ev].photos.length;
-  lightbox.ph = (lightbox.ph + d + n) % n;
-  showLightbox();
-}
-
-(function initLightbox() {
-  const box = document.getElementById('lightbox');
-  if (!box) return;
-  box.querySelector('.lb-close').onclick = closeLightbox;
-  box.querySelector('.lb-prev').onclick = e => { e.stopPropagation(); stepLightbox(-1); };
-  box.querySelector('.lb-next').onclick = e => { e.stopPropagation(); stepLightbox(1); };
-  box.onclick = e => { if (e.target === box) closeLightbox(); };
-  document.addEventListener('keydown', e => {
-    if (!lightbox.open) return;
-    if (e.key === 'Escape') closeLightbox();
-    else if (e.key === 'ArrowLeft') stepLightbox(-1);
-    else if (e.key === 'ArrowRight') stepLightbox(1);
-  });
-})();
 
 /* ═══════════════════════════════════════════════
    STUDY
@@ -1571,9 +1433,6 @@ async function init() {
       <a class="profile-btn ${SITE.scholar ? '' : 'profile-btn-disabled'}" ${SITE.scholar ? `href="${SITE.scholar}" target="_blank"` : ''} title="Google Scholar" aria-label="Google Scholar">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-6 9.18v3.82c0 1.66 2.69 3 6 3s6-1.34 6-3v-3.82l-6 3.27-6-3.27Z"/></svg>
       </a>
-      <a class="profile-btn ${SITE.cv ? '' : 'profile-btn-disabled'}" ${SITE.cv ? `href="${SITE.cv}" target="_blank"` : ''} title="CV" aria-label="CV">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
-      </a>
     </div>
     <div class="gh-wrap" id="gh-wrap"></div>`;
   renderGithubHeatmap(document.getElementById('gh-wrap'));
@@ -1582,11 +1441,6 @@ async function init() {
   document.querySelectorAll('.nav-link[data-page]').forEach(l => {
     l.addEventListener('click', () => navigate(l.dataset.page));
   });
-
-  // CV opens the PDF directly; dimmed until SITE.cv is set
-  const navCv = document.getElementById('nav-cv');
-  navCv.classList.toggle('nav-cv-off', !SITE.cv);
-  navCv.addEventListener('click', () => { if (SITE.cv) window.open(SITE.cv, '_blank'); });
 
   // Load data then render based on current hash
   await loadData();
