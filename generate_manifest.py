@@ -154,7 +154,8 @@ def process_publications():
             continue
 
         # date shown as YYYY/MM (front matter may say 2026-11 or 2026-11-11)
-        date = str(fm.get('date', '')).replace('-', '/')[:7]
+        raw_date = str(fm.get('date', '')).replace('-', '/')
+        date = raw_date[:7]
 
         # only the links that actually have an address become buttons
         links = {}
@@ -169,6 +170,7 @@ def process_publications():
             'venue': fm.get('venue', ''),
             'venueUrl': fm.get('venue_url', ''),
             'date': date,
+            'sort': raw_date,   # full date (with day) only decides the order
             'type': fm.get('type', ''),
             'badge': fm.get('badge', ''),
             'image': fm.get('image', ''),

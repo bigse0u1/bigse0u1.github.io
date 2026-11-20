@@ -256,7 +256,7 @@ function renderHome() {
 
   // 2b. Publications — latest 3, only when there is at least one
   if (PUBLICATIONS.length) {
-    const latest = [...PUBLICATIONS].sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 3);
+    const latest = [...PUBLICATIONS].sort((a, b) => (b.sort || b.date || '').localeCompare(a.sort || a.date || '')).slice(0, 3);
     const pubHtml = latest.map(p => `
       <div class="news-item pub-home-item" onclick="navigate('papers')">
         <div class="news-date">${(p.date || '').replace(/\//g, '.')}</div>
@@ -466,7 +466,7 @@ function renderPapers() {
     return;
   }
 
-  const all = [...PUBLICATIONS].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  const all = [...PUBLICATIONS].sort((a, b) => (b.sort || b.date || '').localeCompare(a.sort || a.date || ''));
   // The four main categories always show as filter buttons (even before a paper exists in them);
   // any other type that is actually used (e.g. Preprint) is added after them.
   const TYPE_ORDER = ['Intl. Journal', 'Intl. Conference', 'Dom. Journal', 'Dom. Conference', 'Preprint'];
