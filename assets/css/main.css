@@ -1978,13 +1978,12 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
   letter-spacing: 0.06em;
   color: var(--text-mute);
   background: none;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.12rem 0.7rem;
+  border: none;
+  padding: 0;
   cursor: pointer;
-  transition: color 150ms, border-color 150ms;
+  transition: color 150ms;
 }
-.news-more:hover { color: var(--vermillion); border-color: var(--vermillion); }
+.news-more:hover { color: var(--vermillion); }
 
 /* Placeholder button (no link yet): dimmed, not clickable */
 .pj-link-off { opacity: 0.35; cursor: default; }
