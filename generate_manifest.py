@@ -3,7 +3,7 @@
 generate_manifest.py
 ────────────────────
 Run this script locally (or in GitHub Actions) to rebuild
-_data/posts.json and _data/projects.json from your markdown files.
+_data/posts.json, _data/projects.json and _data/publications.json from your markdown files.
 
 Usage:
   python generate_manifest.py
@@ -135,11 +135,54 @@ def process_projects():
 
     return projects
 
+def process_publications():
+    pubs = []
+    pub_dir = '_publications'
+    if not os.path.isdir(pub_dir):
+        print(f"'{pub_dir}' directory not found, skipping publications.")
+        return pubs
+
+    for fname in sorted(os.listdir(pub_dir), reverse=True):
+        if not fname.endswith('.md'):
+            continue
+        path = os.path.join(pub_dir, fname)
+        with open(path, encoding='utf-8') as f:
+            text = f.read()
+
+        fm, _ = parse_frontmatter(text)
+        if not fm.get('title'):
+            continue
+
+        # date shown as YYYY/MM (front matter may say 2026-11 or 2026-11-11)
+        date = str(fm.get('date', '')).replace('-', '/')[:7]
+
+        # only the links that actually have an address become buttons
+        links = {}
+        for key, label in (('arxiv', 'arXiv'), ('paper', 'Paper'), ('project', 'Project'), ('code', 'Code')):
+            if fm.get(key):
+                links[label] = fm[key]
+
+        pubs.append({
+            'slug': fname[:-3],
+            'title': fm['title'],
+            'authors': fm.get('authors', ''),
+            'venue': fm.get('venue', ''),
+            'venueUrl': fm.get('venue_url', ''),
+            'date': date,
+            'type': fm.get('type', ''),
+            'badge': fm.get('badge', ''),
+            'image': fm.get('image', ''),
+            'links': links,
+        })
+
+    return pubs
+
 def main():
     os.makedirs('_data', exist_ok=True)
 
     posts = process_posts()
     projects = process_projects()
+    publications = process_publications()
 
     with open('_data/posts.json', 'w', encoding='utf-8') as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)
@@ -148,6 +191,10 @@ def main():
     with open('_data/projects.json', 'w', encoding='utf-8') as f:
         json.dump(projects, f, ensure_ascii=False, indent=2)
     print(f'✓ _data/projects.json — {len(projects)} projects')
+
+    with open('_data/publications.json', 'w', encoding='utf-8') as f:
+        json.dump(publications, f, ensure_ascii=False, indent=2)
+    print(f'✓ _data/publications.json — {len(publications)} publications')
 
 if __name__ == '__main__':
     main()

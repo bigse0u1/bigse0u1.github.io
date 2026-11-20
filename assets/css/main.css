@@ -1999,3 +1999,5 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 
 /* About text and News share one right edge, so the News badges line up with where the About text ends */
 .about-text, .news-timeline { max-width: 54rem; }
+.pub-home-item { cursor: pointer; }
+.pub-home-item:hover .news-text { color: var(--vermillion); }

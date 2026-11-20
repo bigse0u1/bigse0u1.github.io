@@ -19,6 +19,7 @@ const SITE = {
   // badgeType: award(초록) | scholarship(보라) | talk(파랑) | publication(금색) | note(회색, 기본값)
   // proof: 증빙 이미지/PDF 있으면 경로 적기 (선택)
   news: [
+    { date: '2026.11', text: 'Our paper on <strong>Scrub Nurse Robot for Voice-Guided Surgical Instrument Handover</strong> was accepted!', org: 'ICEIC 2027', badge: 'Publication', badgeType: 'publication' },
     { date: '2026.11', text: 'Won <strong>2nd Place</strong> in the Exhibition Track of the Medical Physical AI Solution Competition!', org: '2026 Y-MAS Project Competition', badge: 'Award', badgeType: 'award', proof: 'assets/img/AWARDS/Y-MAS.png' },
     { date: '2026.11', text: 'Our paper on <strong>물리 시뮬레이션 기반 사전 검증을 통한 LLM 로봇 에이전트의 실패 복구</strong> was accepted!', org: 'KAICTS 2026 Fall', badge: 'Publication', badgeType: 'publication' },
     { date: '2026.08', text: 'Received the <strong>Academic Excellence Scholarship</strong>!', org: 'Yonsei University', badge: 'Scholarship', badgeType: 'scholarship' },
@@ -43,16 +44,7 @@ const SITE = {
       advisor: 'Prof. Dong-Hee Shin'
     }
   ],
-  publications: [
-    { title: '물리 시뮬레이션 기반 사전 검증을 통한 LLM 로봇 에이전트의 실패 복구', authors: 'Taekyeong Lee*', venue: 'KAICTS 2026 Fall', date: '2026/11',
-      type: 'Dom. Conference', image: 'assets/img/publications/IMAGINATION.png',
-      links: {} },
-    // { title: '', authors: 'Taekyeong Lee*, Co Author', venue: 'CVPR Findings', venueUrl: '', date: '2026/06',
-    //   type: 'Intl. Conference',  // Intl. Journal | Intl. Conference | Dom. Journal | Dom. Conference | Preprint  (종류가 2개 이상이면 필터가 생김)
-    //   badge: 'Spotlight',            // 선택
-    //   image: '',                     // 선택 (썸네일)
-    //   links: { arXiv: '', Paper: '', Project: '', Code: '' } }   // 빈 값('')이면 흐린 버튼으로 미리 보임, 주소를 채우면 활성화
-  ],
+  // 논문은 _publications/*.md 파일로 관리 (writing-notes/08-publications.md 참고)
 };
 
 /* ═══════════════════════════════════════════════
@@ -61,6 +53,7 @@ const SITE = {
 ═══════════════════════════════════════════════ */
 let POSTS = [];
 let PROJECTS = [];
+let PUBLICATIONS = [];
 
 /* ═══════════════════════════════════════════════
    Marked.js for Markdown rendering
@@ -261,6 +254,25 @@ function renderHome() {
       </div>`;
   }
 
+  // 2b. Publications — latest 3, only when there is at least one
+  if (PUBLICATIONS.length) {
+    const latest = [...PUBLICATIONS].sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 3);
+    const pubHtml = latest.map(p => `
+      <div class="news-item pub-home-item" onclick="navigate('papers')">
+        <div class="news-date">${(p.date || '').replace(/\//g, '.')}</div>
+        <div class="news-content">
+          <div class="news-text">${p.title}</div>
+          <div class="news-org">${p.venue || ''}</div>
+        </div>
+        <div class="news-side">${p.type ? `<div class="news-badge news-badge-note">${p.type}</div>` : ''}</div>
+      </div>`).join('');
+    el.innerHTML += `
+      <div class="section">
+        <div class="section-head"><span class="section-title">Publications</span><button class="news-more" onclick="navigate('papers')">All →</button></div>
+        <div class="news-timeline">${pubHtml}</div>
+      </div>`;
+  }
+
   // 3. Education
   const eduHtml = SITE.education.map(e => `
     <div class="edu-item">
@@ -433,7 +445,7 @@ function renderPapers() {
   el.closest('.proj-page-wrap').classList.add('fade-in');
 
   // No entries yet: show the empty frame (same layout as a real entry, dimmed)
-  if (!SITE.publications.length) {
+  if (!PUBLICATIONS.length) {
     el.innerHTML = `
       <div class="pub-filters pub-ghost">${['All', 'Intl. Journal', 'Intl. Conference', 'Dom. Journal', 'Dom. Conference'].map((t, i) =>
         `<button class="tag-btn${i === 0 ? ' active' : ''}" tabindex="-1" disabled>${t}</button>`).join('')}</div>
@@ -454,7 +466,7 @@ function renderPapers() {
     return;
   }
 
-  const all = [...SITE.publications].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  const all = [...PUBLICATIONS].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
   // The four main categories always show as filter buttons (even before a paper exists in them);
   // any other type that is actually used (e.g. Preprint) is added after them.
   const TYPE_ORDER = ['Intl. Journal', 'Intl. Conference', 'Dom. Journal', 'Dom. Conference', 'Preprint'];
@@ -1278,13 +1290,15 @@ function buildTOC() {
 ═══════════════════════════════════════════════ */
 async function loadData() {
   try {
-    const [postsRes, projRes] = await Promise.all([
+    const [postsRes, projRes, pubRes] = await Promise.all([
       fetch('_data/posts.json').catch(() => null),
-      fetch('_data/projects.json').catch(() => null)
+      fetch('_data/projects.json').catch(() => null),
+      fetch('_data/publications.json').catch(() => null)
     ]);
 
     if (postsRes && postsRes.ok) POSTS = await postsRes.json();
     if (projRes  && projRes.ok)  PROJECTS = await projRes.json();
+    if (pubRes   && pubRes.ok)   PUBLICATIONS = await pubRes.json();
   } catch(e) {
     console.warn('Data load failed, using defaults');
   }

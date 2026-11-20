@@ -8,7 +8,7 @@ Live: https://bigse0u1.github.io
 | 탭 | 내용 | 데이터 위치 |
 |---|---|---|
 | Home | 프로필, News, Education, Experience, Honors & Awards, GitHub 기여 히트맵 | `assets/js/main.js` 상단 `SITE` |
-| Publications | 논문 목록 (번호·썸네일·저자·학회·링크, 종류별 필터) | `SITE.publications` |
+| Publications | 논문 목록 (번호·썸네일·저자·학회·링크, 연도별·종류별 필터) | `_publications/*.md` |
 | Projects | 연도별 프로젝트 목록 + 상세 페이지 | `_projects/*.md` |
 | Study | 공부/리뷰 글, 카테고리 사이드바, 태그 중심 그래프, 검색 | `_posts/*.md` |
 
@@ -25,10 +25,12 @@ Live: https://bigse0u1.github.io
 │   └── img/                ← 이미지 (post/, projects/, AWARDS/ …)
 ├── _posts/                 ← 글 (YYYY-MM-DD-slug.md)
 ├── _projects/              ← 프로젝트 (slug.md)
+├── _publications/          ← 논문 (논문 하나당 .md 하나)
 ├── _data/
 │   ├── posts.json          ← 배포 때 자동 생성 (커밋 안 됨)
-│   └── projects.json       ← 배포 때 자동 생성 (커밋 안 됨)
-├── generate_manifest.py    ← _posts / _projects → _data/*.json
+│   ├── projects.json       ← 배포 때 자동 생성 (커밋 안 됨)
+│   └── publications.json   ← 배포 때 자동 생성 (커밋 안 됨)
+├── generate_manifest.py    ← _posts / _projects / _publications → _data/*.json
 └── .github/workflows/
     └── deploy.yml          ← push 시 manifest 자동 재생성
 ```
@@ -90,11 +92,6 @@ tags: [Python, RAG]
 
 - `news` — 수상·논문 소식. `{ date, text, org, badge, badgeType, proof }`
 - `awards`, `education`, `experience` — 홈 섹션
-- `publications` — 논문. 비어 있으면 Publications 탭에 빈 틀이 표시됩니다.
-  ```js
-  { title, authors: 'Taekyeong Lee*, …', venue, venueUrl, date: '2026/06',
-    type: 'Intl. Conference', badge: 'Spotlight', image: '', links: { arXiv, Paper, Project, Code } }
-  ```
 - `scholar`, `github`, `linkedin`, `email` — 프로필 아이콘 링크 (값이 없으면 흐리게 비활성)
 
 ## 로컬에서 확인
