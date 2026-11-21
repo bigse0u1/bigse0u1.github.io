@@ -2003,3 +2003,8 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .about-text, .news-timeline { max-width: 54rem; }
 .pub-home-item { cursor: pointer; }
 .pub-home-item:hover .news-text { color: var(--vermillion); }
+
+/* Phone: the summary is left out of the Projects list (it is on the detail page) */
+@media (max-width: 820px) {
+  .pj-desc, .pj-item:hover .pj-desc { display: none; }
+}
