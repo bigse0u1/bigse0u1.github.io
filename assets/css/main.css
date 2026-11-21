@@ -1888,15 +1888,14 @@ img { max-width: 100%; display: block; }
   .nav-spacer { display: none; }
 }
 
-/* Wide screens: Projects two per row; Publications one per row, centred */
+/* Wide screens: two items per row (Projects and Publications) */
 @media (min-width: 1100px) {
   #proj-grid, #papers-list { max-width: none; }
-  #proj-grid .proj-year-section { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 3rem; align-content: start; }
-  #proj-grid .proj-year-heading { grid-column: 1 / -1; }
+  .proj-year-section { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 3rem; align-content: start; }
+  .proj-year-section .proj-year-heading { grid-column: 1 / -1; }
   .pj-item { grid-template-columns: minmax(0, 12.5rem) minmax(0, 1fr); gap: 1.4rem; }
   .pj-item:not(:has(.pj-media)) { grid-template-columns: 1fr; }
-  #proj-grid .pj-item:last-child { border-bottom: 1px solid var(--border-soft); }
-  #papers-list .pj-item { max-width: 62rem; margin-left: auto; margin-right: auto; }
+  .pj-item:last-child { border-bottom: 1px solid var(--border-soft); }
   .pj-title { font-size: 1.08rem; }
 }
 
