@@ -2004,7 +2004,12 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .pub-home-item { cursor: pointer; }
 .pub-home-item:hover .news-text { color: var(--vermillion); }
 
-/* Phone: the summary is left out of the Projects list (it is on the detail page) */
+/* Phone: the summary is cut to one line in the Projects list (the full text is on the detail page) */
 @media (max-width: 820px) {
-  .pj-desc, .pj-item:hover .pj-desc { display: none; }
+  .pj-desc, .pj-item:hover .pj-desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
 }
