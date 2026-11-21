@@ -4,7 +4,7 @@
 const SITE = {
   name: 'Bigse0u1',
   author: 'Taekyeong Lee',
-  authorKo: '이태경',
+  authorKo: '이태경',   // 한국어 논문에서 내 이름도 굵게 표시
   bio: 'Undergraduate Student in <a href="https://sw.yonsei.ac.kr/" target="_blank">Dept of Software</a>,<br>Yonsei University (Mirae).<br>Research interests in Robotics and VLA.',  avatar: 'assets/img/profile_no_bg.png',
   email: 'lee.bigse0u1@gmail.com',
   github: 'bigse0u1',
@@ -483,7 +483,8 @@ function renderPapers() {
     byYear.get(year).push(p);
   });
   const me = SITE.author;
-  const authors = a => (a || '').split(me).join(`<strong>${me}</strong>`);
+  const myNames = [me, SITE.authorKo].filter(Boolean);
+  const authors = a => myNames.reduce((txt, n) => txt.split(n).join(`<strong>${n}</strong>`), a || '');
 
   el.innerHTML = `
     <div class="pub-filters">${['All', ...types].map(t =>
