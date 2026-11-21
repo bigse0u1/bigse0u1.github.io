@@ -1780,11 +1780,10 @@ img { max-width: 100%; display: block; }
 .pub-venue a:hover { color: var(--vermillion); border-color: var(--vermillion); }
 
 @media (max-width: 820px) {
-  /* Phone: same layout as the laptop (small photo left, text right), one item per row */
-  .pj-item { grid-template-columns: 7rem minmax(0, 1fr); gap: 0.85rem; padding: 1.1rem 0; }
-  .pj-item:not(:has(.pj-media)) { grid-template-columns: 1fr; }
+  /* Phone: photo on top, text below, one item per row */
+  .pj-item { grid-template-columns: 1fr; gap: 0.9rem; padding: 1.2rem 0; }
   .pj-media { aspect-ratio: 16 / 9; }
-  .pj-title { font-size: 1.02rem; }
+  .pj-title { font-size: 1.05rem; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1902,7 +1901,7 @@ img { max-width: 100%; display: block; }
 
 /* Photo starts at the title line, below the date row */
 .pj-item .pj-media { margin-top: 1.6rem; }
-@media (max-width: 820px) { .pj-item .pj-media { margin-top: 1.35rem; } }
+@media (max-width: 820px) { .pj-item .pj-media { margin-top: 0; } }
 
 .pj-meta:empty { display: none; }
 
@@ -1914,8 +1913,8 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 .pj-item:hover .pj-desc { display: block; -webkit-line-clamp: unset; }
-/* No hover on touch screens: show up to 3 lines instead */
-@media (hover: none) { .pj-desc { -webkit-line-clamp: 3; } }
+/* No hover on touch screens: show the whole summary */
+@media (hover: none) { .pj-desc { display: block; -webkit-line-clamp: unset; } }
 
 
 /* Organizer line and summary sit close together */
@@ -2003,13 +2002,3 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .about-text, .news-timeline { max-width: 54rem; }
 .pub-home-item { cursor: pointer; }
 .pub-home-item:hover .news-text { color: var(--vermillion); }
-
-/* Phone: the summary is cut to one line in the Projects list (the full text is on the detail page) */
-@media (max-width: 820px) {
-  .pj-desc, .pj-item:hover .pj-desc {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-  }
-}
