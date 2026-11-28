@@ -2018,3 +2018,24 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 .about-text, .news-timeline { max-width: 54rem; }
 .pub-home-item { cursor: pointer; }
 .pub-home-item:hover .news-text { color: var(--vermillion); }
+
+/* ─── Home on phones ─── */
+@media (max-width: 820px) {
+  .about-text { padding-left: 0 !important; }
+
+  /* News / Publications: badge shares the date's line instead of sitting alone below */
+  .news-item { display: grid; grid-template-columns: 1fr auto; column-gap: 0.6rem; row-gap: 0.35rem; align-items: center; }
+  .news-date { grid-column: 1; grid-row: 1; }
+  .news-side { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .news-content { grid-column: 1 / -1; }
+  .news-item.news-extra { display: none; }
+  .news-timeline.expanded .news-item.news-extra { display: grid; }
+
+  /* Education: logo on the left, period (one line) + school + degree beside it */
+  .edu-period br { display: none; }
+  .edu-item:has(.edu-logo) { grid-template-columns: 44px minmax(0, 1fr); column-gap: 0.8rem; align-items: center; }
+  .edu-item:has(.edu-logo) .edu-body { display: contents; }
+  .edu-item:has(.edu-logo) .edu-logo { grid-column: 1; grid-row: 1 / span 2; }
+  .edu-item:has(.edu-logo) .edu-period { grid-column: 2; grid-row: 1; }
+  .edu-item:has(.edu-logo) .edu-body > div { grid-column: 2; grid-row: 2; }
+}

@@ -278,7 +278,7 @@ function renderHome() {
   // 3. Education
   const eduHtml = SITE.education.map(e => `
     <div class="edu-item">
-      <div class="edu-period">${e.period.replace(/\n/g,'<br>')}</div>
+      <div class="edu-period">${e.period.replace(/\n/g,' <br>')}</div>
       <div class="edu-body">
         ${e.logo ? `<img src="${e.logo}" class="edu-logo" alt="${e.school}">` : ''}
         <div>
