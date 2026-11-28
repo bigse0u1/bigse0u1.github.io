@@ -1987,6 +1987,8 @@ a.pj-partner:hover img { filter: none; opacity: 1; }
 /* News: only the latest 5 show; "More" (top right of the section) reveals the rest */
 .news-extra { display: none; }
 .news-timeline.expanded .news-extra { display: flex; }
+/* Collapsed: the last visible item has no divider; it comes back when "More" opens the rest */
+.news-timeline:not(.expanded) .news-item:has(+ .news-extra) { border-bottom: none; padding-bottom: 0; }
 .news-more {
   margin-left: auto;
   font-family: var(--mono);
