@@ -19,6 +19,7 @@ const SITE = {
   // badgeType: award(초록) | scholarship(보라) | talk(파랑) | publication(금색) | note(회색, 기본값)
   // proof: 증빙 이미지/PDF 있으면 경로 적기 (선택)
   news: [
+    { date: '2026.11', text: 'Won <strong>2nd Place (KIAT President\'s Award)</strong> in the Upstage Track of AI Bootcamp Innovation Challenger 2026!', org: 'Ministry of Education · Korea Institute for Advancement of Technology (KIAT)', badge: 'Award', badgeType: 'award', proof: 'assets/img/AWARDS/ABIC2026.png' },
     { date: '2026.11', text: 'Our paper on <strong>Scrub Nurse Robot for Voice-Guided Surgical Instrument Handover</strong> was accepted!', org: 'ICEIC 2027', badge: 'Publication', badgeType: 'publication' },
     { date: '2026.11', text: 'Won <strong>2nd Place</strong> in the Exhibition Track of the Medical Physical AI Solution Competition!', org: '2026 Y-MAS Project Competition', badge: 'Award', badgeType: 'award', proof: 'assets/img/AWARDS/Y-MAS.png' },
     { date: '2026.11', text: 'Our paper on <strong>물리 시뮬레이션 기반 사전 검증을 통한 LLM 로봇 에이전트의 실패 복구</strong> was accepted!', org: 'KAICTS 2026 Fall', badge: 'Publication', badgeType: 'publication' },
@@ -29,6 +30,7 @@ const SITE = {
   ],
   // Honors & Awards: 수상 목록
   awards: [
+    { date: '2026.11.27', title: 'AI Bootcamp Innovation Challenger 2026 (Upstage Track) — 2nd Place, KIAT President\'s Award', organizer: 'Ministry of Education · Korea Institute for Advancement of Technology (KIAT)', proof: 'assets/img/AWARDS/ABIC2026.png' },
     { date: '2026.11.14', title: 'Y-MAS Project Competition (Medical Physical AI Solution) — 2nd Place, Exhibition Track', organizer: '2026 Y-MAS Project', proof: 'assets/img/AWARDS/Y-MAS.png' },
     { date: '2026.08.21', title: 'Academic Excellence Scholarship', organizer: 'Yonsei University' },
     { date: '2026.01.30', title: 'HIRA DATATHON — Excellence Award', organizer: 'HIRA (Health Insurance Review & Assessment Service)', proof: 'assets/img/AWARDS/HIRA_DATATHON.png' }
